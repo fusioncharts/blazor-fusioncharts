@@ -1,3 +1,4 @@
+import FusionCharts from 'fusioncharts';
 
     function parseFunction(key, value) {
         if (typeof (value) === 'string' && value.includes('function()')) {
@@ -47,3 +48,6 @@
         return attrValue;
 
     };
+
+   
+    
