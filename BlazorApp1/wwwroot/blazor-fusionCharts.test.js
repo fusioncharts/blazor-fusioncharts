@@ -1,21 +1,27 @@
 import './blazor-fusionCharts';
+import FusionCharts from 'fusioncharts';
 
-describe('change chart attribute', () => {
-  
-    window.FusionCharts = {
-        FusionCharts: jest.fn(() => ({
-            setChartAttribute: jest.fn(),
-        })),
-        changeChartAttribute: jest.fn((chartID, attrName, attrValue) => {
-            var currentChart = new window.FusionCharts.FusionCharts(chartID);
-            currentChart.setChartAttribute(attrName, attrValue);
-        }),
-    };
-
-    
+describe('change chart attribute', () => {  
     test('changeChartAttribute', () => {
-      window.FusionCharts.changeChartAttribute('chart1', 'caption', 'New Chart Title');
-      expect(window.FusionCharts.changeChartAttribute).toHaveBeenCalledWith('chart1', 'caption', 'New Chart Title');
+        var chartConfig = {
+            type: "pie2d", // Pie Chart type
+            width: "500",  // Chart width
+            height: "300", // Chart height
+            dataFormat: "json", // Data format
+            dataSource: {
+                chart: {
+                    caption: "Sample Pie Chart", // Chart title
+                    theme: "fusion", // FusionCharts theme
+                },
+            },
+            renderAt: "chartContainer1",
+            id: "myid"
+        };
+        const chart = new FusionCharts(chartConfig);
+        chart.render();
+        console.log(chart.getChartAttribute("caption"));
+        window.FusionCharts.changeChartAttribute(chart.id, 'caption', 'New Chart Title');
+        console.log(chart.getChartAttribute("caption"));
     });
 
 });
