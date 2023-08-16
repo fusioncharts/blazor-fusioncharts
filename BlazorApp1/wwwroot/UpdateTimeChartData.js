@@ -28,3 +28,33 @@ function updateTimeChartData() {
         updateData();
     }, 2500);
 }
+
+
+
+// function randomF() {
+//     // JSRuntime.InvokeVoidAsync("GLOBAL.SetDotnetReference", lDotNetReference);
+//     console.log("Hey! I'm working");
+//     DotNet.invokeMethodAsync('BlazorApp1.Pages.Index', 'ChangeData')
+//     // DotNet.invokeMethodAsync('BlazorApp1', 'ChangeData')
+//     // .then(result => {
+//     //     console.log('ChangeData method called successfully.');
+//     // })
+//     // .catch(error => {
+//     //     console.error('Error calling ChangeData method:', error);
+//     // });
+// }
+
+
+var GLOBAL = {};
+GLOBAL.DotNetReference = null;
+GLOBAL.SetDotnetReference = function (pDotNetReference) {
+    GLOBAL.DotNetReference = pDotNetReference;
+};
+
+(function () {
+
+    // keydown event
+    window.addEventListener("keydown", function (e) {
+        GLOBAL.DotNetReference.invokeMethodAsync('ChangeData');
+    });
+})();

@@ -7,43 +7,43 @@
         }
         return value
     }
+    
     window.FusionCharts.renderChart = (chartConfiguration) => {
         options = JSON.parse(chartConfiguration, this.parseFunction);
 
         const chart = new FusionCharts(options);
         chart.render();
-};
-    window.FusionCharts.changeChartType = (chartID, newChartType) => {
-        var currentChart = FusionCharts(chartID);
-        currentChart.chartType(newChartType);
     };
-    window.FusionCharts.destroyChart = (chartID) => {
-        var currentChart = FusionCharts(chartID);
-        currentChart.dispose();
-    };
+
     window.FusionCharts.changeChartData = (chartID, serializedNewData, dataFormat) => {
         newData = JSON.parse(serializedNewData, this.parseFunction);
 
         var currentChart = FusionCharts(chartID);
         currentChart.setChartData(newData, dataFormat);
     };
-    window.FusionCharts.obtainChartData = (chartID) => {
+
+
+    ////////////////////////Generic Method/////////////////////////////////////
+
+    window.FusionCharts.invokeChartFunction = (functionName, chartID, ...args) => {
         var currentChart = FusionCharts(chartID);
-        var currentChartData = currentChart.getChartData();
+    
+        var result =   currentChart[functionName].apply(currentChart, ...args);
+        //var result = currentChart[functionName](...args);
 
-        var serializedChartData = JSON.stringify(currentChartData);
-        return serializedChartData;
+        var typeofresult = typeof result;
 
-};
-    window.FusionCharts.changeChartAttribute = (chartID, attrName, attrValue) => {
-        var currentChart = FusionCharts(chartID);
-        currentChart.setChartAttribute(attrName, attrValue);
+        if(typeofresult === "number"){
+            result = result.toString();
+        }
+        else if(typeofresult === "object"){
+            result = JSON.stringify(result);
+        }
+        else if(typeofresult === "XML"){
+            result = XML.stringify(result);
+        }
 
-};
-    window.FusionCharts.obtainChartAttribute = (chartID, attrName) => {
-        var currentChart = FusionCharts(chartID);
-        var attrValue = currentChart.getChartAttribute(attrName);
 
-        return attrValue;
-
+        console.log(result);
+        return result;
     };
