@@ -7,7 +7,7 @@
         }
         return value
     }
-    
+
     window.FusionCharts.renderChart = (chartConfiguration) => {
         options = JSON.parse(chartConfiguration, this.parseFunction);
 
@@ -42,8 +42,15 @@
         else if(typeofresult === "XML"){
             result = XML.stringify(result);
         }
-
+        else if(typeofresult === "boolean"){
+            result = result.toString();
+        }
 
         console.log(result);
-        return result;
+
+        if(typeofresult === "string"){
+            return result;
+        }
+
+        return "";
     };
