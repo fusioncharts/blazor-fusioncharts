@@ -8,6 +8,8 @@
         return value
     }
 
+    // Responsible for rendering any chart//
+
     window.FusionCharts.renderChart = (chartConfiguration) => {
         options = JSON.parse(chartConfiguration, this.parseFunction);
 
@@ -15,25 +17,16 @@
         chart.render();
     };
 
-    window.FusionCharts.changeChartData = (chartID, serializedNewData, dataFormat) => {
-        newData = JSON.parse(serializedNewData, this.parseFunction);
-
-        var currentChart = FusionCharts(chartID);
-        currentChart.setChartData(newData, dataFormat);
-    };
-
-
-    ////////////////////////Generic Method/////////////////////////////////////
+    //Generic Method to call any fusion chart method exluding except above methods//
 
     window.FusionCharts.invokeChartFunction = (functionName, chartID, ...args) => {
+
         var currentChart = FusionCharts(chartID);
-    
         var result =   currentChart[functionName].apply(currentChart, ...args);
-        //var result = currentChart[functionName](...args);
 
         var typeofresult = typeof result;
 
-        if(typeofresult === "number"){
+        if(typeofresult === "number" || typeofresult === "boolean"){
             result = result.toString();
         }
         else if(typeofresult === "object"){
@@ -42,15 +35,10 @@
         else if(typeofresult === "XML"){
             result = XML.stringify(result);
         }
-        else if(typeofresult === "boolean"){
-            result = result.toString();
-        }
-
-        console.log(result);
 
         if(typeofresult === "string"){
             return result;
         }
 
-        return "";
+        return result.toString() || "";
     };

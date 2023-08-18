@@ -11,10 +11,14 @@ namespace Microsoft.FusionChartsInterop
             _jsruntime = jSRuntime;
         }
         
+        // Rendering Fusion chart//
+
         public async Task renderChart(String chartConfig)
         {
             await _jsruntime.InvokeVoidAsync("FusionCharts.renderChart", chartConfig);
         }
+
+        // To activate the valid license//
 
         public async Task activateLicense(String licenseKey)
         {
@@ -26,19 +30,10 @@ namespace Microsoft.FusionChartsInterop
             await _jsruntime.InvokeVoidAsync("FusionCharts.options.license", licenseObject);
         }
 
-        public async Task changeChartData(String chartID, String serializedNewData, String dataFormat)
-        {
-            await _jsruntime.InvokeVoidAsync("FusionCharts.changeChartData", chartID, serializedNewData, dataFormat);
-        }
-
-
-        ////////////////////////////////////////Generic Method///////////////////////////////////////
+        //Genric Method calling another method generic method written in blazor-fusionCharts.js which is further calling fusion charts method//
 
         public async Task<String> CallFusionChartsFunction(String functionName, String chartId, params object[] args)
         {
-
-            Console.WriteLine("I'm in CS file");
-
            String result = await _jsruntime.InvokeAsync<String>("FusionCharts.invokeChartFunction", functionName, chartId, args);
            return result;
         }
