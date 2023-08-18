@@ -40,5 +40,5 @@
             return result;
         }
 
-        return result.toString() || "";
+        return (result && result.toString()) || "";
     };
