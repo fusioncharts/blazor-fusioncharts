@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.RenderTree;
 using Microsoft.JSInterop;
 using Xunit;
 
@@ -49,7 +49,7 @@ namespace Microsoft.FusionChartsInterop.Tests
             // Arrange
             var mockJsRuntime = new MockJSRuntime();
             var fusionChartsService = new FusionChartsService(mockJsRuntime);
-            var licenseKey = "someLicenseKey";
+            var licenseKey = "LicenseKey";
 
             // Act
             await fusionChartsService.activateLicense(licenseKey);
@@ -75,7 +75,7 @@ namespace Microsoft.FusionChartsInterop.Tests
             var fusionChartsService = new FusionChartsService(mockJsRuntime);
             var functionName = "Function";
             var chartId = "ChartId";
-            var args = new object[] { null };
+            var args = new object[] { 42, "test" };
 
             // Act
             var result = await fusionChartsService.CallFusionChartsFunction(functionName, chartId, args);
