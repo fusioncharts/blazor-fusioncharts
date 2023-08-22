@@ -85,8 +85,6 @@ namespace Microsoft.FusionChartsInterop.Tests
             Assert.Equal("FusionCharts.invokeChartFunction", mockJsRuntime.Invocations[0].Item1);
             Assert.Equal(new object[] { functionName, chartId, args }, mockJsRuntime.Invocations[0].Item2);
 
-            // Add more assertions based on the behavior and expected result of CallFusionChartsFunction
-            // For example, you might assert the return value or certain console output.
         }
     }
 }
