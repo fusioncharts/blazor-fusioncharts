@@ -32,7 +32,7 @@ namespace Microsoft.FusionChartsInterop.Tests
             // Arrange
             var mockJsRuntime = new MockJSRuntime();
             var fusionChartsService = new FusionChartsService(mockJsRuntime);
-            var chartConfig = "someChartConfig";
+            var chartConfig = "ChartConfig";
 
             // Act
             await fusionChartsService.renderChart(chartConfig);
@@ -73,8 +73,8 @@ namespace Microsoft.FusionChartsInterop.Tests
             // Arrange
             var mockJsRuntime = new MockJSRuntime();
             var fusionChartsService = new FusionChartsService(mockJsRuntime);
-            var functionName = "someFunction";
-            var chartId = "someChartId";
+            var functionName = "Function";
+            var chartId = "ChartId";
             var args = new object[] { null };
 
             // Act
