@@ -22,7 +22,7 @@ window.FusionCharts.invokeChartFunction = (functionName, chartID, ...args) => {
 
   var currentChart = FusionCharts(chartID);
 
-  if (functionName === 'addEventListener' || args[0][0] === "callback") {
+  if (functionName === 'addEventListener' || (args.length > 0 && args[0][0] === "callback")) {
 
     let event = args[0][1]
     let functionAsString = args[0][2];
