@@ -29,7 +29,7 @@ window.FusionCharts.invokeChartFunction = (functionName, chartID, ...args) => {
     let callbackFn = parseFunction(null, functionAsString);
     var result = currentChart[functionName].call(currentChart, event, callbackFn);
 
-    return "Undefined";
+    return String(result);
   }
 
   var result = currentChart[functionName].apply(currentChart, ...args);
