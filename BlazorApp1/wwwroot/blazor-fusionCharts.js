@@ -1,56 +1,44 @@
+const FUNCTION_KEYWORD = 'function()';
+
+// reviver function, key is passed by the JSON.parse
 function parseFunction(key, value) {
-        if (typeof (value) === 'string' && value.includes('function()')) {
-            let regEx = new RegExp("{([^}]*)}");
-            let func = new Function(value.split("function()")[1]);
-            console.log(value.split("function()")[1]);
-            return func;
-        }
-        return value
-    }
-    // Responsible for rendering any chart//
-    window.FusionCharts.renderChart = (chartConfiguration) => {
-        options = JSON.parse(chartConfiguration, this.parseFunction);
-        const chart = new FusionCharts(options);
-        chart.render();
-    };
-    //Generic Method to call any fusion chart method exluding except above methods//
-    window.FusionCharts.invokeChartFunction = (functionName, chartID, ...args) => {
-        var currentChart = FusionCharts(chartID);
+  if (typeof value === "string" && value.includes(FUNCTION_KEYWORD)) {
+    let functionParts = value.split("function()")
+    let functionBody = functionParts[1]
+    let parsedFn = new Function(functionBody);
+    return parsedFn;
+  }
+  // if the value is not function then return as is
+  return value;
+}
+// Responsible for rendering any chart//
+window.FusionCharts.renderChart = (chartConfiguration) => {
+  const configAsJSObject = JSON.parse(chartConfiguration, this.parseFunction);
+  const chart = new FusionCharts(configAsJSObject);
+  chart.render();
+};
+//Generic Method to call any fusion chart method exluding except above methods//
+window.FusionCharts.invokeChartFunction = (functionName, chartID, ...args) => {
 
-        if(functionName === "addEventListener"){
-            console.log(args[0][1]);
-            let value = args[0][1];
-            let funcString = value.split("function() {")[1];
-            let func = new Function(funcString.substring(0, funcString.length - 1));
-            //let func = new Function(value);
-            //let func = new Function(value.split("function()")[1]);
-            console.log(func, "this is function");
-            console.log(typeof func);
+  var currentChart = FusionCharts(chartID);
 
-            //console.log(eval(value), "using eval here");
+  if (functionName === 'addEventListener' || args[0][0] === "callback") {
 
-            //var result = currentChart[functionName].apply(currentChart, func);
-            var result = currentChart[functionName][func];
+    let event = args[0][1]
+    let functionAsString = args[0][2];
+    let callbackFn = parseFunction(null, functionAsString);
+    var result = currentChart[functionName].call(currentChart, event, callbackFn);
 
-            console.log(result);
+    return "Undefined";
+  }
 
-            return "Undefined";
-
-        }
-
-        var result =   currentChart[functionName].apply(currentChart, ...args);
-        var typeofresult = typeof result;
-        if(typeofresult === "number" || typeofresult === "boolean"){
-            result = result.toString();
-        }
-        else if(typeofresult === "object"){
-            result = JSON.stringify(result);
-        }
-        else if(typeofresult === "XML"){
-            result = XML.stringify(result);
-        }
-        if(typeofresult === "string"){
-            return result;
-        }
-        return result.toString() || "";
-    };
+  var result = currentChart[functionName].apply(currentChart, ...args);
+  var typeofresult = typeof result;
+  if (typeofresult === "object") {
+    result = JSON.stringify(result);
+  } else if (typeofresult === "XML") {
+    result = XML.stringify(result);
+  }
+  
+  return String(result);
+};
