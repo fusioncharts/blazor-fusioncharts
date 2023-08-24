@@ -84,9 +84,6 @@ namespace Microsoft.FusionChartsInterop.Tests
             Assert.Single(mockJsRuntime.Invocations);
             Assert.Equal("FusionCharts.invokeChartFunction", mockJsRuntime.Invocations[0].Item1);
             Assert.Equal(new object[] { functionName, chartId, args }, mockJsRuntime.Invocations[0].Item2);
-
-            // Add more assertions based on the behavior and expected result of CallFusionChartsFunction
-            // For example, you might assert the return value or certain console output.
         }
         [Fact]
         public async Task CallFusionChartsFunction_SetChartAttribute_CallsInvokeAsyncWithCorrectArguments()
@@ -252,6 +249,62 @@ namespace Microsoft.FusionChartsInterop.Tests
             var mockJsRuntime = new MockJSRuntime();
             var fusionChartsService = new FusionChartsService(mockJsRuntime);
             var functionName = "dispose";
+            var chartId = "ChartId";
+            var args = Array.Empty<object>();
+
+            // Act
+            await fusionChartsService.CallFusionChartsFunction(functionName, chartId, args);
+
+            // Assert
+            Assert.Single(mockJsRuntime.Invocations);
+            Assert.Equal("FusionCharts.invokeChartFunction", mockJsRuntime.Invocations[0].Item1);
+            Assert.Equal(new object[] { functionName, chartId, args }, mockJsRuntime.Invocations[0].Item2);
+        }
+        [Fact]
+        public async Task CallFusionChartsFunction_GetCSVData_CallsInvokeAsyncWithCorrectArguments()
+        {
+            // Arrange
+            var mockJsRuntime = new MockJSRuntime();
+            var fusionChartsService = new FusionChartsService(mockJsRuntime);
+            var functionName = "getCSVData";
+            var chartId = "ChartId";
+            var args = Array.Empty<object>();
+
+            // Act
+            await fusionChartsService.CallFusionChartsFunction(functionName, chartId, args);
+
+            // Assert
+            Assert.Single(mockJsRuntime.Invocations);
+            Assert.Equal("FusionCharts.invokeChartFunction", mockJsRuntime.Invocations[0].Item1);
+            Assert.Equal(new object[] { functionName, chartId, args }, mockJsRuntime.Invocations[0].Item2);
+        }
+
+        [Fact]
+        public async Task CallFusionChartsFunction_GetDataAsCSV_CallsInvokeAsyncWithCorrectArguments()
+        {
+            // Arrange
+            var mockJsRuntime = new MockJSRuntime();
+            var fusionChartsService = new FusionChartsService(mockJsRuntime);
+            var functionName = "getDataAsCSV";
+            var chartId = "ChartId";
+            var args = Array.Empty<object>();
+
+            // Act
+            await fusionChartsService.CallFusionChartsFunction(functionName, chartId, args);
+
+            // Assert
+            Assert.Single(mockJsRuntime.Invocations);
+            Assert.Equal("FusionCharts.invokeChartFunction", mockJsRuntime.Invocations[0].Item1);
+            Assert.Equal(new object[] { functionName, chartId, args }, mockJsRuntime.Invocations[0].Item2);
+        }
+
+        [Fact]
+        public async Task CallFusionChartsFunction_GetSVGString_CallsInvokeAsyncWithCorrectArguments()
+        {
+            // Arrange
+            var mockJsRuntime = new MockJSRuntime();
+            var fusionChartsService = new FusionChartsService(mockJsRuntime);
+            var functionName = "getSVGString";
             var chartId = "ChartId";
             var args = Array.Empty<object>();
 
