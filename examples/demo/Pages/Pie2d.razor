@@ -1,0 +1,376 @@
+﻿@page "/pie2d"
+@using Microsoft.JSInterop;
+@using System.Text.Json;
+@inject IJSRuntime JSInterop;
+@inject FusionChartsService xyz;
+@using System.Net.Http;
+@inject HttpClient httpClient;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@using System.Text.Json.Serialization;
+
+<PageTitle>Index</PageTitle>
+
+<h1>Pie 2d</h1>
+
+
+
+<div id="demoID"></div>
+
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool
+    firstRender)
+    {
+        if (firstRender)
+        {
+
+            await demo();
+
+        }
+        else
+        {
+
+        }
+    }
+
+    public async Task demo()
+    {
+        dynamic myChartConfig = new
+    System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new
+        System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myChartClone = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+       
+        //-------------------------EVENTS-------------------------------------------------
+        
+        myEvent.loaded = "function(){console.log('Loaded ')}";
+        myEvent.rendered = "function(){console.log('Rendered ')}";
+        myEvent.renderComplete = "function(){console.log('Render Completed ')}";
+        myEvent.backgroundLoaded = "function(){console.log('Background Loaded ')}";
+        myEvent.backgroundLoadError = "function(){console.log('backgroundLoadError ')}";
+        myEvent.beforeRender = "function(){console.log(' beforeRender')}";
+        myEvent.renderCancelled = "function(){console.log('Render Cancelled ')}";
+        myEvent.beforeInitialize = "function(){console.log('beforeInitialize')}";
+        myEvent.initialized = "function(){console.log('initialized ')}";
+        myEvent.rotationStart = "function(){console.log('rotation Started ')}";
+        myEvent.rotationEnd= "function(){console.log('rotation ended ')}";
+        myEvent.centerLabelRollOver = "function(){console.log('Rolled over to Center of the Doughnut label ')}";
+        myEvent.centerLabelRollOut = "function(){console.log('Rolled off to Center of the Doughnut label ')}";
+        myEvent.centerLabelClick = "function(){console.log('Clicked  Center of the Doughnut label')}";
+        myEvent.centerLabelChanged = "function(){console.log('Changed Center of the Doughnut label ')}";
+        myEvent.slicingStart = "function(){console.log('Slicing started ')}";
+        myEvent.slicingEnd = "function(){console.log('Slicing ended ')}";
+       
+         myEvent.dataplotRollOver = "function(){console.log('dataplotRollOver')}";
+
+        //---------------------------------------------------------------------------------------------------------
+        myChartConfig.type = "pie2d";
+        myChartConfig.width = "100%";
+        myChartConfig.height = "100%";
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "demoID";
+        myChartConfig.id = "1";
+
+        myChart.caption = "Market Share of Web Servers";
+        myChart.defaultCenterLabel = "Total revenue: $64.08K";
+        myChart.centerLabel = "Revenue from $label: $value";
+        myChart.centerLabelBold = "1";
+        myChart.ready = "readyCallback";
+        myChart.exportEnabled = "1";
+        myChart.plottooltext = " <b>$percentValue</b> of web servers run on $label servers";
+        myChart.showlegend = "1";
+        myChart.showpercentvalues = "1";
+        myChart.usedataplotcolorforlabels = "1";
+       // myChart.legendposition = "bottom";
+        myChart.legendposition = "top-right";
+        // myChart.bgImage = "https://upload.wikimedia.org/wikipedia/commons/7/79/Misc_fruit.jpg";
+
+        myChart.theme = "candy";
+        myDataSource.data = new[] {
+new { label = "Apache", value = "32647479" },
+new { label = "Microsoft", value = "22100932" },
+new { label = "Zeus", value = "14376" },
+new { label = "Other", value = "18674221" },
+
+};
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        String chartConfig =
+        System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+
+
+        await xyz.renderChart(chartConfig);
+
+        //---------------------Doughnut 2d-------------------------------------
+        //myChartConfig.type = "doughnut2d";
+        //myChartConfig.renderAt = "demoID2";
+        //myChartConfig.id = "d2";
+        //myChart.defaultCenterLabel = "Total revenue: $64.08K";
+        //myChart.centerLabel = "Revenue from $label: $value";
+        ////myChart.bgImage = "https://w0.peakpx.com/wallpaper/484/194/HD-wallpaper-%E2%9C%BCplace-of-peace%E2%9C%BC-pretty-grass-premade-bg-attractions-in-dreams-beautiful-clouds-leaves-green-stock-flowers-resources-animals-flying-birds-lakes-lovely-colors-love-four-seasons-bench.jpg";
+        //String chartConfig2 =
+        //System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        //await xyz.renderChart(chartConfig2);
+        // await xyz.CallFusionChartsFunction("setTransparent", "d2", "false");
+        //centerLabel("This text has been rendered using the centerLabel() method."
+        // await xyz.CallFusionChartsFunction("centerLabel", "d2", "This text has been rendered using the centerLabel() method.");
+
+        //---------------------Doughnut 3d-------------------------------------
+        /*
+        myChartConfig.type = "doughnut3d";
+        myChartConfig.renderAt = "doughnet3d";
+        myChartConfig.id = "d3";
+        String chartConfig3 =
+        System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await xyz.renderChart(chartConfig3);*/
+        //---------------------Pie 3d-------------------------------------
+        /*
+        myChartConfig.type = "pie3d";
+        myChartConfig.renderAt = "pie3d";
+        myChartConfig.id = "p3";
+        String chartConfig4 =
+        System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await xyz.renderChart(chartConfig4);*/
+
+        /* //-------------------------------------METHODS-----------------------------------------------------------------------------------
+        //setChartAttribute-->applicable
+        await xyz.CallFusionChartsFunction("setChartAttribute", "1", "caption", "pie");
+        //getChartAttribute-->applicable
+        await xyz.CallFusionChartsFunction("getChartAttribute", "1", "caption");
+        //chartType -->Applicable(all)
+        await xyz.CallFusionChartsFunction("chartType", "1");
+        //getXMLData -->applicable
+        await xyz.CallFusionChartsFunction("getXMLData", "1");
+            //setXMLData->Working
+            await xyz.CallFusionChartsFunction("setXMLData", "1", @"
+            <chart caption=""pieCharts"" defaultcenterlabel=""Total revenue: $64.08K"" centerlabel=""Revenue from $label: $value"" centerlabelbold=""1"" plottooltext="" &lt;b&gt;$percentValue&lt;/b&gt; of web servers run on $label servers"" showlegend=""1"" showpercentvalues=""1"" usedataplotcolorforlabels=""1"" legendposition=""bottom"" theme=""candy"" animation=""0"">
+            <set label=""Apache"" value=""32647479"" />
+            <set label=""Microsoft"" value=""22100932"" />
+            <set label=""Zeus"" value=""14376"" />
+            <set label=""Other"" value=""18674221"" />
+            </chart>");
+        //setChartData
+        await xyz.CallFusionChartsFunction("setChartData", "1",@"
+        {
+        ""chart"": {
+        ""caption"": ""Market Share Impact"",
+        ""defaultCenterLabel"": ""Total revenue: $64.08K"",
+        ""centerLabel"": ""Revenue from $label: $value"",
+        ""centerLabelBold"": ""1"",
+        ""plottooltext"": "" <b>$percentValue</b> of web servers run on $label servers"",
+        ""showlegend"": ""1"",
+        ""showpercentvalues"": ""1"",
+        ""usedataplotcolorforlabels"": ""1"",
+        ""legendposition"": ""bottom"",
+        ""theme"": ""candy""
+        },
+        ""data"": [
+        { ""label"": ""Apache"", ""value"": ""32647479"" },
+        { ""label"": ""Microsoft"", ""value"": ""22100932"" },
+        { ""label"": ""Zeus"", ""value"": ""14376"" },
+        { ""label"": ""Other"", ""value"": ""18674221"" }
+           ]
+        }", "json");
+        //getChartData
+        await xyz.CallFusionChartsFunction("getChartData", "1", "csv");
+        //setTransparent--->not working
+        // await xyz.CallFusionChartsFunction("setTransparent", "1","true");
+        //await xyz.CallFusionChartsFunction("print", "1" );
+        //showChartMessage
+        await xyz.CallFusionChartsFunction("showChartMessage", "1", "Message to be printed","true","false");
+        //--------------pie and doughnut specific methods-------------------
+
+        //slicePlotItem
+        await xyz.CallFusionChartsFunction("slicePlotItem", "1", 3, "true", "slicePlotItem");
+        //startingAngle
+        await xyz.CallFusionChartsFunction("startingAngle", "1",90, "true", "startingAngle");
+           //---------------------------------------------------------------------
+           //getSVGString
+           await xyz.CallFusionChartsFunction("getSVGString", "1", "getSVGString",1);
+
+           //formatNumber
+           await xyz.CallFusionChartsFunction("formatNumber", "1", 1234.5);
+           //dynamic res=await xyz.CallFusionChartsFunction("isPlotItemSliced", "1", "1");
+           //Console.WriteLine(res);
+           */
+
+        //---------------------------------------METHODS------------------------------------------------------
+
+
+
+        //setXMLData->Working
+        /*
+        await xyz.CallFusionChartsFunction("setXMLData", "1", @"
+        <chart caption=""Caption changed by SetXML Method"" defaultcenterlabel=""Total revenue: $64.08K"" centerlabel=""Revenue from $label: $value"" centerlabelbold=""1"" plottooltext="" &lt;b&gt;$percentValue&lt;/b&gt; of web servers run on $label servers"" showlegend=""1"" showpercentvalues=""1"" usedataplotcolorforlabels=""1"" legendposition=""bottom"" theme=""candy"" animation=""0"">
+        <set label=""Apache"" value=""32647479"" />
+        <set label=""Microsoft"" value=""22100932"" />
+        <set label=""Zeus"" value=""14376"" />
+        <set label=""Other"" value=""18674221"" />
+        </chart>");
+        */
+        //showChartMessage
+      //  await xyz.CallFusionChartsFunction("showChartMessage", "1", "Message to be printed on the chart", "true", "false");
+        //setTransparent
+        //setXMLUrl
+        //await xyz.CallFusionChartsFunction("setXMLUrl", "1", "https://cors-anywhere.herokuapp.com/https://raw.githubusercontent.com/SravyaK-Accolite/test/main/data.xml ");
+        //slicePlotItem---
+       // await xyz.CallFusionChartsFunction("slicePlotItem", "1", 1, "true", "slicePlotItem");
+
+        //startingAngle-
+       // await xyz.CallFusionChartsFunction("startingAngle", "1", "90", "true", "startingAngle");
+        /*setTransparent
+        print
+        batchExport
+        */
+        //setTransparent
+        //await xyz.CallFusionChartsFunction("setTransparent", "1", true);
+        //print---not working
+        //await xyz.CallFusionChartsFunction("print", "1");
+
+        //-----------------------------------------------TYPE DEFINITIONS--------------------------------------------------------------------
+        /*
+        * eventListner
+        readyCallback
+        renderCalback
+        */
+        // Add event listener
+        //define event handler
+
+        //  string handler = "function(){console.log('Event Handling Worked!!')}";
+
+
+        //await xyz.CallFusionChartsFunction("addEventListener", "1", "dataPlotClick", myhandler);
+
+        //await xyz.CallFusionChartsFunction("print", "1");
+        // Define the JavaScript handler function
+        //string myhandler = "function() { invokeDotNetHandler(this, 'DataPlotClickHandler'); }";
+
+        // Add event listener using the JavaScript handler function
+        // await xyz.CallFusionChartsFunction("addEventListener", "1", "dataPlotClick", handler);
+
+        //--------------------------------READY METHOD---------------------------------------------------------------------
+        //await xyz.CallFusionChartsFunction("ready", "1", pie3());
+        // await xyz.CallFusionChartsFunction("addEventListener", "1", "ready", pie3());
+        //--------------------------------RENDER--------------------------------------------
+        /*
+        *  revenueChart.render('chart-container', undefined, callBack);
+        //}
+
+        function callBack() {
+        console.log("callback");
+
+        }
+        */
+        //  await xyz.CallFusionChartsFunction("render", "1", "pie3d", "undefined",handler());
+        //-------------------------------------------------------------------------------------------------------------------------
+        //exportChart
+        //await xyz.CallFusionChartsFunction("exportChart", "1", "png","true");
+        /*clone-->not working
+        //myChartClone = myChart.clone();
+        myChartClone.renderAt = "clone";
+        await xyz.CallFusionChartsFunction("clone", "1", "myChartClone");
+        */
+
+        //-------------------------------------setXMLUrl[not working]------------------------------------------------------------------
+        /*string jsonData;
+        string jsonUrl = navigationManager.ToAbsoluteUri("C:\\Users\\lakshmi.s\\source\\repos\\BlazorAppQA\\BlazorAppQA\\data.xml").ToString();
+        jsonData = await httpClient.GetStringAsync(jsonUrl);
+        Console.WriteLine("jsonUrl");
+        //dynamic myDataSource2 = jsonUrl;
+
+        //myChartConfig.dataSource = myDataSource2;*/
+        //clone-->not working
+        //await xyz.CallFusionChartsFunction("clone", "1", "pie2d","true");
+        //dataReady-->Working
+        //await xyz.CallFusionChartsFunction("dataReady", "1",  "true");
+
+        //hasRendered-->Working
+        // await xyz.CallFusionChartsFunction("hasRendered", "1");
+        //print-->Returning False
+        //await xyz.CallFusionChartsFunction("print", "1","true");
+        //batchExport-->not working
+        //await xyz.CallFusionChartsFunction("batchExport", "[{'1','d2'}]", "batchExport","jpg","1");
+        //lockResize-->confused, test it again
+        // await xyz.CallFusionChartsFunction("lockResize", "1", "true");
+        /*
+        * await xyz.CallFusionChartsFunction("transcodeData", "1", @"
+         {
+
+         ""data"": [
+         { ""label"": ""Bakersfield Central"", ""value"": ""880000"" },
+         { ""label"": ""Garden Groove harbour"", ""value"": ""730000"" },
+         { ""label"": ""Los Angeles Topanga"", ""value"": ""590000"" },
+         { ""label"": ""Compton-Rancho Do"", ""value"": ""520000"" }
+         ]
+         }", "json","csv","true");*/
+        //getJSONData
+        //await xyz.CallFusionChartsFunction("getJSONData", "1",1);
+        //setJSONData
+        /*
+        * await xyz.CallFusionChartsFunction("setJSONData", "1", @"
+        {
+
+        ""data"": [
+        { ""label"": ""Bakersfield Central"", ""value"": ""880000"" },
+       { ""label"": ""Garden Groove harbour"", ""value"": ""730000"" },
+       { ""label"": ""Los Angeles Topanga"", ""value"": ""590000"" },
+       { ""label"": ""Compton-Rancho Do"", ""value"": ""520000"" }
+        ]
+        }");
+        */
+        //getCSVData
+        //await xyz.CallFusionChartsFunction("getCSVData", "1");
+        //getDataAsCSV
+        //await xyz.CallFusionChartsFunction("getDataAsCSV", "1");
+        //resizeTo-->Working but giving exception
+        // await xyz.CallFusionChartsFunction("resizeTo", "1", "60%", "60%");
+        //dispose
+        // await xyz.CallFusionChartsFunction("dispose", "1");
+        //configure->not working
+        //await xyz.CallFusionChartsFunction("configure", "1","Configure method");
+        //setXMLUrl
+        /*
+        *    var xmlFilePath = "data.xml";
+
+        var xmlUrl = NavigationManager.ToAbsoluteUri(xmlFilePath).ToString();
+        await xyz.CallFusionChartsFunction("setXMLUrl", "1", xmlUrl);
+        */
+
+        //setChartDataUrl
+        /*
+        *  var xmlFilePath2= "data2.xml";
+        var xmlUrl2 = NavigationManager.ToAbsoluteUri(xmlFilePath2).ToString();
+        await xyz.CallFusionChartsFunction("setChartDataUrl", "1", xmlUrl2,"xml");
+        */
+        //setJSONUrl
+
+        var FilePath = "legend.json";
+
+        var Url = NavigationManager.ToAbsoluteUri(FilePath).ToString();
+       //  await xyz.CallFusionChartsFunction("setJSONUrl", "1", Url);
+        //EVENT Listener
+       // await xyz.CallFusionChartsFunction("addEventListener", "1", "dataPlotClick", "function(){DotNet.invokeMethodAsync('Pie&Doughnut', 'ChangeData')}");
+        // { type: ‘blazor’, fn: < blazorFnName >}
+        // { type: ‘js’, fn: “function() { }“}
+    }
+    private async Task CallBackFunction()
+    {
+        await CallJavaScriptEventHandler("myDataPlotClickHandler");
+    }
+    private async Task CallJavaScriptEventHandler(string functionName)
+    {
+        await JSInterop.InvokeVoidAsync(functionName);
+
+    }
+
+
+}
+
+
+<SurveyPrompt Title="How is Blazor working for you?" />
