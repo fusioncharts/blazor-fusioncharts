@@ -1,7 +1,6 @@
 Step-1:
 Create a razor file for particular chart like this:
-rightclick on pages folder->add->RazorComponent
-in the name field(in the bottom) replace Component.razor with your chartName.razor
+rightclick on pages folder->add->RazorComponent, then in the name field(in the bottom) replace Component.razor with your chartName.razor
 eg:Pie2d.razor
 *Note: Here file name should start with capital
 Step-2:
