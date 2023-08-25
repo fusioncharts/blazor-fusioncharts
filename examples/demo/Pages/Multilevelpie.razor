@@ -1,0 +1,135 @@
+﻿@page "/multilevelpie"
+@using Microsoft.JSInterop;
+@inject IJSRuntime JSInterop;
+@inject FusionChartsService xyz;
+<PageTitle>Index</PageTitle>
+<h1>multi-level pie</h1>
+
+<div id="demoID"></div>
+@*<h1>Drag-Node</h1>*@
+<div id="drag-node"></div>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool
+    firstRender)
+    {
+        if (firstRender)
+        {
+            await demo();
+        }
+        else
+        {
+        }
+    }
+    public async Task demo()
+    {
+        dynamic myChartConfig = new
+    System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new
+        System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        //myEvent.loaded = "function(){console.log('Loaded ')}";
+        //myEvent.rendered = "function(){console.log('Rendered ')}";
+        //myEvent.renderComplete = "function(){console.log('Render Completed ')}";
+        //myEvent.backgroundLoaded = "function(){console.log('Background Loaded ')}";
+        //myEvent.backgroundLoadError = "function(){console.log('backgroundLoadError ')}";
+        //myEvent.beforeRender = "function(){console.log(' beforeRender')}";
+        //myEvent.renderCancelled = "function(){console.log('Render Cancelled ')}";
+        //myEvent.beforeInitialize = "function(){console.log('beforeInitialize')}";
+        //myEvent.initialized = "function(){console.log('initialized ')}";
+       myChartConfig.type = "multilevelpie";
+        myChartConfig.width = "100%";
+        myChartConfig.height = "100%";
+
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "demoID";
+        myChartConfig.id = "m";
+        myChart.caption = "Sales by Product Category";
+        myChart.isMultiLevel = true;
+
+        // myChart.bgImage = "https://upload.wikimedia.org/wikipedia/commons/7/79/Misc_fruit.jpg";
+        myChart.plottooltext = "Sales of <b>$label</b> was <b>$$valueK</b>, which was $percentValue of parent category";
+        myChart.showplotborder = "1";
+        myChart.plotfillalpha = "60";
+        myChart.hoverfillcolor = "#CCCCCC";
+        myChart.numberprefix = "$";
+        myChart.theme = "candy";
+        myDataSource.category = myDataSource.data = new[]
+    {
+        new
+        {
+            label = "Products",
+            tooltext = "Please hover over a sub-category to see details",
+            color = "#FFFFFF",
+            value = "150",
+            category = new[]
+    {
+        new
+        {
+            label = "Food & Beverage",
+            color = "#F8BD19",
+            value = "55.5",
+            category = new[]
+    {
+        new { label = "Breads", color = "#F8BD19", value = "11.1" },
+        new { label = "Juice", color = "#F8BD19", value = "27.75" },
+        new { label = "Noodles", color = "#F8BD19", value = "9.99" },
+        new { label = "Seafood", color = "#F8BD19", value = "6.66" }
+    },
+    },
+    new
+    {
+        label = "Apparel",
+        color = "#33CCFF",
+        value = "42",
+        category = new[]
+    {
+    new { label = "Sun Glasses", color = "#33CCFF", value = "10.08" },
+    new { label = "Clothing", color = "#33CCFF", value = "18.9" },
+    new { label = "Handbags", color = "#33CCFF", value = "6.3" },
+    new { label = "Shoes", color = "#33CCFF", value = "6.72" }
+    },
+    },
+    new
+    {
+        label = "Baby Products",
+        color = "#FFCCCC",
+        value = "22.5",
+        category = new[]{
+        new { label = "Bath & Grooming", color = "#FFCCCC", value = "9.45" },
+        new { label = "Food", color = "#FFCCCC", value = "6.3" },
+        new { label = "Diapers", color = "#FFCCCC", value = "6.75" }
+    },
+    },
+    new
+    {
+        label = "Electronics",
+        color = "#CCFF66",
+        value = "30",
+        category = new[]
+    {
+        new { label = "Laptops", color = "#CCFF66", value = "8.1" },
+        new { label = "Televisions", color = "#CCFF66", value = "10.5" },
+        new { label = "SmartPhones", color = "#CCFF66", value = "11.4" }
+    }
+    }
+    }
+    }
+    };
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+        String chartConfig =
+        System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await xyz.renderChart(chartConfig);
+       // await xyz.CallFusionChartsFunction("setChartAttribute", "m", "caption", "nestedpie");
+        await xyz.CallFusionChartsFunction("chartType", "m");
+       
+     //   await xyz.renderChart(chartConfig2);
+       
+
+    }
+}
+<SurveyPrompt Title="How is Blazor working for you?" />
