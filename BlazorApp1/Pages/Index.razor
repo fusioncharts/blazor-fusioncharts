@@ -2,14 +2,10 @@
 @using Microsoft.JSInterop;
 @inject IJSRuntime JSRuntime
 @inject FusionChartsService fusionChartsService;
-<PageTitle>Index</PageTitle>
-<h2>1. LARGE DATA</h2>
+<PageTitle>Column2D Chart</PageTitle>
 <div>
     <div id="chartContainer1"></div>
 </div>
-<!-- <button @onclick="ChangeData">Change Data</button> -->
-<!-- <p>Value: @value</p> -->
-Welcome to your new app.
 @code {
     public static Index _instance;
     public Index()
@@ -21,7 +17,6 @@ Welcome to your new app.
 
     public async Task NonStaticMethod()
     {
-        Console.WriteLine("Hey! I'm not static method only");
         await fusionChartsService.CallFusionChartsFunction("setChartAttribute", "CHART_ID", "caption", "neww");
     }
 
@@ -32,7 +27,6 @@ Welcome to your new app.
     {
         // Call the non-static method from the instance
         await _instance.NonStaticMethod();
-        Console.WriteLine(_instance);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -72,9 +66,6 @@ Welcome to your new app.
         myChart.yAxisName = "Sales (in USD)";
         myChart.theme = "fusion";
 
-        // here we are calling .net method from javascript
-       // myEvent.dataPlotClick = "function() { DotNet.invokeMethodAsync('BlazorApp1', 'ChangeData') }";
-
         myDataSource.data = new[] {
             new { label = "X0", value = "380000" },
             new { label = "X1", value = "340000" },
@@ -84,7 +75,7 @@ Welcome to your new app.
     };
         myDataSource.chart = myChart;
         myChartConfig.dataSource = myDataSource;
-        myChartConfig.id = "CHART_ID";
+        myChartConfig.id = "column2dChart";
         myChartConfig.events = myEvent;
         String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
         await fusionChartsService.renderChart(chartConfig);
@@ -92,11 +83,7 @@ Welcome to your new app.
     }
     private async Task changeChartAttribute()
     {
-
-        //await fusionChartsService.CallFusionChartsFunction("setChartAttribute", "CHART_ID", "caption", "newcaption");
-        await fusionChartsService.CallFusionChartsFunction("addEventListener", "CHART_ID", "dataPlotClick", "function() { console.log('Data plot click handler but dynamically') }");
-        //dynamic res = await fusionChartsService.CallFusionChartsFunction("hasRendered", "CHART_ID");
+        await fusionChartsService.CallFusionChartsFunction("addEventListener", "column2dChart", "callback", "dataPlotClick", "function() {console.log(' this function passed as callback function in generic method')}");
 
     }
 }
-<SurveyPrompt Title="How is Blazor working for you?" />
