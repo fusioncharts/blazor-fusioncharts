@@ -14,6 +14,10 @@ namespace Microsoft.FusionChartsInterop
         {
             await _jsruntime.InvokeVoidAsync("FusionCharts.renderChart", chartConfig);
         }
+
+        // datastore method for time series chart
+        
+
         // To activate the valid license//
         public async Task activateLicense(String licenseKey)
         {
@@ -30,5 +34,11 @@ namespace Microsoft.FusionChartsInterop
            String result = await _jsruntime.InvokeAsync<String>("FusionCharts.invokeChartFunction", functionName, chartId, args);
            return result;
         }
+
+
+        public async Task setDataStore(String id){
+            await _jsruntime.InvokeVoidAsync("FusionCharts.dataStore", id);
+        }
+
     }
 }

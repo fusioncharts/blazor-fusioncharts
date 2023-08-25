@@ -1,89 +1,74 @@
 ﻿@page "/"
 @using Microsoft.JSInterop;
-@inject IJSRuntime JSRuntime
+@inject IJSRuntime JSInterop;
 @inject FusionChartsService fusionChartsService;
-<PageTitle>Column2D Chart</PageTitle>
-<div>
-    <div id="chartContainer1"></div>
-</div>
+@using Microsoft.JSInterop;
+@using System.Text.Json;
+@inject IJSRuntime JSInterop;
+@inject FusionChartsService xyz;
+@using System.Net.Http;
+@inject HttpClient httpClient;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@using System.Text.Json.Serialization;
+@using Newtonsoft.Json.Linq;
+<PageTitle>Index</PageTitle>
+<h1>Hello, World!</h1>
+<h2>1. Demo Chart </h2>
+<div id="chartContainer1"></div>
+Welcome.
 @code {
-    public static Index _instance;
-    public Index()
-    {
-        _instance = this;
-    }
-
-    // calling this method from static method using instance of Index   
-
-    public async Task NonStaticMethod()
-    {
-        await fusionChartsService.CallFusionChartsFunction("setChartAttribute", "CHART_ID", "caption", "neww");
-    }
-
-    // this is static method which we have added in the event using dotnet
-
-    [JSInvokable("ChangeData")]
-    public static async Task ChangeData()
-    {
-        // Call the non-static method from the instance
-        await _instance.NonStaticMethod();
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool
+    firstRender)
     {
         if (firstRender)
         {
-            await fusionChartsService.activateLicense("LICENSE_KEY");
-            await renderColumnCharts();
-            await changeChartAttribute();
+            await demo();
         }
         else
         {
         }
     }
-    public static int value = 0;
-    //[JSInvokableAttribute("ChangeData")]
-    [JSInvokable]
-    private async Task CallChangeDataMethod()
+    private async Task demo()
     {
-        await JSRuntime.InvokeVoidAsync("callChangeDataMethod");
-    }
 
-    private async Task renderColumnCharts()
-    {
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
         dynamic myDataSource = new System.Dynamic.ExpandoObject();
         dynamic myChart = new System.Dynamic.ExpandoObject();
         dynamic myEvent = new System.Dynamic.ExpandoObject();
-        myChartConfig.type = "column2D";
-        myChartConfig.width = 1000;
-        myChartConfig.height = 600;
+        dynamic myColorRange = new System.Dynamic.ExpandoObject();
+        myChartConfig.type = "timeseries";
+        myChartConfig.width = "600";
+        myChartConfig.height = "400";
         myChartConfig.dataFormat = "json";
         myChartConfig.renderAt = "chartContainer1";
-        myChart.caption = "Monthly Sales";
-        myChart.subCaption = "Last year";
-        myChart.xAxisName = "Month";
-        myChart.yAxisName = "Sales (in USD)";
-        myChart.theme = "fusion";
+        myChartConfig.id = "chartId";
 
-        myDataSource.data = new[] {
-            new { label = "X0", value = "380000" },
-            new { label = "X1", value = "340000" },
-            new { label = "X2", value = "740000" },
-            new { label = "X3", value = "800000" },
-            new { label = "X4", value = "400000" },
-    };
+        myChartConfig.caption = "Sales Analysis";
+        myChartConfig.subcaption = "grocery";
+        myChartConfig.yAxisName = "asdf";
+
+        //dynamic result = fusionChartsService.dataStore("hello");
+
+        //Console.WriteLine("bla bla bla", result);
+
+        myDataSource.data = new {};
+
         myDataSource.chart = myChart;
+        myDataSource.events = myEvent;
+        myDataSource.colorRange = myColorRange;
         myChartConfig.dataSource = myDataSource;
-        myChartConfig.id = "column2dChart";
-        myChartConfig.events = myEvent;
         String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+
+
+
         await fusionChartsService.renderChart(chartConfig);
 
-    }
-    private async Task changeChartAttribute()
-    {
-        await fusionChartsService.CallFusionChartsFunction("addEventListener", "column2dChart", "callback", "dataPlotClick", "function() {console.log(' this function passed as callback function in generic method')}");
+        await fusionChartsService.setDataStore("chartId");
 
+        //var FilePath = "data.json";
+        //var Url = NavigationManager.ToAbsoluteUri(FilePath).ToString();
+        //await fusionChartsService.CallFusionChartsFunction("setJSONUrl", "id1", Url);
     }
 }
+<SurveyPrompt Title="How is Blazor working for you?" />

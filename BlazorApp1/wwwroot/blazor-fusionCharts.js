@@ -1,3 +1,4 @@
+
 const FUNCTION_KEYWORD = 'function()';
 
 // reviver function, key is passed by the JSON.parse
@@ -17,6 +18,28 @@ window.FusionCharts.renderChart = (chartConfiguration) => {
   const chart = new FusionCharts(configAsJSObject);
   chart.render();
 };
+
+window.FusionCharts.setDataStore = (id) =>  {
+
+    var currentChart = FusionCharts(id);
+
+    var fusionDataStore = new FusionCharts.DataStore();
+    
+    var fusionTable = fusionDataStore.createDataTable([["01-Feb-11",8866],["02-Feb-11",2174],["03-Feb-11",2084],["04-Feb-11",1503],["05-Feb-11",4928],["06-Feb-11",4667]], [{
+        "name": "Time",
+        "type": "date",
+        "format": "%d-%b-%y"
+      }, {
+        "name": "Grocery Sales Value",
+        "type": "number"
+      }]);
+
+    console.log(typeof fusionTable);
+    console.log(fusionTable);
+
+    currentChart.setChartData({data: fusionTable});
+};
+
 //Generic Method to call any fusion chart method exluding except above methods//
 window.FusionCharts.invokeChartFunction = (functionName, chartID, ...args) => {
 
