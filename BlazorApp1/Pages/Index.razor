@@ -48,27 +48,21 @@ Welcome.
         myChartConfig.subcaption = "grocery";
         myChartConfig.yAxisName = "asdf";
 
-        //dynamic result = fusionChartsService.dataStore("hello");
-
-        //Console.WriteLine("bla bla bla", result);
-
         myDataSource.data = new {};
-
         myDataSource.chart = myChart;
         myDataSource.events = myEvent;
         myDataSource.colorRange = myColorRange;
         myChartConfig.dataSource = myDataSource;
         String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
 
-
-
         await fusionChartsService.renderChart(chartConfig);
 
-        await fusionChartsService.setDataStore("chartId");
+        String dataFilePath = "C:/Users/Harsh Jain/Desktop/Blazor FC Integration/blazor-fusioncharts/BlazorApp1/wwwroot/data.json";
+        String schemeFilePath = "C:/Users/Harsh Jain/Desktop/Blazor FC Integration/blazor-fusioncharts/BlazorApp1/wwwroot/schema.json";
+        String dataContent = File.ReadAllText(dataFilePath);
+        String schemaContent = File.ReadAllText(schemeFilePath);
 
-        //var FilePath = "data.json";
-        //var Url = NavigationManager.ToAbsoluteUri(FilePath).ToString();
-        //await fusionChartsService.CallFusionChartsFunction("setJSONUrl", "id1", Url);
+        await fusionChartsService.setDataStore("chartId", dataContent, schemaContent1);
     }
 }
 <SurveyPrompt Title="How is Blazor working for you?" />

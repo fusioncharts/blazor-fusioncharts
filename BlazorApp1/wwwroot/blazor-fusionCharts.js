@@ -19,23 +19,16 @@ window.FusionCharts.renderChart = (chartConfiguration) => {
   chart.render();
 };
 
-window.FusionCharts.setDataStore = (id) =>  {
+// Method written for charts like time-series chart
+window.FusionCharts.setDataStore = (id, args) =>  {
 
     var currentChart = FusionCharts(id);
-
     var fusionDataStore = new FusionCharts.DataStore();
     
-    var fusionTable = fusionDataStore.createDataTable([["01-Feb-11",8866],["02-Feb-11",2174],["03-Feb-11",2084],["04-Feb-11",1503],["05-Feb-11",4928],["06-Feb-11",4667]], [{
-        "name": "Time",
-        "type": "date",
-        "format": "%d-%b-%y"
-      }, {
-        "name": "Grocery Sales Value",
-        "type": "number"
-      }]);
+    var data = JSON.parse(args[0]);
+    var schema = JSON.parse(args[1]);
 
-    console.log(typeof fusionTable);
-    console.log(fusionTable);
+    var fusionTable = fusionDataStore.createDataTable(data, schema);
 
     currentChart.setChartData({data: fusionTable});
 };
@@ -51,7 +44,7 @@ window.FusionCharts.invokeChartFunction = (functionName, chartID, ...args) => {
     let functionAsString = args[0][2];
     let callbackFn = parseFunction(null, functionAsString);
     var result = currentChart[functionName].call(currentChart, event, callbackFn);
-
+    
     return String(result);
   }
 
