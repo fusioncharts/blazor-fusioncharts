@@ -33,6 +33,12 @@ window.FusionCharts.setDataStore = (id, args) =>  {
     currentChart.setChartData({data: fusionTable});
 };
 
+// resizeTo will not return any data due to circular json object
+window.FusionCharts.resizeTo = (id, args) => {
+    var currentChart = FusionCharts(id);
+    currentChart.resizeTo(args[0], args[1]);
+}
+
 //Generic Method to call any fusion chart method exluding except above methods//
 window.FusionCharts.invokeChartFunction = (functionName, chartID, ...args) => {
 

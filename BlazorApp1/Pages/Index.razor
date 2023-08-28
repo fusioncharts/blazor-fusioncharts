@@ -62,7 +62,13 @@ Welcome.
         String dataContent = File.ReadAllText(dataFilePath);
         String schemaContent = File.ReadAllText(schemeFilePath);
 
-        await fusionChartsService.setDataStore("chartId", dataContent, schemaContent1);
+        await fusionChartsService.setDataStore("chartId", dataContent, schemaContent);
+
+        await fusionChartsService.resizeTo("chartId", 500, 1000);
+
+        //String result = await fusionChartsService.CallFusionChartsFunction("getChartData", "chartId", "caption");
+        //Console.WriteLine(result);
+
     }
 }
 <SurveyPrompt Title="How is Blazor working for you?" />

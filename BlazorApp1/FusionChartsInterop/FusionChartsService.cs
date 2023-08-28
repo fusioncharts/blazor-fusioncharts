@@ -26,6 +26,11 @@ namespace Microsoft.FusionChartsInterop
             await _jsruntime.InvokeVoidAsync("FusionCharts.options.license", licenseObject);
         }
 
+        // resizeTo will not return anything as return object json is having circular references
+        public async Task resizeTo(String id, params object[] args){
+            await _jsruntime.InvokeVoidAsync("FusionCharts.resizeTo", id, args);
+        }
+
         // Method written for charts like time-series charts
         public async Task setDataStore(String id, params object[] args){
             await _jsruntime.InvokeVoidAsync("FusionCharts.setDataStore", id, args);
@@ -37,5 +42,6 @@ namespace Microsoft.FusionChartsInterop
            String result = await _jsruntime.InvokeAsync<String>("FusionCharts.invokeChartFunction", functionName, chartId, args);
            return result;
         }
+
     }
 }
