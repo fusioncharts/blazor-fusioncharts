@@ -35,6 +35,11 @@ namespace Microsoft.FusionChartsInterop
         public async Task setDataStore(String id, params object[] args){
             await _jsruntime.InvokeVoidAsync("FusionCharts.setDataStore", id, args);
         }
+
+        //To add annotations items and groups
+        public async Task addAnnotations(String functionName, String id, params object[] args){
+            await _jsruntime.InvokeVoidAsync("FusionCharts.addAnnotations", functionName, id, args);
+        }
         
         //Genric Method calling another method generic method written in blazor-fusionCharts.js which is further calling fusion charts method//
         public async Task<String> CallFusionChartsFunction(String functionName, String chartId, params object[] args)

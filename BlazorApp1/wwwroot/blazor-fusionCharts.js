@@ -39,6 +39,12 @@ window.FusionCharts.resizeTo = (id, args) => {
     currentChart.resizeTo(args[0], args[1]);
 }
 
+//To add Annotation items and groups
+window.FusionCharts.addAnnotations = (functionName, id, args) => {
+  var annotations = FusionCharts(id).annotations;
+  annotations[functionName].apply(annotations, args);
+}
+
 //Generic Method to call any fusion chart method exluding except above methods//
 window.FusionCharts.invokeChartFunction = (functionName, chartID, ...args) => {
 
