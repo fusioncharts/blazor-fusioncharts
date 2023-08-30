@@ -2,10 +2,11 @@
 @using Microsoft.JSInterop;
 @inject IJSRuntime JSRuntime
 @inject FusionChartsService fusionChartsService;
-<PageTitle>Column2D Chart</PageTitle>
+
 <div>
-    <div id="chartContainer1"></div>
+    <div id="chartContainer"></div>
 </div>
+
 @code {
     public static Index _instance;
     public Index()
@@ -14,14 +15,12 @@
     }
 
     // calling this method from static method using instance of Index   
-
     public async Task NonStaticMethod()
     {
-        await fusionChartsService.CallFusionChartsFunction("setChartAttribute", "CHART_ID", "caption", "neww");
+        await fusionChartsService.CallFusionChartsFunction("setChartAttribute", "column2DChart", "caption", "neww");
     }
 
     // this is static method which we have added in the event using dotnet
-
     [JSInvokable("ChangeData")]
     public static async Task ChangeData()
     {
@@ -36,9 +35,6 @@
             await fusionChartsService.activateLicense("LICENSE_KEY");
             await renderColumnCharts();
             await changeChartAttribute();
-        }
-        else
-        {
         }
     }
     public static int value = 0;
@@ -59,12 +55,15 @@
         myChartConfig.width = 1000;
         myChartConfig.height = 600;
         myChartConfig.dataFormat = "json";
-        myChartConfig.renderAt = "chartContainer1";
+        myChartConfig.renderAt = "chartContainer";
         myChart.caption = "Monthly Sales";
         myChart.subCaption = "Last year";
         myChart.xAxisName = "Month";
         myChart.yAxisName = "Sales (in USD)";
         myChart.theme = "fusion";
+
+       // calling .net method from javascript
+       myEvent.dataPlotClick = "function() { DotNet.invokeMethodAsync('BlazorApp1', 'ChangeData') }";
 
         myDataSource.data = new[] {
             new { label = "X0", value = "380000" },
@@ -72,18 +71,20 @@
             new { label = "X2", value = "740000" },
             new { label = "X3", value = "800000" },
             new { label = "X4", value = "400000" },
-    };
+    		};
+
         myDataSource.chart = myChart;
         myChartConfig.dataSource = myDataSource;
         myChartConfig.id = "column2dChart";
         myChartConfig.events = myEvent;
         String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
         await fusionChartsService.renderChart(chartConfig);
-
     }
-    private async Task changeChartAttribute()
-    {
-        await fusionChartsService.CallFusionChartsFunction("addEventListener", "column2dChart", "callback", "dataPlotClick", "function() {console.log(' this function passed as callback function in generic method')}");
 
+    private async Task changeChartAttribute() {
+        await fusionChartsService.CallFusionChartsFunction(
+					"addEventListener", 
+					"column2DChart", 
+					"{ 'event': 'dataPlotClick', 'type': 'callback', 'fn': 'function() { console.log(\"Data plot click handler but dynamically\") }'}");
     }
 }
