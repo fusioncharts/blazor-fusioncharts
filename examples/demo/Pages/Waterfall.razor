@@ -1,0 +1,137 @@
+@page "/simplewaterfall"
+@inject FusionChartsService fusionChartsService;
+@using Microsoft.JSInterop;
+@inject IJSRuntime JSRuntime
+<center>
+    <h3>
+        <b>Waterfall Chart</b>
+    </h3>
+</center>
+<div id="waterfallID"></div>
+@code {
+    public async Task waterfall()
+    {
+
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        dynamic data1 = new System.Dynamic.ExpandoObject();
+        dynamic data2 = new System.Dynamic.ExpandoObject();
+        dynamic data3 = new System.Dynamic.ExpandoObject();
+        dynamic data4 = new System.Dynamic.ExpandoObject();
+        dynamic data5 = new System.Dynamic.ExpandoObject();
+        dynamic data6 = new System.Dynamic.ExpandoObject();
+        dynamic data7 = new System.Dynamic.ExpandoObject();
+        dynamic data8 = new System.Dynamic.ExpandoObject();
+
+        myEvent.loaded = "function(){console.log('loaded Event')}";
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+        myEvent.beforeInitialize = "function(){console.log('Before Initialize')}";
+        myEvent.initialized = "function() { console.log('initialized')}";
+        myChart.enableChartMouseMoveEvent = 1;
+        myEvent.chartClick = "function(){console.log('Chart Click')}";
+
+        //myEvent.beforeExport = "function(){console.logo('before export event triggered')}";
+        //myEvent.exported = "function() { console.log('Exported')}";
+        myEvent.dataLabelClick = "function(){console.log('dataLabelClick')}";
+        myEvent.dataLabelRollOver = "function(){console.log('dataLabelRollOver')}";
+        myEvent.dataLabelRollOut = "function(){console.log('dataLabelRollOut')}";
+        myEvent.beforeExport = "function(){console.log('before export')}";
+        //myEvent.loaded = "function(){console.log('loaded')}";
+        myEvent.beforedraw = "function(){console.log('beforedraw')}";
+        myEvent.drawComplete = "function(){console.log('drawComplete')}";
+        //myEvent.beforeRender = "function() { console.log('beforeRender')}";
+        myEvent.rendered = "function() { console.log('rendered')}";
+        myEvent.chartMouseMove = "function(){console.log('chart mouse move')}";
+        myEvent.dataplotRollOver = "function() { console.log('dataplotRollOver')}";
+        myEvent.dataplotRollOut = "function() { console.log('dataplotRollOut')}";
+        // myEvent.chartRollOver = "function() { console.log('chartRollOver')}";
+        // myEvent.chartRollOut = "function() { console.log('chartRollOut')}";
+
+
+        myChartConfig.type = "waterfall2D";
+        //myChartConfig.width = 1000;
+        //myChartConfig.height = 600;
+        //myChartConfig.width = 1000;
+        //myChartConfig.height = 400;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.id = "waterId";
+        myChartConfig.exportEnabled = 1;
+        myChartConfig.renderAt = "waterfallID";
+        myChart.caption = "Total Profit Calculation";
+        myChart.subcaption = "Last month";
+        myChart.yAxisname = "Amount(In USD)";
+        myChart.numberprefix = "$";
+        myChart.connectordashed = "1";
+        myChart.sumlabel = "Total {br} Profit";
+        myChart.positiveColor = "#6BAA01";
+        myChart.negativeColor = "#E44A00";
+        myChart.connectorColor = "#660000";
+        myChart.connectorAlpha = "50";
+        myChart.connectorThickness = "3";
+        myChart.connectorDashed = "1";
+        myChart.connectorDashLen = "5";
+        myChart.connectorDashGap = "2";
+        myChart.exportEnabled = 1;
+        myChart.theme = "fusion";
+        data1.label = "Online sales";
+        data1.value = "420000";
+        data2.label = "Store Sales";
+        data2.value = "710000";
+        data3.label = "Total Sales";
+        data3.issum = "1";
+        data4.label = "Fixed Costs";
+        data4.value = "-250000";
+        data5.label = "Variable Costs";
+        data5.value = "-156000";
+        data6.label = "COGS";
+        data6.value = "-310000";
+        data7.label = "Promotion Costs";
+        data7.value = "-86000";
+        data8.label = "Total Costs";
+        data8.issum = "1";
+        data8.cumulative = "0";
+        myDataSource.data = new[] { data1, data2, data3, data4, data5, data6, data7, data8 };
+        myDataSource.chart = myChart;
+        myChartConfig.dataSource = myDataSource;
+        myChartConfig.events = myEvent;
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+        await fusionChartsService.CallFusionChartsFunction("showChartMessage", "waterId", "Message to be printed", "true", "true");
+        //await fusionChartsService.CallFusionChartsFunction("setJSONUrl","waterId","");
+        //-----------------------------METHODS------------------------------------------- getObjectReference,
+        //await fusionChartsService.CallFusionChartsFunction("dataReady", "waterId", "status");   
+        
+        //await fusionChartsService.CallFusionChartsFunction("dispose", "waterId");  
+
+
+
+        //setChartAttribute-->applicable
+        await fusionChartsService.CallFusionChartsFunction("setChartAttribute", "waterId", "caption", "NEW");
+        //getChartAttribute-->applicable
+        await fusionChartsService.CallFusionChartsFunction("getChartAttribute", "waterId", "caption");
+        //chartType -->Applicable(all)
+        await fusionChartsService.CallFusionChartsFunction("chartType", "waterId");
+        //getXMLData -->applicable
+        await fusionChartsService.CallFusionChartsFunction("getXMLData", "waterId");
+        //getChartData
+        await fusionChartsService.CallFusionChartsFunction("getChartData", "waterId", "csv");
+        //getJSONData
+        //await fusionChartsService.CallFusionChartsFunction("getJSONData", "waterId", 1);
+        //showChartMessage
+        //export
+        //await fusionChartsService.CallFusionChartsFunction("exportChart", "waterId", "png", "1", "true");
+
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await waterfall();
+        }
+        else
+        {
+        }
+    }
+}
