@@ -19,3 +19,8 @@ In the file add this code
         </div>
 Note : here in the above div , href attribute value should match with Step-2 value
 
+Important:
+1.File name of the razor file of the chart should only be the name of the chart eg:Pie2d.razor 
+2.Nav bar should contain name of the chart only
+eg: Pie 2D, Column 3D etc
+

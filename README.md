@@ -1,11 +1,25 @@
-# Setup steps - Using Visual Studio
-1. Install the latest stable version of Visual Studio. (Used Community Edition 2022 - 17.6.1 as of when this research was done)
-2. Make sure to have the following WorkLoads selected while installing Visual Studio: ASP.NET and Web development, Azure Development. .NET Desktop. 
-3. From Visual Studio select “Open a project or a Solution” and navigate to BlazorApp1.sln in the extracted folder. 
-4. Run the BlazorApp1 from the run button present in the toolbar. 
+Step-1:
+Create a razor file for particular chart like this:
+rightclick on pages folder->add->RazorComponent, then in the name field(in the bottom) replace Component.razor with your chartName.razor
+eg:Pie2d.razor
+*Note: Here file name should start with capital
+Step-2:
+ After the above step new file (chartName.razor) will be created, 
+ add this line in this file @page "/chartName" 
+ eg:@page "/pie3d"
+ After pasting this, keep the necessary code to render this specific chart
+Step-3:
+In the Solution Explorer, navigate to "Shared" folder,open "NavMenu.razor" file
+In the file add this code 
+  <div class="nav-item px-3">
+            <NavLink class="nav-link" href="chartName" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span>chartName
+            </NavLink>
+        </div>
+Note : here in the above div , href attribute value should match with Step-2 value
 
-# Setup steps - Using CLI
-1. Download and install long term support version of dotnet from https://dotnet.microsoft.com/en-us/download. ( Version 6.0 was the LTS during the time of research )
-2. Navigate to /BlazopApp1 directory and open the terminal (or command prompt). 
-3. Run `dotnet build` to build the project. 
-4. Run `dotnet run` to run the project. 
+Important:
+1.File name of the razor file of the chart should only be the name of the chart eg:Pie2d.razor 
+2.Nav bar should contain name of the chart only
+eg: Pie 2D, Column 3D etc
+
