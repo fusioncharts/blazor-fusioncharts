@@ -1,58 +1,72 @@
 
-    function parseFunction(key, value) {
-        if (typeof (value) === 'string' && value.includes('function()')) {
-            let regEx = new RegExp("{([^}]*)}");
-            let func = new Function(value.split("function()")[1]);
-            return func;
-        }
-        return value
-    }
+const FUNCTION_KEYWORD = 'function()';
 
-    window.FusionCharts.renderChart = (chartConfiguration) => {
-        options = JSON.parse(chartConfiguration, this.parseFunction);
+// reviver function, key is passed by the JSON.parse
+function parseFunction(key, value) {
+  if (typeof value === "string" && value.includes(FUNCTION_KEYWORD)) {
+    let functionParts = value.split("function()")
+    let functionBody = functionParts[1]
+    let parsedFn = new Function(functionBody);
+    return parsedFn;
+  }
+  // if the value is not function then return as is
+  return value;
+}
+// Responsible for rendering any chart//
+window.FusionCharts.renderChart = (chartConfiguration) => {
+  const configAsJSObject = JSON.parse(chartConfiguration, this.parseFunction);
+  const chart = new FusionCharts(configAsJSObject);
+  chart.render();
+};
 
-        const chart = new FusionCharts(options);
-        chart.render();
-    };
+// Method written for charts like time-series chart
+window.FusionCharts.setDataStore = (id, args) =>  {
 
-    window.FusionCharts.changeChartData = (chartID, serializedNewData, dataFormat) => {
-        newData = JSON.parse(serializedNewData, this.parseFunction);
-
-        var currentChart = FusionCharts(chartID);
-        currentChart.setChartData(newData, dataFormat);
-    };
-
-
-    ////////////////////////Generic Method/////////////////////////////////////
-
-window.FusionCharts.invokeChartFunction = (functionName, chartID, ...args) => {
-  //  console.log(args);
-   // console.log(JSON.parse(args[0],this.parseFunction),"message");
-
-        var currentChart = FusionCharts(chartID);
+    var currentChart = FusionCharts(id);
+    var fusionDataStore = new FusionCharts.DataStore();
     
-        var result =   currentChart[functionName].apply(currentChart, ...args);
-        //var result = currentChart[functionName](...args);
+    var data = JSON.parse(args[0]);
+    var schema = JSON.parse(args[1]);
 
-        var typeofresult = typeof result;
+    var fusionTable = fusionDataStore.createDataTable(data, schema);
 
-        if(typeofresult === "number"){
-            result = result.toString();
+    currentChart.setChartData({data: fusionTable});
+};
 
-        }
-        else if(typeofresult === "object"){
-            result = JSON.stringify(result);
-        }
-        else if(typeofresult === "XML"){
-            result = XML.stringify(result);
-        }
-        else if(typeofresult === "boolean"){
-            result = result.toString();
-        }
+// resizeTo will not return any data due to circular json object
+window.FusionCharts.resizeTo = (id, args) => {
+    var currentChart = FusionCharts(id);
+    currentChart.resizeTo(args[0], args[1]);
+}
 
-        console.log(result);
-        return result;
-    };
-window.invokeDotNetHandler = function (dotNetRef, eventName, data) {
-    dotNetRef.invokeMethodAsync(eventName, data);
+//To add Annotation items and groups
+window.FusionCharts.addAnnotations = (functionName, id, args) => {
+  var annotations = FusionCharts(id).annotations;
+  annotations[functionName].apply(annotations, args);
+}
+
+//Generic Method to call any fusion chart method exluding except above methods//
+window.FusionCharts.invokeChartFunction = (functionName, chartID, ...args) => {
+
+  var currentChart = FusionCharts(chartID);
+
+  if (functionName === 'addEventListener' || (args.length > 0 && args[0][0] === "callback")) {
+
+    let event = args[0][1]
+    let functionAsString = args[0][2];
+    let callbackFn = parseFunction(null, functionAsString);
+    var result = currentChart[functionName].call(currentChart, event, callbackFn);
+    
+    return String(result);
+  }
+
+  var result = currentChart[functionName].apply(currentChart, ...args);
+  var typeofresult = typeof result;
+  if (typeofresult === "object") {
+    result = JSON.stringify(result);
+  } else if (typeofresult === "XML") {
+    result = XML.stringify(result);
+  }
+  
+  return String(result);
 };
