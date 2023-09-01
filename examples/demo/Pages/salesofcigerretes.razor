@@ -1,0 +1,125 @@
+@page "/salesofcigerretes"
+@using Microsoft.JSInterop;
+@inject IJSRuntime JSInterop;
+@inject FusionChartsService fusionChartsService;
+<PageTitle>Index</PageTitle>
+<h1>Hello, World!</h1>
+<h2>1. Demo Chart </h2>
+<div id="chartContainer1"></div>
+Welcome.
+@code {
+    protected override async Task OnAfterRenderAsync(bool
+    firstRender)
+    {
+        if (firstRender)
+        {
+            await demo();
+        }
+        else
+        {
+        }
+    }
+    private async Task demo()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        dynamic myColorRange = new System.Dynamic.ExpandoObject();
+
+
+        myChart.caption = "Sales of Cigarettes in Europe";
+        myChart.subcaption = "(per adult per day)";
+        myChart.legendposition = "BOTTOM";
+        myChart.entitytooltext = "$lname: <b>$datavalue </b>cigarettes";
+        myChart.legendcaption = "Number of cigarettes smoked per adult per day";
+        myChart.entityfillhovercolor = "#FFCDD2";
+        myChart.theme = "candy";
+
+
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "chartContainer1";
+        myChartConfig.type = "maps/europe";
+        myChartConfig.width = "100%";
+        myChartConfig.height = "100%";
+
+        myColorRange.gradient = "0";
+        myColorRange.color = new[]{
+     new {
+        maxvalue = "4",
+    displayvalue = "2-4",
+    code = "#EF9A9A"
+      },
+      new{
+        maxvalue = "6",
+    displayvalue = "4-6",
+    code= "#EF5350"
+      },
+     new {
+        maxvalue = "8",
+    displayvalue = "6-8",
+    code = "#E53935"
+      },
+      new{
+        maxvalue = "10",
+    displayvalue = "8-10",
+    code = "#C62828"
+      },
+      new{
+        maxvalue= "11",
+    displayvalue= "No data available",
+    code= "#FFEBEE"
+      }
+    };
+
+
+
+        myDataSource.data = new[] {
+new{
+          id= "021",
+          value= "11",
+          tooltext= "No data available"
+        },
+        new{
+          id= "002",
+          value= "11",
+          tooltext= "No data available"
+        },
+        new{
+          id= "025",
+          value= "11",
+          tooltext= "No data available"
+        },
+       new {
+          id= "010",
+          value= "6.4",
+          tooltext=""
+        },
+        new{
+          id= "017",
+          value= "4.5",
+          tooltext=""
+        },
+        new{
+          id= "042",
+          value= "5.7",
+          tooltext=""
+        },
+        new{
+          id= "018",
+          value= "6.4",
+          tooltext=""
+        }
+};
+
+        myDataSource.chart = myChart;
+        myDataSource.events = myEvent;
+        myDataSource.colorRange = myColorRange;
+        myChartConfig.dataSource = myDataSource;
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+    }
+}
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+
