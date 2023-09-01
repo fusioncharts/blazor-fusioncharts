@@ -1,4 +1,4 @@
-@page "/SelectScatter"
+// @page "/SelectScatter"
 @inject FusionChartsService xyz;
 @using System.Net.Http
 @inject HttpClient httpClient
