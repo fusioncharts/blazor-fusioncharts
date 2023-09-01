@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1693552918162" clover="3.2.0">
+  <project timestamp="1693552918162" name="All files">
+    <metrics statements="37" coveredstatements="32" conditionals="13" coveredconditionals="11" methods="5" coveredmethods="5" elements="55" coveredelements="48" complexity="0" loc="37" ncloc="37" packages="1" files="1" classes="1"/>
+    <file name="blazor-fusionCharts.js" path="C:\FusionCharts\blazor-fusioncharts\BlazorApp1\wwwroot\blazor-fusionCharts.js">
+      <metrics statements="37" coveredstatements="32" conditionals="13" coveredconditionals="11" methods="5" coveredmethods="5"/>
+      <line num="2" count="2" type="stmt"/>
+      <line num="6" count="12" type="cond" truecount="3" falsecount="1"/>
+      <line num="7" count="0" type="stmt"/>
+      <line num="8" count="0" type="stmt"/>
+      <line num="9" count="0" type="stmt"/>
+      <line num="10" count="0" type="stmt"/>
+      <line num="13" count="12" type="stmt"/>
+      <line num="16" count="2" type="stmt"/>
+      <line num="17" count="3" type="stmt"/>
+      <line num="18" count="1" type="stmt"/>
+      <line num="19" count="1" type="stmt"/>
+      <line num="24" count="2" type="stmt"/>
+      <line num="26" count="2" type="stmt"/>
+      <line num="27" count="2" type="stmt"/>
+      <line num="29" count="2" type="stmt"/>
+      <line num="30" count="2" type="stmt"/>
+      <line num="32" count="2" type="stmt"/>
+      <line num="34" count="2" type="stmt"/>
+      <line num="36" count="1" type="stmt"/>
+      <line num="40" count="2" type="stmt"/>
+      <line num="41" count="1" type="stmt"/>
+      <line num="42" count="1" type="stmt"/>
+      <line num="52" count="2" type="stmt"/>
+      <line num="54" count="25" type="stmt"/>
+      <line num="56" count="25" type="cond" truecount="5" falsecount="0"/>
+      <line num="58" count="1" type="stmt"/>
+      <line num="59" count="1" type="stmt"/>
+      <line num="60" count="1" type="stmt"/>
+      <line num="61" count="1" type="stmt"/>
+      <line num="63" count="1" type="stmt"/>
+      <line num="66" count="24" type="stmt"/>
+      <line num="67" count="12" type="stmt"/>
+      <line num="68" count="12" type="cond" truecount="2" falsecount="0"/>
+      <line num="69" count="2" type="stmt"/>
+      <line num="70" count="10" type="cond" truecount="1" falsecount="1"/>
+      <line num="71" count="0" type="stmt"/>
+      <line num="74" count="12" type="stmt"/>
+    </file>
+  </project>
+</coverage>
