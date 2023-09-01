@@ -1,0 +1,117 @@
+@page "/line"
+
+
+@inject FusionChartsService fusionChartsService
+@using System.Net.Http;
+@inject IJSRuntime JSRuntime
+@inject HttpClient httpClient;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+
+<PageTitle>Simple Line</PageTitle>
+
+<h1>Simple Line</h1>
+
+
+<div id="chart-container5"></div>
+@code {
+    public async void demo()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+        myChartConfig.width = "100%";
+        myChartConfig.height = "60%";
+        myChartConfig.type = "line";
+        myChartConfig.width = "100%";
+        myChartConfig.height = "60%";
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "chart-container5";
+        myChartConfig.id = "id";
+
+        myChart.caption = "Average Fastball Velocity";
+        myChart.yaxisname = "Velocity (in mph)";
+        myChart.subcaption = "[2005-2016]";
+        myChart.numbersuffix = " mph";
+        myChart.rotatelabels = "1";
+        myChart.setadaptiveymin = "1";
+        myChart.theme = "candy";
+        myChart.exportEnabled = "1";
+
+        myDataSource.data = new[] {
+            new {
+         label = "2005",
+         value = "89.45"
+         },
+         new {
+             label = "2006",
+             value = "89.87"
+             },
+             new {
+             label = "2007",
+             value = "89.64"
+             },
+             new {
+             label = "2008",
+                 value = "90.13"
+                 },
+                 new {
+                 label = "2009",
+                 value = "90.67"
+                 },
+                 new {
+                 label = "2010",
+                 value = "90.54"
+                 },
+                 new {
+                 label = "2011",
+                 value = "90.75"
+                 },
+                 new {
+                 label = "2012",
+                 value = "90.8"
+                 },
+                 new {
+                 label = "2013",
+                 value = "91.16"
+                 },
+                 new {
+                 label = "2014",
+                 value = "91.37"
+                 },
+                 new {
+                 label = "2015",
+                 value = "91.66"
+                 },
+                 new {
+                 label = "2016",
+                 value = "91.8"
+     }
+     };
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        String chartConfig5 = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig5);
+    }
+
+
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            demo();
+        }
+        else
+        {
+
+        }
+    }
+}
+<SurveyPrompt Title="How is Blazor working for you?" />

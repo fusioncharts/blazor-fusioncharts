@@ -1,0 +1,55 @@
+@page "/PopulationGrowthWorldWide"
+@using Microsoft.JSInterop;
+@using System.Net.Http;
+@inject HttpClient httpClient;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@inject IJSRuntime JSInterop;
+@inject FusionChartsService fusionChartsService;
+<PageTitle>Index</PageTitle>
+<h1>Hello, World!</h1>
+<h2>1. Demo Chart </h2>
+<div id="chartContainer1"></div>
+Welcome.
+@code {
+    protected override async Task OnAfterRenderAsync(bool
+    firstRender)
+    {
+        if (firstRender)
+        {
+            await demo();
+        }
+        else
+        {
+        }
+    }
+    private async Task demo()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        dynamic myData = new System.Dynamic.ExpandoObject();
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "chartContainer1";
+        myChartConfig.type = "world";
+        myChartConfig.width = "100%";
+        myChartConfig.height = "100%";
+        myChartConfig.id = "testyr";
+
+        myEvent.entityClick = "function(){console.log('clicked.......')}";
+        myEvent.entityRollover = "function(){console.log('entityRollover.......')}";
+
+        myChartConfig.events = myEvent;
+
+        myChartConfig.dataSource = myData;
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+        Console.WriteLine(myChartConfig);
+        var FilePath = "data.json";
+        var Url = NavigationManager.ToAbsoluteUri(FilePath).ToString();
+        await fusionChartsService.CallFusionChartsFunction("setJSONUrl", "testyr", Url);
+
+    }
+}
+<SurveyPrompt Title="How is Blazor working for you?" />
