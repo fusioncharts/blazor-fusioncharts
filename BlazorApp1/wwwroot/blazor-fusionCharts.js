@@ -1,4 +1,4 @@
-
+import FusionCharts from 'fusioncharts';
 const FUNCTION_KEYWORD = 'function()';
 
 // reviver function, key is passed by the JSON.parse
@@ -14,10 +14,11 @@ function parseFunction(key, value) {
 }
 // Responsible for rendering any chart//
 window.FusionCharts.renderChart = (chartConfiguration) => {
-  const configAsJSObject = JSON.parse(chartConfiguration, this.parseFunction);
+  const configAsJSObject = JSON.parse(chartConfiguration, parseFunction);
   const chart = new FusionCharts(configAsJSObject);
   chart.render();
 };
+
 
 // Method written for charts like time-series chart
 window.FusionCharts.setDataStore = (id, args) =>  {
@@ -31,6 +32,8 @@ window.FusionCharts.setDataStore = (id, args) =>  {
     var fusionTable = fusionDataStore.createDataTable(data, schema);
 
     currentChart.setChartData({data: fusionTable});
+    
+    return fusionTable.getData()
 };
 
 // resizeTo will not return any data due to circular json object
@@ -40,10 +43,10 @@ window.FusionCharts.resizeTo = (id, args) => {
 }
 
 //To add Annotation items and groups
-window.FusionCharts.addAnnotations = (functionName, id, args) => {
-  var annotations = FusionCharts(id).annotations;
-  annotations[functionName].apply(annotations, args);
-}
+// window.FusionCharts.addAnnotations = (functionName, id, args) => {
+//   var annotations = FusionCharts(id).annotations;
+//   annotations[functionName].apply(annotations, args);
+// }
 
 //Generic Method to call any fusion chart method exluding except above methods//
 window.FusionCharts.invokeChartFunction = (functionName, chartID, ...args) => {

@@ -3,13 +3,54 @@ import './blazor-fusionCharts';
 describe('Render Chart', () => {  
     test('Render Chart', () => {
     
-        var chartConfigString ='{"type": "pie2d","width": "500","height": "300","dataFormat": "json","dataSource": {"chart": {"caption": "Sample Pie Chart","theme": "fusion"}},"renderAt": "chartContainer1","id": "id"}';
+        var chartConfigString ='{"type": "pie2d","width": "500","height": "300","dataFormat": "json","dataSource": {"chart": {"caption": "Sample Pie Chart","theme": "fusion"}},"renderAt": "chartContainer1","id": "idj"}';
 
         expect(() => {
             window.FusionCharts.renderChart(chartConfigString);
           }).not.toThrow();
         });
-});   
+});  
+
+describe('setDataStore', () => {  
+        test('set data store', () => {
+            var chartConfig = {
+                type: "pie2d", 
+                width: "500",  
+                height: "300", 
+                dataFormat: "json", 
+                dataSource: {
+                    chart: {
+                        caption: "Sample Pie Chart", 
+                        theme: "fusion", 
+                    },
+                },
+                renderAt: "chartContainer1",
+                id: "id14"
+            };
+                    
+            const chart = new FusionCharts(chartConfig);
+            chart.render();
+            
+            var dataString = '[["01-Feb-11",8866],["02-Feb-11",2174],["03-Feb-11",2084]]'
+            var schemaString = '[{"name": "Time","type": "date","format": "%d-%b-%y"}, {"name": "Grocery Sales Value","type": "number"}]'
+
+            window.FusionCharts.setDataStore(chart.id,[dataString, schemaString])
+            
+            var actualOutputData = String(chart.getChartData().data._data)
+            var actualOutputSchema = chart.getChartData().data._schema
+
+            var expectedOutputSchema = [
+                { name: 'Time', type: 'date', format: '%d-%b-%y' },
+                { name: 'Grocery Sales Value', type: 'number' },
+                { name: '_row_id', type: 'string' }
+            ]
+            expect(actualOutputData).toMatch(/(8866)/i)
+            expect(actualOutputData).toMatch(/(2174)/i)
+            expect(actualOutputData).toMatch(/(2084)/i)
+            expect(actualOutputSchema).toStrictEqual(expectedOutputSchema)
+        });   
+});
+
   
 describe('get chart Attribute', () => {  
     test('getChartAttribute', () => {
@@ -339,7 +380,55 @@ describe('format number', () => {
     });    
 });
 
+describe('resizeTo', () => {  
+        test('resize', () => {
+            var chartConfig = {
+                type: "pie2d", 
+                width: "500",  
+                height: "300", 
+                dataFormat: "json", 
+                dataSource: {
+                    chart: {
+                        caption: "Sample Pie Chart", 
+                        theme: "fusion", 
+                    },
+                },
+                renderAt: "chartContainer1",
+                id: "id16"
+            };
+                    
+            const chart = new FusionCharts(chartConfig);
+            chart.render();
+          
+            var result = window.FusionCharts.resizeTo(chart.id,[400,400]);
+          
+            expect(chart.height).toBe("400")
+        });    
+});
 
-
-
+describe('addEventListener', () => {  
+  test('addEventListener', () => {
+      var chartConfig = {
+          type: "pie2d", 
+          width: "500",  
+          height: "300", 
+          dataFormat: "json", 
+          dataSource: {
+              chart: {
+                  caption: "Sample Pie Chart", 
+                  theme: "fusion", 
+              },
+          },
+          renderAt: "chartContainer1",
+          id: "id16"
+      };
+              
+      const chart = new FusionCharts(chartConfig);
+      chart.render();
+    
+      var result = window.FusionCharts.invokeChartFunction("addEventListener", chart.id , ["dataPlotClick", "function() {console.log(' this function passed as callback function in generic method')}"]);
+    
+  
+  });    
+});
 

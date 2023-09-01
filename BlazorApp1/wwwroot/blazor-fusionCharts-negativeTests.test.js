@@ -30,7 +30,22 @@ describe('Render Chart', () => {
             }).toThrowError("Unexpected token o in JSON at position 1");
       });
 });
-  
+
+describe('setDataStore', () => {  
+    test('invoking setDataStore with invalid chart id', () => {
+            
+        const invalidChartId = 'invalidChartId';
+          
+        expect(() => {
+            var dataString = '[["01-Feb-11",8866],["02-Feb-11",2174],["03-Feb-11",2084]]'
+            var schemaString = '[{"name": "Time","type": "date","format": "%d-%b-%y"}, {"name": "Grocery Sales Value","type": "number"}]'
+            
+            window.FusionCharts.setDataStore(invalidChartId, [dataString, schemaString]);
+
+        }).toThrowError("Cannot read properties of undefined (reading 'setChartData')");
+    });
+});
+
 describe('get chart Attribute', () => {  
     test('invoking getChartAttribute with invalid chart id', () => {
             
