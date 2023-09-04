@@ -41,7 +41,7 @@ namespace Microsoft.FusionChartsInterop
             await _jsruntime.InvokeVoidAsync("FusionCharts.addAnnotations", functionName, id, args);
         }
         
-        //Genric Method calling another method generic method written in blazor-fusionCharts.js which is further calling fusion charts method//
+        //Genric Method calling another method generic method written in blazor-fusionCharts.js which is further calling fusionCharts method//
         public async Task<String> CallFusionChartsFunction(String functionName, String chartId, params object[] args)
         {
            String result = await _jsruntime.InvokeAsync<String>("FusionCharts.invokeChartFunction", functionName, chartId, args);

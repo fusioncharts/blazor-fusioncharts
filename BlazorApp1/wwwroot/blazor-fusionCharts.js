@@ -1,17 +1,48 @@
-
-const FUNCTION_KEYWORD = 'function()';
 const CALLBACK = "callback";
-const FUNCTION_KEYWORD_WITH_E = 'function(e)';
+
+function extractArguments(functionString) {
+    // regex to extract the function arguments
+    const regex = /function\s*\(([^)]*)\)\s*\{/;
+    const matches = regex.exec(functionString);
+
+    if (matches && matches.length > 1) {
+        const argsString = matches[1];
+        const args = argsString.split(',').map(arg => arg.trim());
+
+        if (args.length === 1 && args[0] === "") {
+            // No arguments
+            return [];
+        } else {
+            // Multiple arguments
+            return args;
+        }
+    } else {
+        // No arguments
+        return [];
+    }
+}
+
+function extractFunctionBody(functionString) {
+    //regex to extract the function body
+    const regex = /function[^{]*{([\s\S]*)}$/;
+    const match = regex.exec(functionString);
+
+    if (match && match.length >= 2) {
+        const functionBody = match[1].trim();
+        return functionBody;
+    } else {
+        return null; // Function body not found
+    }
+}
 
 // reviver function, key is passed by the JSON.parse
 function parseFunction(key, value) {
-    if (typeof value === "string" && (value.includes(FUNCTION_KEYWORD) || value.includes(FUNCTION_KEYWORD_WITH_E))) {
-        let functionParts = value.includes(FUNCTION_KEYWORD) ? value.split("function()") : value.split("function(e)");
-        let functionBody = functionParts[1]
-        let parsedFn = value.includes(FUNCTION_KEYWORD) ? new Function(functionBody) : new Function('e', functionBody);
+    if (typeof value === "string" && value.match(/function\s*\(([^)]*)\)\s*\{/)) {
+        let fnArguments = extractArguments(value);
+        let fnBody = extractFunctionBody(value);
+        let parsedFn = fnArguments.length > 0 ? new Function(fnArguments, fnBody) : new Function(fnBody);
         return parsedFn;
     }
-    // if the value is not function then return as is
     return value;
 }
 
@@ -36,7 +67,8 @@ window.FusionCharts.setDataStore = (id, args) =>  {
     currentChart.setChartData({data: fusionTable});
 };
 
-// resizeTo will not return any data due to circular json object
+// resizeTo will return circular json object which cannot be stringified
+// and that's why it cannot be called using generic method
 window.FusionCharts.resizeTo = (id, args) => {
     let currentChart = FusionCharts(id);
     currentChart.resizeTo(args[0], args[1]);
@@ -53,8 +85,6 @@ window.FusionCharts.invokeChartFunction = (functionName, chartID, ...args) => {
     // data is an array
     let currentChart = FusionCharts(chartID), result;
   
-    console.log(chartID, currentChart, functionName, args, " <<< invokeChartFunction log");
-  
     if (args[0].type === CALLBACK) {
 
       let { event, fn } = args[0];
@@ -68,7 +98,7 @@ window.FusionCharts.invokeChartFunction = (functionName, chartID, ...args) => {
       // object contains circular deps which throws exception in blazor code while serialising and deserialising
       currentChart[functionName].apply(currentChart, userData);
     } else {
-
+        
       result = currentChart[functionName].apply(currentChart, ...args);
 
       if (typeof result === "object") {

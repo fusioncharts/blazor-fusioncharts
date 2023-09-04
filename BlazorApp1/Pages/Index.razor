@@ -17,7 +17,7 @@
 <h2>1. Demo Chart </h2>
 <div id="chartContainer1"></div>
 <div id="annotationsChartContainer"></div>
-<button @onclick = "addAnnotation">Print</button>
+<button @onclick = "callDispose">Dispose</button>
 Welcome.
 @code {
     protected override async Task OnAfterRenderAsync(bool
@@ -25,7 +25,6 @@ Welcome.
     {
         if (firstRender)
         {
-            //await demo();
             await annotationsChart();
         }
         else
@@ -48,6 +47,8 @@ Welcome.
         myChartConfig.renderAt = "annotationsChartContainer";
 
         myEvent.dataPlotClick = "function() {DotNet.invokeMethodAsync('BlazorApp2TestQA2', 'ChangeData')}";
+        myEvent.beforeDispose = "function(e) { console.log(e); e.preventDefault() }"; 
+        myEvent.disposeCancelled = "function() { console.log('dispose cancelled') }";
         myChart.exportEnabled = "1";
         myChartConfig.events = myEvent;
         String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
@@ -55,66 +56,11 @@ Welcome.
         dynamic myDataSource = jsonUrl;
 
         await xyz.renderChart(chartConfig);
-
         await xyz.CallFusionChartsFunction("setJSONUrl", "demoId", jsonUrl);
-
     }
 
-    private async Task addAnnotation(){
-        await xyz.addAnnotations("addItem", "demoId", "infobar", new {
-                id = "label1",
-                align= "RiGHT",
-                type= "text",
-                text= "Messi added{br}roughly 7 Goals from{br}his shot quality",
-                fillcolor= "#2F9AC4",
-                rotate= "90",
-                x= "$dataset.1.set.1.endx+65",
-                y= "$dataset.0.set.5.y"
-            }, true);
-    }
-
-    private async Task demo()
-    {
-
-        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
-        dynamic myDataSource = new System.Dynamic.ExpandoObject();
-        dynamic myChart = new System.Dynamic.ExpandoObject();
-        dynamic myEvent = new System.Dynamic.ExpandoObject();
-        dynamic myColorRange = new System.Dynamic.ExpandoObject();
-        myChartConfig.type = "timeseries";
-        myChartConfig.width = "600";
-        myChartConfig.height = "400";
-        myChartConfig.dataFormat = "json";
-        myChartConfig.renderAt = "chartContainer1";
-        myChartConfig.id = "chartId";
-
-        myChartConfig.caption = "Sales Analysis";
-        myChartConfig.subcaption = "grocery";
-        myChartConfig.yAxisName = "asdf";
-
-        myDataSource.data = new {};
-        myDataSource.chart = myChart;
-        myDataSource.events = myEvent;
-        myDataSource.colorRange = myColorRange;
-        myChartConfig.dataSource = myDataSource;
-        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
-
-        await fusionChartsService.renderChart(chartConfig);
-
-        String dataFilePath = "C:/Users/Harsh Jain/Desktop/Blazor FC Integration/blazor-fusioncharts/BlazorApp1/wwwroot/timeSeriesData.json";
-        String schemeFilePath = "C:/Users/Harsh Jain/Desktop/Blazor FC Integration/blazor-fusioncharts/BlazorApp1/wwwroot/timeSeriesSchema.json";
-        String dataContent = File.ReadAllText(dataFilePath);
-        String schemaContent = File.ReadAllText(schemeFilePath);
-
-        await fusionChartsService.setDataStore("chartId", dataContent, schemaContent);
-
-        //await fusionChartsService.resizeTo("chartId", 450, 500);
-
-        //await fusionChartsService.CallFusionChartsFunction("print", "chartId", true);
-
-        //String result = await fusionChartsService.CallFusionChartsFunction("getChartData", "chartId", "caption");
-        //Console.WriteLine(result);
-
+    private async Task callDispose(){
+        await xyz.CallFusionChartsFunction("dispose", "demoId");
     }
 }
 <SurveyPrompt Title="How is Blazor working for you?" />
