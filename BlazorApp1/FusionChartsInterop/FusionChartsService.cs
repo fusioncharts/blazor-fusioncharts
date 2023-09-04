@@ -14,6 +14,7 @@ namespace Microsoft.FusionChartsInterop
         {
             await _jsruntime.InvokeVoidAsync("FusionCharts.renderChart", chartConfig);
         }
+      
         // To activate the valid license//
         public async Task activateLicense(String licenseKey)
         {
@@ -24,7 +25,23 @@ namespace Microsoft.FusionChartsInterop
             };
             await _jsruntime.InvokeVoidAsync("FusionCharts.options.license", licenseObject);
         }
-        //Genric Method calling another method generic method written in blazor-fusionCharts.js which is further calling fusion charts method//
+      
+        // resizeTo will not return anything as return object json is having circular references
+        public async Task resizeTo(String id, params object[] args){
+            await _jsruntime.InvokeVoidAsync("FusionCharts.resizeTo", id, args);
+        }
+
+        // Method written for charts like time-series charts
+        public async Task setDataStore(String id, params object[] args){
+            await _jsruntime.InvokeVoidAsync("FusionCharts.setDataStore", id, args);
+        }
+
+        //To add annotations items and groups
+        public async Task addAnnotations(String functionName, String id, params object[] args){
+            await _jsruntime.InvokeVoidAsync("FusionCharts.addAnnotations", functionName, id, args);
+        }
+        
+        //Genric Method calling another method generic method written in blazor-fusionCharts.js which is further calling fusionCharts method//
         public async Task<String> CallFusionChartsFunction(String functionName, String chartId, params object[] args)
         {
            String result = await _jsruntime.InvokeAsync<String>("FusionCharts.invokeChartFunction", functionName, chartId, args);
