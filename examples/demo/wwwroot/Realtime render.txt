@@ -1,0 +1,20 @@
+setp1 - add custom.js file in wwwroot folder
+step2 - add path of cutom.js to hostcs.html  like this 
+
+@page "/"
+@namespace Demo.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "_Layout";
+}
+
+
+<script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+
+<script src="~/blazor-fusionCharts.js"></script>
+<script src="~/custom.js"></script>
+
+<component type="typeof(App)" render-mode="ServerPrerendered" />
+
+
+step 3- add nav link and render

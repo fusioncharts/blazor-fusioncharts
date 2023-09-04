@@ -1,0 +1,299 @@
+﻿@page "/GroupedColumnWithScrolling"
+
+<h1>Grouped column with scrolling</h1>
+<div id="Grouped column with scrolling"></div>
+
+
+
+@inject FusionChartsService fusionChartsService;
+
+@code {
+
+    public async void GroupedColumnWithScrollingChart()
+    {
+        //chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+
+
+        myChartConfig.type = "scrollcolumn2d";
+        myChartConfig.width = 600;
+        myChartConfig.height = 300;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "Grouped column with scrolling";
+
+
+        myChart.caption = "Summer Olympics Medal Tally";
+        myChart.subCaption = "By Countries";
+        myChart.xAxisName = "Years";
+        myChart.yAxisName = "Count of Medals";
+        myChart.numvisibleplot = "8";
+        myChart.labeldisplay = "auto";
+        myChart.theme = "candy";
+
+
+
+        myDataSource.categories = new[]{
+        new
+        {
+        category=new []
+        {
+            new
+            {
+                label= "USA"
+            },
+            new
+            {
+                label= "GB"
+            }
+            ,
+            new
+            {
+                label= "China"
+            }
+            ,
+            new
+            {
+                label= "Russia"
+            },
+            new
+            {
+                label= "Germany"
+            },
+            new
+            {
+                label= "France"
+            },
+            new
+            {
+                label= "Japan"
+            },
+            new
+            {
+                label= "Australia"
+            },
+            new
+            {
+                label= "Italy"
+            },
+            new
+            {
+                label= "Canada"
+            },
+            new
+            {
+                label= "South Korea"
+            },
+            new
+            {
+                label= "Netherlands"
+            },
+            new
+            {
+                label= "Brazil"
+            },
+            new
+            {
+                label= "NZ"
+            },
+            new
+            {
+                label= "Spain"
+            },
+            new
+            {
+                label= "Hungary"
+            },
+            new
+            {
+                label= "Kenya"
+            },
+            new
+            {
+                label= "Jamaica"
+            },
+            new
+            {
+                label= "Cuba"
+            },
+            new
+            {
+                label= "Croatia"
+            }
+
+        }
+        }
+
+    };
+
+
+        myDataSource.dataset = new[]{
+            new{ seriesname = "2017",
+                data = new[]
+                {
+                    new
+                    {
+                        value= "121"
+
+                    },new
+                    {
+                        value= "70"
+
+                    },new
+                    {
+                        value= "67"
+
+                    },new
+                    {
+                        value= "55"
+
+                    },new
+                    {
+                        value= "42"
+                    },new
+                    {
+                        value= "42"
+                    },new
+                    {
+                        value= "41"
+                    },new
+                    {
+                        value= "29"
+                    },new
+                    {
+                        value= "28"
+                    },new
+                    {
+                        value= "22"
+                    },new
+                    {
+                        value= "21"
+                    },new
+                    {
+                        value= "19"
+                    },new
+                    {
+                        value= "19"
+                    },new
+                    {
+                        value= "18"
+                    },new
+                    {
+                        value= "17"
+                    },new
+                    {
+                        value= "15"
+                    },new
+                    {
+                        value= "13"
+                    },new
+                    {
+                        value= "11"
+                    },new
+                    {
+                        value= "11"
+                    },new
+                    {
+                        value= "10"
+                    }
+                 }
+        },new{ seriesname = "2016",
+                data = new[]
+                {
+                    new
+                    {
+                        value= "123"
+
+                    },new
+                    {
+                        value= "71"
+
+                    },new
+                    {
+                        value= "59"
+
+                    },new
+                    {
+                        value= "52"
+
+                    },new
+                    {
+                        value= "34"
+                    },new
+                    {
+                        value= "32"
+                    },new
+                    {
+                        value= "29"
+                    },new
+                    {
+                        value= "32"
+                    },new
+                    {
+                        value= "25"
+                    },new
+                    {
+                        value= "21"
+                    },new
+                    {
+                        value= "24"
+                    },new
+                    {
+                        value= "17"
+                    },new
+                    {
+                        value= "20"
+                    },new
+                    {
+                        value= "14"
+                    },new
+                    {
+                        value= "13"
+                    },new
+                    {
+                        value= "16"
+                    },new
+                    {
+                        value= "14"
+                    },new
+                    {
+                        value= "12"
+                    },new
+                    {
+                        value= "11"
+                    },new
+                    {
+                        value= "9"
+                    }
+                 }
+        }
+
+    };
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            GroupedColumnWithScrollingChart();
+        }
+        else
+        {
+
+        }
+    }
+
+
+
+}
