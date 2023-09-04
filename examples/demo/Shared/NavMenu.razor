@@ -1,0 +1,216 @@
+﻿<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">FusionCharts Demo</a>
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="home" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="pie2d" >
+                <span class="oi oi-list-rich" aria-hidden="true"></span>Pie 2D
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="pie3d">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Pie 3D
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="multilevelpie">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Multilevel Pie 
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="doughnut2d">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Doughnut 2D
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="doughnut3d">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Doughnut 3D
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="multiaxisline" Match="NavLinkMatch.All">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Line with multiple axes and series
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="scrollline2d" Match="NavLinkMatch.All">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Line with scrolling only
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="zoomline" Match="NavLinkMatch.All">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Line with zooming & panning
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="msline" Match="NavLinkMatch.All">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Line with Multiple Series
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="line" Match="NavLinkMatch.All">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Simple Line
+            </NavLink>
+        </div>
+    <div class="nav-item px-3">
+            <NavLink class="nav-link" href="area2d" Match="NavLinkMatch.All">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Simple Area
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="msarea" Match="NavLinkMatch.All">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Area with multiple series
+
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="scrollarea2d" Match="NavLinkMatch.All">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Area with scrolling
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="spline" Match="NavLinkMatch.All">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Simple Spline
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="msspline" Match="NavLinkMatch.All">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Spline with multiple series
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="splinearea" Match="NavLinkMatch.All">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Simple spline-area
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="mssplinearea" Match="NavLinkMatch.All">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Spline-area with multiple series
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="msstepline" Match="NavLinkMatch.All">
+                <span class="oi oi-list-rich" aria-hidden="true"></span>Step-line
+            </NavLink>
+        </div>
+         <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/SimpleParito" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Simple Pareto
+            </NavLink>
+        </div> <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/Parito3D" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Pareto 3D
+            </NavLink>
+        </div> <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/ParitoDualAxis" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Pareto Dual Axis
+            </NavLink>
+        </div> <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/RatingMeter" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span>Rating Meter
+            </NavLink>
+        </div> <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/SelectScatter" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Select Scatter
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="fetchdata">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+            </NavLink>
+        </div>
+         <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/StackedColumn" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span>Stacked Column Chart
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="StackedColumnChartwithScrolling" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span>Stacked Column(scroll)
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="100%StackedColumnChart" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span>Stacked Column 100%
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="GroupedStackedchart" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span>Grouped Stacked Chart
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="StackedColumnswithNegativeValues" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span>StackedColumn Neg
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="StackedColumnsin3D" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span>StackedColumn in 3D
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="StackedColumnsin3D_100" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span>StackedColumn(3D 100%)
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="StackedBars" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span>Stacked Bars
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="StackedBars3D" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span>StackedBars(3D)
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="StackedArea" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span>Stacked Area
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="StackedBarswithScrolling" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span>StackedBar(scroll)
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="GroupedStackedchartwithScrolling" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span>GroupedStacked(scroll)
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="counter">
+                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="fetchdata">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+            </NavLink>
+        </div>
+    </nav>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

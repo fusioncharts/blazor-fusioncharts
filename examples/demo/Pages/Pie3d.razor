@@ -1,0 +1,67 @@
+﻿@page "/pie3d"
+<h3>pie3d</h3>
+@using Microsoft.JSInterop;
+@using System.Text.Json;
+@inject IJSRuntime JSInterop;
+@inject FusionChartsService xyz;
+@using System.Net.Http;
+@inject HttpClient httpClient;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@using System.Text.Json.Serialization;
+<PageTitle>Index</PageTitle>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="pie3d"></div>
+@code {
+    protected override async Task OnAfterRenderAsync(bool
+    firstRender)
+    {
+        if (firstRender)
+        {
+
+            await demo();
+
+        }
+        else
+        {
+
+        }
+    }
+    public async Task demo()
+    {
+        dynamic myChartConfig = new
+    System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new
+        System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myChartClone = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        myEvent.loaded = "function(){console.log('Loaded ')}";
+          myChartConfig.type = "pie3d";
+        myChartConfig.width = "100%";
+        myChartConfig.height = "100%";
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "pie3d";
+        myChartConfig.id = "2";
+        myChartConfig.events = myEvent;
+         String chartConfig =
+        System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await xyz.renderChart(chartConfig);
+         //setJSONUrl
+         var FilePath = "dataJSON.json";
+         var Url = NavigationManager.ToAbsoluteUri(FilePath).ToString();
+         await xyz.CallFusionChartsFunction("setJSONUrl", "2", Url);
+}
+}

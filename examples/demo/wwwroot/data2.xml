@@ -1,0 +1,10 @@
+<chart caption="Checking setChartDataUrl method" defaultcenterlabel="Total revenue: $64.08K" 
+	   centerlabel="Revenue from $label: $value" centerlabelbold="1" 
+	 
+	   showlegend="1" showpercentvalues="1" usedataplotcolorforlabels="1" legendposition="bottom" 
+	   theme="candy" dataFormat="xmlurl"  animation="0">
+	<set label="Apache" value="32647479" />
+	<set label="Microsoft" value="22100932" />
+	<set label="Zeus" value="14376" />
+	<set label="Other" value="18674221" />
+</chart>

@@ -1,0 +1,247 @@
+﻿@page "/StackedBars3D"
+@inject FusionChartsService fusionChartsService;
+<h3>Stacked Bars in 3D</h3>
+<div id="chart-container1"></div>
+
+@code {
+    public async void stackedBarsChart3D()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+
+        myChartConfig.type = "stackedbar3d";
+        myChartConfig.width = "100%";
+        myChartConfig.height = "100%";
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "chart-container1";
+        myChartConfig.id = "id1";
+
+
+        myChart.caption = "Organic visits from Search Engines";
+        myChart.plottooltext = "<b>$dataValue</b> visits from $seriesName in $label {br}<b>$percentValue</b> of total visits in the month";
+        myChart.theme = "candy";
+        myChart.showvalues = "0";
+        myChart.formatnumberscale = "0";
+        myChart.showpercentvalues = "1";
+        myChart.showsum = "0";
+
+        myDataSource.categories = new[]
+        {
+                new
+                {
+                    category = new[]
+                    {
+                         new{
+          label= "January"
+        },
+        new{
+          label= "February"
+        },
+        new{
+          label= "March"
+        },
+        new{
+          label= "April"
+        },
+        new{
+          label= "May"
+        },
+        new{
+          label= "June"
+        },
+        new{
+          label= "July"
+        },
+        new{
+          label= "August"
+        },
+        new{
+          label= "September"
+        },
+        new{
+          label= "October"
+        },
+        new{
+          label= "November"
+        },
+        new{
+          label= "December"
+        }
+                    }
+                }
+
+
+
+
+       };
+
+
+
+        myDataSource.dataset = new[]
+        {
+                new
+                {
+                    seriesname= "Google",
+                    data = new[]
+                    {
+                        new{
+          value= "5040"
+        },
+        new{
+          value= "4794"
+        },
+        new{
+          value= "5026"
+        },
+        new{
+          value= "5341"
+        },
+        new{
+          value= "4800"
+        },
+        new{
+          value= "4507"
+        },
+        new{
+          value= "5701"
+        },
+        new{
+          value= "4671"
+        },
+        new{
+          value= "4980"
+        },
+        new{
+          value= "4041"
+        },
+        new{
+          value= "3813"
+        },
+        new{
+          value= "3691"
+        }
+                    }
+               },
+
+
+                new
+                {
+                    seriesname= "Yahoo",
+                    data = new[]
+                    {
+                        new{
+          value= "1200"
+        },
+        new{
+          value= "1124"
+        },
+        new{
+          value= "1006"
+        },
+        new{
+          value= "921"
+        },
+        new{
+          value= "1500"
+        },
+        new{
+          value= "1007"
+        },
+        new{
+          value= "921"
+        },
+        new{
+          value= "971"
+        },
+        new{
+          value= "1080"
+        },
+        new{
+          value= "1041"
+        },
+        new{
+          value= "1113"
+        },
+        new{
+          value= "1091"
+        }
+                    }
+                },
+
+
+                new
+                {
+                    seriesname= "others",
+                    data = new[]
+                    {
+                        new{
+          value= "400"
+        },
+         new{
+          value= "524"
+        },
+         new{
+          value= "606"
+        },
+         new{
+          value= "421"
+        },
+         new{
+          value= "500"
+        },
+         new{
+          value= "707"
+        },
+         new{
+          value= "621"
+        },
+         new{
+          value= "471"
+        },
+         new{
+          value= "680"
+        },
+         new{
+          value= "441"
+        },
+         new{
+          value= "713"
+        },
+         new{
+          value= "491"
+        }
+                    }
+                },
+
+
+
+
+
+       };
+
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+        await fusionChartsService.CallFusionChartsFunction("setChartAttribute", "id1", "caption", "multilevelpie");
+
+
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            stackedBarsChart3D();
+        }
+        else
+        {
+
+        }
+    }
+}
