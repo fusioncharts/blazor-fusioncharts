@@ -51,8 +51,8 @@ The application's operational flow can be described as follows:
 1. It initiates from the entry point of the application, "_Hosts.cshtml" and "Index.razor".
 2. Within "Index.razor", the coding resides to facilitate chart rendering.
 3. From here it progresses to "FusionChartsService.cs," which serves as the interface between the end-user's Blazor application and the minified FusionCharts library.
-4. The flow then extends towards "blazor-fusionCharts.js." This file exposes specific functions for "FusionChartsService.cs" and establishes bindings with Fusion Charts.
-5. Ultimately, the sequence culminates in connecting to "fusioncharts.js," which represents the minified Fusion Charts library file.
+4. The flow then extends towards "blazor-fusionCharts.js." This file exposes specific functions for "FusionChartsService.cs" and establishes bindings with Fusioncharts.
+5. Ultimately, the sequence culminates in connecting to "fusioncharts.js," which represents the minified Fusioncharts library file.
 
 ## Working with APIs
 
@@ -139,7 +139,7 @@ The generic method which is used to call any fusion chart methods is embedded in
 
 ## Working with Events
 
-There are two ways to attach event listeners to fusion charts:
+There are two ways to attach event listeners to Fusioncharts:
 
 ### 1. Js method as an event listener
 
