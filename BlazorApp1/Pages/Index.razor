@@ -51,7 +51,7 @@ Welcome.
         myChart.exportEnabled = "1";
         myChartConfig.events = myEvent;
         String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
-        string jsonUrl = navigationManager.ToAbsoluteUri("demo1.json").ToString();
+        string jsonUrl = navigationManager.ToAbsoluteUri("stackedBar2D.json").ToString();
         dynamic myDataSource = jsonUrl;
 
         await xyz.renderChart(chartConfig);
@@ -101,8 +101,8 @@ Welcome.
 
         await fusionChartsService.renderChart(chartConfig);
 
-        String dataFilePath = "C:/Users/Harsh Jain/Desktop/Blazor FC Integration/blazor-fusioncharts/BlazorApp1/wwwroot/data.json";
-        String schemeFilePath = "C:/Users/Harsh Jain/Desktop/Blazor FC Integration/blazor-fusioncharts/BlazorApp1/wwwroot/schema.json";
+        String dataFilePath = "C:/Users/Harsh Jain/Desktop/Blazor FC Integration/blazor-fusioncharts/BlazorApp1/wwwroot/timeSeriesData.json";
+        String schemeFilePath = "C:/Users/Harsh Jain/Desktop/Blazor FC Integration/blazor-fusioncharts/BlazorApp1/wwwroot/timeSeriesSchema.json";
         String dataContent = File.ReadAllText(dataFilePath);
         String schemaContent = File.ReadAllText(schemeFilePath);
 
