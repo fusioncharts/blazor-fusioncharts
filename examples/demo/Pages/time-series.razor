@@ -64,9 +64,10 @@ Welcome.
         await fusionChartsService.renderChart(chartConfig);
 
         <!--Add data.json and schema.json files in wwwroot folder and add their respective paths here-->
-        String dataFilePath = "C:/Users/sathwika.s/source/repos/BlazorApp-timeseries/BlazorApp-timeseries/wwwroot/data-time-series.json";
-        String schemeFilePath = "C:/Users/sathwika.s/source/repos/BlazorApp-timeseries/BlazorApp-timeseries/wwwroot/schema.json";
-        String dataContent = File.ReadAllText(dataFilePath);
+         String dataFilePath = "C:/Users/lakshmi.s/source/repos/PieAndDoughnut7/PieAndDoughnut7/wwwroot/data-time-series.json";
+        //C:\Users\lakshmi.s\source\repos\TimeSeries\TimeSeries\wwwroot
+        String schemeFilePath = "C:/Users/lakshmi.s/source/repos/PieAndDoughnut7/PieAndDoughnut7/wwwroot/schema.json";
+         String dataContent = File.ReadAllText(dataFilePath);
         String schemaContent = File.ReadAllText(schemeFilePath);
         <!--use setDataStore method to load the datatable which takes data and schema as input-->
         await fusionChartsService.setDataStore("chartId", dataContent, schemaContent);

@@ -1,0 +1,109 @@
+@page "/simplepyramid"
+@inject FusionChartsService xyz;
+@using Microsoft.JSInterop;
+@inject IJSRuntime JSRuntime
+
+
+<h3>Simple Pyramid</h3>
+<button @onclick="methodCall">Click me</button>
+<div id="pyramid"></div>
+<div id="demo"></div>
+
+
+@code {
+   
+    public async void pyramid()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+
+        myChartConfig.type = "pyramid";
+        myChartConfig.width = 1000;
+        myChartConfig.height = 600;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "pyramid";
+        myChartConfig.caption = "caption";
+        myChartConfig.id = "CHART_pyramid";
+
+        myChart.caption = "Monthly Sales";
+        myChart.subCaption = "Last year";
+        myChart.loadMessage = "message";
+
+        myEvent.dataPlotClick = " function() { console.log('dataPlotClick');   }";
+        myEvent.beforedataload = "function(){console.log('beforedataload')}";
+        myEvent.dataUpdated = "function(){console.log('dataUpdated')}";
+        myEvent.beforeDataUpdate = "function(){console.log('beforeDataUpdate')}";
+        myEvent.chartClick = "function(){console.log('chartClick')}";
+
+        myDataSource.data = new[] {
+
+            new { label = "X0", value = "380000" },
+            new { label = "X1", value = "340000" },
+            new { label = "X2", value = "740000" },
+            new { label = "X3", value = "800000" },
+            new { label = "X4", value = "400000" },
+            new { label = "X5", value = "620000" },
+            new { label = "X6", value = "870000" },
+            new { label = "X7", value = "60000" },
+            new { label = "X8", value = "720000" },
+            new { label = "X9", value = "10000" },
+            new { label = "X10", value = "40000" }
+    };      
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        myChartConfig.renderAt = "demo";
+        String chartConfig1 = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await xyz.renderChart(chartConfig1);
+    }
+
+    private async Task methodCall()
+    {
+        Console.WriteLine("methodCall");
+
+        await xyz.CallFusionChartsFunction("setChartAttribute", "CHART_pyramid", "caption", "new caption");
+        await xyz.CallFusionChartsFunction("getChartAttribute", "CHART_pyramid");
+        await xyz.CallFusionChartsFunction("chartType", "CHART_pyramid");
+        
+
+        await xyz.CallFusionChartsFunction("getXMLData", "CHART_pyramid");
+        string s = @"<chart caption=""setXMLData Modification"" subcaption=""Last month"" yaxisname=""Amount (In USD)"" numberprefix=""$"" connectordashed=""1"" sumlabel=""Total {br} Profit"" positivecolor=""#6BAA01"" negativecolor=""#E44A00"" theme=""fusion"">
+            <set label=""Online sales"" value=""420000"" />
+            <set label=""Store Sales"" value=""710000"" />
+            <set label=""Total Sales"" issum=""1"" />
+            <set label=""offline sales"" value=""-250000"" />
+            <set label=""Variable Costs"" value=""-156000"" />
+            <set label=""COGS"" value=""-310000"" />
+            <set label=""Promotion Costs"" value=""-86000"" />
+            <set label=""Total Costs"" issum=""1"" cumulative=""0"" />";
+        await xyz.CallFusionChartsFunction("setXMLData", "CHART_pyramid", s, "xml");
+        await xyz.CallFusionChartsFunction("getChartData", "CHART_pyramid");
+        await xyz.CallFusionChartsFunction("showChartMessage", "CHART_pyramid","Message Shown",true,true);
+       await xyz.CallFusionChartsFunction("getDataAsCSV", "CHART_pyramid"); 
+        
+        
+        //await xyz.CallFusionChartsFunction("chartType", "CHART_pyramid", "spline");
+    
+    
+    
+    }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            pyramid();
+           
+            
+        }
+        else
+        {
+
+        }
+    }
+
+}
