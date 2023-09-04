@@ -117,24 +117,36 @@ public async Task<String> CallFusionChartsFunction(String functionName, String c
 
 The generic method which is used to call any fusion chart methods is embedded inside the blazor-fusioncharts.js file as shown:
 ```
- window.FusionCharts.invokeChartFunction = (functionName, chartID, ...args) => {
-  var currentChart = FusionCharts(chartID);
-  if (functionName === 'addEventListener' || (args.length > 0 && args[0][0] === "callback")) {
-    let event = args[0][1]
-    let functionAsString = args[0][2];
-    let callbackFn = parseFunction(null, functionAsString);
-    var result = currentChart[functionName].call(currentChart, event, callbackFn);
-    return String(result);
-  }
-  var result = currentChart[functionName].apply(currentChart, ...args);
-  var typeofresult = typeof result;
-  if (typeofresult === "object") {
-    result = JSON.stringify(result);
-  } else if (typeofresult === "XML") {
-    result = XML.stringify(result);
-  }
-  return String(result);
-};
+window.FusionCharts.invokeChartFunction = (functionName, chartID, ...args) => {
+    // data is an array
+    let currentChart = FusionCharts(chartID), result;
+  
+    if (args.length > 0 && args[0].type === CALLBACK) {
+
+      let { event, fn } = args[0];
+      let callbackFn = parseFunction(null, fn);
+      result = currentChart[functionName].call(currentChart, event, callbackFn);
+
+      return String(result);
+
+    } else if (args.length > 0 && args[0].returnType === "NULL") {
+      // for functions that return the chart instance object the return type needs to be defined as the
+      // object contains circular deps which throws exception in blazor code while serialising and deserialising
+      currentChart[functionName].apply(currentChart, userData);
+    } else {
+
+      result = currentChart[functionName].apply(currentChart, ...args);
+
+      if (typeof result === "object") {
+        // this might fail if object return has circular deps
+        // if the user needs this data then it needs to be processes in the JS file only, 
+        // it cannot be sent to the razor file
+        result = JSON.stringify(result);
+      }
+
+      return String(result);
+    }
+  };
 ```
 
 ## Working with Events
@@ -248,13 +260,13 @@ A new data table is created with the data and schema and rendered it to the char
 ```
 window.FusionCharts.setDataStore = (id, args) =>  {
 
-    var currentChart = FusionCharts(id);
-    var fusionDataStore = new FusionCharts.DataStore();
+    let currentChart = FusionCharts(id);
+    let fusionDataStore = new FusionCharts.DataStore();
     
-    var data = JSON.parse(args[0]);
-    var schema = JSON.parse(args[1]);
+    let data = JSON.parse(args[0]);
+    let schema = JSON.parse(args[1]);
 
-    var fusionTable = fusionDataStore.createDataTable(data, schema);
+    let fusionTable = fusionDataStore.createDataTable(data, schema);
 
     currentChart.setChartData({data: fusionTable});
 };
@@ -278,9 +290,9 @@ public async Task resizeTo(String id, params object[] args){
 The actual implementation is in the blazor-fusioncharts.js file which invokes the resizeTo method with the height and width parameters.
 ```
 window.FusionCharts.resizeTo = (id, args) => {
-    var currentChart = FusionCharts(id);
-    currentChart.resizeTo(args[0], args[1]);
-}
+  let currentChart = FusionCharts(id);
+  currentChart.resizeTo(args[0], args[1]);
+};
 ```
 
 ### Annotations
@@ -324,8 +336,82 @@ Finally the user-defined addAnnotations() is invoked to add either an item or a 
 
 ```
 window.FusionCharts.addAnnotations = (functionName, id, args) => {
-  var annotations = FusionCharts(id).annotations;
+  let annotations = FusionCharts(id).annotations;
   annotations[functionName].apply(annotations, args);
+};
+
+```
+
+### Cancel Events 
+
+The functionality to trigger the Cancel Events is implemented in Blazor, which disposes the event that is already triggered on the chart.
+In the Index.razor file, the functionality of the event that has to be disposed is as follows:
+
+```
+myEvent.dataPlotClick = "function() {DotNet.invokeMethodAsync('BlazorApp2TestQA2', 'ChangeData')}";
+myEvent.beforeDispose = "function(e) { console.log(e); e.preventDefault() }"; 
+myEvent.disposeCancelled = "function() { console.log('dispose cancelled') }";
+```
+
+Upon a button click, the event can be canclelled by invoking the callDispose() method whose implementation is attached below:
+```
+private async Task callDispose(){
+        await xyz.CallFusionChartsFunction("dispose", "demoId");
+}
+```
+
+In the blazor-fusioncharts.js file, there are multiple methods implemented to handle the multiple events cancellation.\
+The method invoked in the Index.razor file recieves a string which is a function with definition hence its necessary to obtain the arguments and the body separately. \
+As such there are two methods, one is extractArguments() which is used to extract the function arguments and a extractFunctionBody() method which is used to extract the function body. \
+For this purpose we have used the regular expressions to match and split the function string accordingly.
+```
+function extractArguments(functionString) {
+    // regex to extract the function arguments
+    const regex = /function\s*\(([^)]*)\)\s*\{/;
+    const matches = regex.exec(functionString);
+
+    if (matches && matches.length > 1) {
+        const argsString = matches[1];
+        const args = argsString.split(',').map(arg => arg.trim());
+
+        if (args.length === 1 && args[0] === "") {
+            // No arguments
+            return [];
+        } else {
+            // Multiple arguments
+            return args;
+        }
+    } else {
+        // No arguments
+        return [];
+    }
+}
+
+function extractFunctionBody(functionString) {
+    //regex to extract the function body
+    const regex = /function[^{]*{([\s\S]*)}$/;
+    const match = regex.exec(functionString);
+
+    if (match && match.length >= 2) {
+        const functionBody = match[1].trim();
+        return functionBody;
+    } else {
+        return null; // Function body not found
+    }
+}
+```
+
+Upon obtaining the function arguments and function body, the reviver function is implemented to parse the function.
+```
+// reviver function, key is passed by the JSON.parse
+function parseFunction(key, value) {
+    if (typeof value === "string" && value.match(/function\s*\(([^)]*)\)\s*\{/)) {
+        let fnArguments = extractArguments(value);
+        let fnBody = extractFunctionBody(value);
+        let parsedFn = fnArguments.length > 0 ? new Function(fnArguments, fnBody) : new Function(fnBody);
+        return parsedFn;
+    }
+    return value;
 }
 ```
 
