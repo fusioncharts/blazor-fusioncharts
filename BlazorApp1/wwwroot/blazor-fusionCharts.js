@@ -48,7 +48,7 @@ function parseFunction(key, value) {
 
 // Responsible for rendering any chart//
 window.FusionCharts.renderChart = (chartConfiguration) => {
-  const configAsJSObject = JSON.parse(chartConfiguration, this.parseFunction);
+  const configAsJSObject = JSON.parse(chartConfiguration, parseFunction);
   const chart = new FusionCharts(configAsJSObject);
   chart.render();
 };
@@ -85,7 +85,7 @@ window.FusionCharts.invokeChartFunction = (functionName, chartID, ...args) => {
     // data is an array
     let currentChart = FusionCharts(chartID), result;
   
-    if (args[0].type === CALLBACK) {
+    if (args.length > 0 && args[0].type === CALLBACK) {
 
       let { event, fn } = args[0];
       let callbackFn = parseFunction(null, fn);
@@ -93,12 +93,12 @@ window.FusionCharts.invokeChartFunction = (functionName, chartID, ...args) => {
 
       return String(result);
 
-    } else if (args[0].returnType === "NULL") {
+    } else if (args.length > 0 && args[0].returnType === "NULL") {
       // for functions that return the chart instance object the return type needs to be defined as the
       // object contains circular deps which throws exception in blazor code while serialising and deserialising
       currentChart[functionName].apply(currentChart, userData);
     } else {
-        
+
       result = currentChart[functionName].apply(currentChart, ...args);
 
       if (typeof result === "object") {
