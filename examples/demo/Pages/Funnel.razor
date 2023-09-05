@@ -9,46 +9,74 @@
 </center>
 <div id="funnelID"></div>
 @code {
+
+    public static Funnel _instance;
+    public Funnel()
+    {
+        _instance = this;
+    }
+
+    public async Task NonStaticMethod()
+    {
+        await fusionChartsService.CallFusionChartsFunction("chartType", "funId");
+        //getJSONData
+        await fusionChartsService.CallFusionChartsFunction("getJSONData", "funId", 1);
+        //getChartAttribute
+        await fusionChartsService.CallFusionChartsFunction("getChartAttribute", "funId");
+        //showChartMessage
+        await fusionChartsService.CallFusionChartsFunction("showChartMessage", "funId", "Hi This is Funnel Map", "true", "true");
+        //setChartAttribute
+        await fusionChartsService.CallFusionChartsFunction("setChartAttribute", "funId", "caption", "NEW");
+        //getXMLData
+        //await fusionChartsService.CallFusionChartsFunction("getXMLData", "funId");
+        //getChartData
+        //await fusionChartsService.CallFusionChartsFunction("getChartData", "funId");
+        //hasRendered
+        // await fusionChartsService.CallFusionChartsFunction("hasRendered","funId","True");
+        //print
+        //await fusionChartsService.CallFusionChartsFunction("print", "funId", 1);
+        //getSVGString
+        //await fusionChartsService.CallFusionChartsFunction("getSVGString", "funId", "true");
+        //getCSVData
+        await fusionChartsService.CallFusionChartsFunction("getCSVData", "funId", 1);
+        //dispose
+        //await fusionChartsService.CallFusionChartsFunction("dispose", "radId", 0);
+    }
+
+    [JSInvokable("ChangeFunnelData")]
+    public static async Task ChangeFunnelData()
+    {
+
+        await _instance.NonStaticMethod();
+    }
     public async Task renderFunnelChart()
     {
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
         dynamic myDataSource = new System.Dynamic.ExpandoObject();
         dynamic myChart = new System.Dynamic.ExpandoObject();
         dynamic myEvent = new System.Dynamic.ExpandoObject();
+
         // ----------------------EVENTS-----------------------------------
-       myEvent.chartClick = "function(){console.log(' chartClick')}";
-       myEvent.beforeDataUpdate = "function(){console.log(' beforeDataUpdate')}";
+        myEvent.renderComplete = "function() { console.log('render complete for Funnel Chart')}";
+        myEvent.loaded = "function() { DotNet.invokeMethodAsync('BlazorQATest1','ChangeFunnelData')}";
+        myEvent.chartClick = "function(){console.log(' chartClick')}";
+        myEvent.beforeDataUpdate = "function(){console.log(' beforeDataUpdate')}";
         myEvent.dataLoaded = "function(){console.log(' dataLoaded')}";
         myEvent.beforeRender = "function(){console.log(' beforeRender')}";
         myEvent.renderCancelled = "function(){console.log('Render Cancelled ')}";
         myEvent.beforeInitialize = "function(){console.log('beforeInitialize')}";
         myEvent.initialized = "function(){console.log('initialized')}";
-        myEvent.loaded = "function(){console.log('Loaded ')}";
-        myEvent.rendered = "function(){console.log('Rendered ')}";
-        myEvent.renderComplete = "function(){console.log('Render Completed ')}";
-        //myEvent.beforeDataLoad = "function(){console.log(' beforeDataLoad')}";
+        myEvent.rendered = "function(){console.log('Rendered ')}";       
         myEvent.dataplotRollOver = "function(){console.log(' dataplotRollOver')}";
         myEvent.dataplotRollOut = "function(){console.log(' dataplotRollOut')}";
         myEvent.dataplotClick = "function(){console.log(' dataplotClick')}";
         myEvent.drawComplete = "function(){console.log(' drawComplete')}";
         myEvent.chartRollOver = "function(){console.log(' chartRollOver')}";
         myEvent.chartRollOut = "function(){console.log(' chartRollOut')}";
-        
+        //---------------------------------------------------------------------
 
-
-
-
-
-
-
-
-
-        //myEvent.loaded = "function(){console.log('Loaded ')}";
-        //myEvent.showChartMessage = "function(){console.log('showChartMessage')}";
         myChartConfig.type = "funnel";
         myChartConfig.width = 1000;
-        //myChartConfig.height = 600;
-        //myChartConfig.width = 600;
         myChartConfig.height = 400;
         myChartConfig.dataFormat = "json";
         myChartConfig.renderAt = "funnelID";
@@ -64,6 +92,7 @@
         myChart.plotTooltext = "Success: $percentOfPrevValue";
         myChart.showPercentValues = 1;
         myChart.theme = "fusion";
+
         myDataSource.data = new[] {
                 new { label = "Unique Website Visits", value = "1460000" },
                 new { label = "Programme Details Section Visits", value = "930000" },
@@ -80,38 +109,11 @@
         myChartConfig.events = myEvent;
         String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
         await fusionChartsService.renderChart(chartConfig);
-        // ----------------------METHODS-----------------------------------
-        await fusionChartsService.CallFusionChartsFunction("chartType", "funId");
-        //getJSONData
-        //await fusionChartsService.CallFusionChartsFunction("getJSONData", "funId", 1);
-        //await.fusion
-        //getChartAttribute
-       // await fusionChartsService.CallFusionChartsFunction("getChartAttribute", "funId");
-        //showChartMessage
-        await fusionChartsService.CallFusionChartsFunction("showChartMessage", "funId", "Hi This is Funnel Map", "true", "true");
-        //setChartAttribute
-        await fusionChartsService.CallFusionChartsFunction("setChartAttribute", "funId", "caption", "NEW");
-        //getXMLData
-        //await fusionChartsService.CallFusionChartsFunction("getXMLData", "funId");
-
-
-
-        //getChartData
-        //await fusionChartsService.CallFusionChartsFunction("getChartData", "funId");
-        //hasRendered
-       // await fusionChartsService.CallFusionChartsFunction("hasRendered","funId","True");
-        //print
-        //await fusionChartsService.CallFusionChartsFunction("print", "funId", 1);
-        //getSVGString
-        //await fusionChartsService.CallFusionChartsFunction("getSVGString", "funId", "true");
-        //getCSVData
-        await fusionChartsService.CallFusionChartsFunction("getCSVData", "funId", 1);
-        //dispose
-        //await fusionChartsService.CallFusionChartsFunction("dispose", "radId", 0);
-
 
 
         
+    
+
     }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -124,11 +126,3 @@
         }
     }
 }
-
-
-
-
-
-
-
-

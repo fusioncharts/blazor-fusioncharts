@@ -15,6 +15,41 @@
 </center>
 <div id="chordID"></div>
 @code {
+
+    public static Chord _instance;
+    public Chord()
+    {
+        _instance = this;
+    }
+    
+    public async Task NonStaticMethod()
+    {
+        string jsonUrl = navigationManager.ToAbsoluteUri("data-Chord.json").ToString();
+        
+        await fusionChartsService.CallFusionChartsFunction("setChartDataUrl", "chId", jsonUrl, "json");
+        //getChartTpe
+        await fusionChartsService.CallFusionChartsFunction("chartType", "chId");
+        //getJSONData
+        await fusionChartsService.CallFusionChartsFunction("getJSONData", "chId", 1);
+        //getChartAttribute
+        await fusionChartsService.CallFusionChartsFunction("getChartAttribute", "chId", "caption");
+        //showChartMessage
+        await fusionChartsService.CallFusionChartsFunction("showChartMessage", "chId", "Hi This is Chord", "true", "true");
+        //setChartAtribute
+        await fusionChartsService.CallFusionChartsFunction("setChartAttribute", "chId", "caption", "NEW");
+        await fusionChartsService.CallFusionChartsFunction("getChartAttribute", "chId", "NEW");
+        //getXMLData
+        await fusionChartsService.CallFusionChartsFunction("getXMLData", "chId");
+        //print chart
+        await fusionChartsService.CallFusionChartsFunction("print", "chId", true);
+    }
+    
+    [JSInvokable("ChangeChordData")]
+    public static async Task ChangeChordData()
+    {
+    
+        await _instance.NonStaticMethod();
+    }
     public async Task renderChord()
     {
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
@@ -22,6 +57,10 @@
         dynamic myChart = new System.Dynamic.ExpandoObject();
         dynamic myEvent = new System.Dynamic.ExpandoObject();
 
+        //--------------------------EVENTS----------------------------------------------
+
+        myEvent.renderComplete = "function() { console.log('render complete for Simple Chord Chart')}";
+        myEvent.loaded = "function() { DotNet.invokeMethodAsync('demo','ChangeChordData')}";
         myEvent.backgroundLoaded = "function(){console.log('chart background loaded')}";
         myEvent.backgroundLoadError = "function(){console.log('chart background error')}";
         myEvent.logoRollover = "function(){console.log('chart logo rollover')}";
@@ -31,17 +70,14 @@
         myEvent.chartClick = "function() { console.log('chartClick')}";
         myEvent.chartRollOver = "function() { console.log('chartRollOver')}";
         myEvent.chartRollOut = "function() { console.log('chartRollOut')}";
-        //myEvent.logoLoadError = "function(){console.log('chart logo load error')}";
-        //myEvent.beforePrint = "function(){console.log('before print')}";
-        //myEvent.printComplete = "function(){console.log('print complete')}";
-        //myEvent.printCancelled = "function(){console.log('before print cancelled')}";
+        myEvent.beforePrint = "function(){console.log('before print')}";
+        myEvent.printComplete = "function(){console.log('print complete')}";
 
+        //---------------------------------------------------------------------------
 
         myChartConfig.type = "chord";
-        //myChartConfig.width = 1000;
-        //myChartConfig.height = 600;
-        //myChartConfig.width = 600;
-        //myChartConfig.height = 400;
+        myChartConfig.width = 1000;
+        myChartConfig.height = 400;
         myChartConfig.dataFormat = "json";
         myChartConfig.renderAt = "chordID";
         myChartConfig.id = "chId";
@@ -53,82 +89,17 @@
         myChart.theme = "fusion";
         myChart.mode = "post";
         myChart.logoURL = "https://static.fusioncharts.com/sampledata/images/Logo-HM-72x72.png";
-        //myChart.bgImage = "https://upload.wikimedia.org/wikipedia/commons/d/d7/Snowflake_macro_photography_1.jpg";
         myChart.linkColorByDominance = 1;
-        myDataSource.nodes = new[] {
-                new{label = "India" },
-                new{label = "Canada" },
-                new{label = "USA" },
-                new{label = "China" },
-                new{label = "UK" },
-                new{label = "UAE" },
-    };
-        myDataSource.links = new[]{
-                 new{from = "India",to = "Canada", value = "3040000000"},
-                 new{from = "India",to = "USA", value = "46500000000"},
-                 new{from = "India",to = "China", value = "12700000000"},
-                 new{from = "India",to = "UK", value = "8860000000"},
-                 new{from = "India",to = "UAE", value = "27500000000"},
-                 new{from = "Canada",to = "India", value = "24490000000"},
-                 new{from = "Canada",to = "USA", value = "310000000000"},
-                 new{from = "Canada",to = "China", value = "18300000000"},
-                 new{from = "Canada",to = "UK", value = "9320000000"},
-                 new{from = "Canada",to = "UAE", value = "1830000000"},
-                 new{from = "USA",to = "India", value = "24100000000"},
-                 new{from = "USA",to = "Canada", value = "277000000000"},
-                 new{from = "USA",to = "China", value = "132000000000"},
-                 new{from = "USA",to = "UK", value = "53600000000"},
-                 new{from = "USA",to = "UAE", value = "19900000000"},
-                 new{from = "China",to = "India", value = "68100000000"},
-                 new{from = "China",to = "Canada", value = "51900000000"},
-                 new{from = "China",to = "USA", value = "480000000000" },
-                 new{from = "China",to = "UK", value = "56800000000" },
-                 new{from = "China",to = "UAE", value = "45800000000" },
-                 new{from = "UK",to = "Canada", value = "62400000000" },
-                 new{from = "UK",to = "USA", value = "5780000000" },
-                 new{from = "UK",to = "India", value = "518000000" },
-                 new{from = "UK",to = "China", value = "21200000000" },
-                 new{from = "UK",to = "UAE", value = "9270000000" },
-                 new{from = "UAE",to = "India", value = "20500000000" },
-                 new{from = "UAE",to = "Canada", value = "299000000" },
-                 new{from = "UAE",to = "USA", value = "7470000000" },
-                 new{from = "UAE",to = "China", value = "1160000000" },
-                 new{from = "UAE",to = "UK", value = "3550000000" },
-    };
+
         myDataSource.chart = myChart;
         myChartConfig.events = myEvent;
         myChartConfig.dataSource = myDataSource;
         String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
         await fusionChartsService.renderChart(chartConfig);
-
         
-
-        await fusionChartsService.CallFusionChartsFunction("chartType", "chId");
-        //getJSONData
-        await fusionChartsService.CallFusionChartsFunction("getJSONData", "chId", 1);
-        //getChartAttribute
-        await fusionChartsService.CallFusionChartsFunction("getChartAttribute", "chId","caption");
-        //showChartMessage
-        await fusionChartsService.CallFusionChartsFunction("showChartMessage", "chId", "Hi This is Chord", "true", "true");
-        //setChartAtribute
-        await fusionChartsService.CallFusionChartsFunction("setChartAttribute", "chId", "caption", "NEW");
-        await fusionChartsService.CallFusionChartsFunction("getChartAttribute", "chId", "NEW");
-        //getXMLData
-        await fusionChartsService.CallFusionChartsFunction("getXMLData", "chId");
-        
-        //await fusionChartsService.CallFusionChartsFunction("print", "chId",true);  //working correctly
-
-       
-
-        await fusionChartsService.CallFusionChartsFunction("getSVGString", "chId", "", 1);
-
-        //await fusionChartsService.CallFusionChartsFunction("lockResize", "chId",true);
-
-        //await fusionChartsService.CallFusionChartsFunction("getDataAsCSV", "chId");
-
-        //await fusionChartsService.CallFusionChartsFunction("getCSVData", "chId");
 
     }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)

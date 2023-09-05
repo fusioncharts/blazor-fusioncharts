@@ -8,67 +8,27 @@
 @inject NavigationManager navigationManager;
 @inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
 @using System.Text.Json.Serialization;
+
 <center>
     <h3>
         <b>Radar Chart</b>
     </h3>
 </center>
 <div id="radarID"></div>
+
 @code {
-    public async Task renderRadar()
+
+    public static Radar _instance;
+    public Radar()
     {
-        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
-        dynamic myDataSource = new System.Dynamic.ExpandoObject();
-        dynamic myChart = new System.Dynamic.ExpandoObject();
-        dynamic myEvent = new System.Dynamic.ExpandoObject();
-        
-        //dynamic mytrendline = new System.Dynamic.ExpandoObject();
-        
-        myChartConfig.type = "radar";
-        myChartConfig.renderAt = "radarID";
-        myChartConfig.width = 1000;
-        myChartConfig.height = 400;
-        myChartConfig.id = "radId";
-        myChartConfig.dataFormat = "json";
+        _instance = this;
+    }
 
-        
-        //mytrendline = new[] { new { line = new[] { new { startvalue = 17022, color = "#6BAA01", valueOnRight = 1, displayvalue = "Average" } } } };
-        // ----------------------EVENTS-----------------------------------
-        myEvent.beforeDataUpdate = "function(){console.log(' beforeDataUpdate')}";
-        myEvent.chartClick = "function(){console.log(' chartClick')}";
-        myEvent.dataLoaded = "function(){console.log(' dataLoaded')}";
-        //myEvent.showChartMessage = "function(){console.log('showChartMessage')}";//not showing anythng
-        myEvent.beforeDataLoad= "function(){console.log(' beforeDataLoad')}";
-        //myEvent.dataUpdated = "function(){console.log(' dataUpdated')}";//
-        myEvent.chartRollOver = "function(){console.log(' chartRollOver')}";
-        myEvent.chartRollOut = "function(){console.log(' chartRollOut')}";
-        myEvent.legendItemClicked = "function(){console.log('legendItemClicked')}";
-        myEvent.legendItemRollover = "function(){console.log('legendItemRollover')}";
-        myEvent.legendItemRollOut = "function(){console.log('legendItemRollOut')}";
-        myEvent.drawComplete = "function(){console.log(' drawComplete')}";
-        //myEvent.dataplotRollOver = "function(){console.log('dataplotRollOver')}";
-        //myEvent.dataplotRollOut = "function(){console.log('dataplotRollOut')}";
-        myEvent.dataplotClick = "function(){console.log(' dataplotClick')}";
-       //myEvent.beforeRender = "function(){console.log(' beforeRender')}";
-        myEvent.renderCancelled = "function(){console.log('Render Cancelled ')}";
-        myEvent.beforeInitialize = "function(){console.log('beforeInitialize')}";
-        myEvent.initialized = "function(){console.log('initialized')}";
-        myEvent.loaded = "function(){console.log('Loaded ')}";
-        myEvent.rendered = "function(){console.log('Rendered ')}";
-        myEvent.renderComplete = "function(){console.log('Render Completed ')}";
-      
+    public async Task NonStaticMethod()
+    {
 
-        myChartConfig.dataSource = myDataSource;
-        myChartConfig.events = myEvent;
-        myDataSource.chart = myChart;
-        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
-        // ----------------------METHODS-----------------------------------
-        await fusionChartsService.renderChart(chartConfig);
-        var FilePath = "data-Radar.json";
-        var Url = NavigationManager.ToAbsoluteUri(FilePath).ToString();
-        //Chart Rendering Through setJSONUrl
+        string Url = navigationManager.ToAbsoluteUri("data-Radar.json").ToString();
         await fusionChartsService.CallFusionChartsFunction("setJSONUrl", "radId", Url);
-        
         //getJSONData
         await fusionChartsService.CallFusionChartsFunction("getJSONData", "radId", 1);
         //getChartAttribute
@@ -79,18 +39,15 @@
         await fusionChartsService.CallFusionChartsFunction("setChartAttribute", "radId", "caption", "NEW");
         //getXMLData
         //await fusionChartsService.CallFusionChartsFunction("getXMLData", "radId");
-
-
-
         //getChartData
         await fusionChartsService.CallFusionChartsFunction("getChartData", "radId");
         //configureData
         //isUpdateActive-error
         //await fusionChartsService.CallFusionChartsFunction("isUpdateActive", "radId","True");
         //hasRendered
-        await fusionChartsService.CallFusionChartsFunction("hasRendered","radId","True");
+        await fusionChartsService.CallFusionChartsFunction("hasRendered", "radId", "True");
         //print
-         //await fusionChartsService.CallFusionChartsFunction("print", "radId", 1);
+        //await fusionChartsService.CallFusionChartsFunction("print", "radId", 1);
         //getSVGString
         //await fusionChartsService.CallFusionChartsFunction("getSVGString", "radId", "true");
         //getCSVData
@@ -99,10 +56,54 @@
         //await fusionChartsService.CallFusionChartsFunction("render", "radId", 1);
         //dispose
         //await fusionChartsService.CallFusionChartsFunction("dispose", "radId", 1);
+        //-----------------------------------------------------------------------------------
+    }
+
+    [JSInvokable("ChangeRadarData")]
+    public static async Task ChangeRadarData()
+    {
+        await _instance.NonStaticMethod();
+    }
+    public async Task renderRadar()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+        myChartConfig.type = "radar";
+        myChartConfig.renderAt = "radarID";
+        myChartConfig.width = 1000;
+        myChartConfig.height = 400;
+        myChartConfig.id = "radId";
+        myChartConfig.dataFormat = "json";
+
+        //------------------------EVENTS-----------------------------------
+        myEvent.renderComplete = "function(){console.log('Radar Chart Render Completed ')}";
+        myEvent.loaded = "function() { DotNet.invokeMethodAsync('demo','ChangeRadarData')}";
+        myEvent.beforeDataUpdate = "function(){console.log(' beforeDataUpdate')}";
+        myEvent.chartClick = "function(){console.log(' chartClick')}";
+        myEvent.dataLoaded = "function(){console.log(' dataLoaded')}";
+        myEvent.beforeDataLoad = "function(){console.log(' beforeDataLoad')}";
+        myEvent.chartRollOver = "function(){console.log(' chartRollOver')}";
+        myEvent.chartRollOut = "function(){console.log(' chartRollOut')}";
+        myEvent.legendItemClicked = "function(){console.log('legendItemClicked')}";
+        myEvent.legendItemRollover = "function(){console.log('legendItemRollover')}";
+        myEvent.legendItemRollOut = "function(){console.log('legendItemRollOut')}";
+        myEvent.drawComplete = "function(){console.log(' drawComplete')}";
+        myEvent.dataplotClick = "function(){console.log(' dataplotClick')}";
+        myEvent.renderCancelled = "function(){console.log('Render Cancelled ')}";
+        myEvent.beforeInitialize = "function(){console.log('beforeInitialize')}";
+        myEvent.initialized = "function(){console.log('initialized')}";
+        myEvent.renderComplete = "function(){console.log('Render Completed ')}";
+
+        myChartConfig.dataSource = myDataSource;
+        myChartConfig.events = myEvent;
+        myDataSource.chart = myChart;
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
         
-
-
-
+        
     }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -112,15 +113,7 @@
         }
         else
         {
-            
+
         }
     }
 }
-
-
-
-
-
-
-
-

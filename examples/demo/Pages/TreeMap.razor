@@ -1,0 +1,104 @@
+@page "/treemap"
+@inject FusionChartsService fusionChartsService;
+@using Microsoft.JSInterop;
+@inject IJSRuntime JSRuntime
+@inject HttpClient httpClient;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@inject IJSRuntime JSInterop;
+@inject FusionChartsService fusionChartsService;
+<center>
+    <h3>
+        <b>TreeMap Chart</b>
+    </h3>
+</center>
+
+<div id="treemapID"></div>
+
+@code {
+
+    public static TreeMap _instance;
+    public TreeMap()
+    {
+        _instance = this;
+    }
+
+    public async Task NonStaticMethod()
+    {
+
+        string Url = navigationManager.ToAbsoluteUri("data-Treemap.xml").ToString();
+        await fusionChartsService.CallFusionChartsFunction("setXMLUrl", "treeid", Url);
+        //await fusionChartsService.renderChart(chartConfig);
+        // check getChartType
+        await fusionChartsService.CallFusionChartsFunction("showChartMessage", "treeid", "The chartType method gets the chart type", "true", "false");
+        await fusionChartsService.CallFusionChartsFunction("chartType", "treeid");
+        //getJSONData
+        await fusionChartsService.CallFusionChartsFunction("showChartMessage", "treeid", "The getJSONData method is to get the chart data in JSON format as shown below :", "true", "false");
+        await fusionChartsService.CallFusionChartsFunction("getJSONData", "treeid", 1);
+        //getChartAttribute
+        await fusionChartsService.CallFusionChartsFunction("showChartMessage", "treeid", "The getChartAttribute method gets the caption name of chart as shown below", "true", "false");
+        await fusionChartsService.CallFusionChartsFunction("getChartAttribute", "treeid", "caption");
+        //showChartMessage
+        await fusionChartsService.CallFusionChartsFunction("showChartMessage", "treeid", "SHOW CHART MESSAGE METHOD USAGE :", "true", "false");
+        await fusionChartsService.CallFusionChartsFunction("showChartMessage", "treeid", "Hi This is Tree Map", "true", "true");
+        //setChartAtribute
+        await fusionChartsService.CallFusionChartsFunction("showChartMessage", "treeid", "The setChartAttribute method sets new caption for chart", "true", "false");
+        await fusionChartsService.CallFusionChartsFunction("setChartAttribute", "treeid", "caption", "NEW");
+        //getXMLData
+        await fusionChartsService.CallFusionChartsFunction("showChartMessage", "treeid", "The getXMLData method is to get the chart data in XML format as shown below :", "true", "false");
+        await fusionChartsService.CallFusionChartsFunction("getXMLData", "treeid");
+    }
+
+    [JSInvokable("ChangeTreeMapData")]
+    public static async Task ChangeTreeMapData()
+    {
+        await _instance.NonStaticMethod();
+    }
+
+    public async Task renderTreeMap()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+
+        myEvent.renderComplete = "function(){console.log('TreeMap Chart Render Completed ')}";
+        myEvent.loaded = "function() { DotNet.invokeMethodAsync('demo','ChangeTreeMapData')}";
+        //----------------- CHART SPECIFIC EVENTS-------------------------------
+        myEvent.beforeDrillUp = "function() { console.log('beforedrillUp')}";
+        myEvent.drillUp = "function() { console.log('drillUp')}";
+        myEvent.drillDown = "function() { console.log('drillDown')}";
+        myEvent.beforeDrillDown = "function() { console.log('beforeDrillDown')}";
+        myEvent.legendPointerDragStart = "function() { console.log('legendPointerDragStart')}";
+        myEvent.legendPointerDragStop = "function() { console.log('legendPointerDragStop')}";
+        myEvent.legendRangeUpdated = "function() { console.log('legendRangeUpdated')}";
+        //-----------------------------------------------------------------------------   
+
+        myChartConfig.type = "treemap";
+        myChartConfig.width = 1000;
+        myChartConfig.height = 400;
+        myChartConfig.dataFormat = "xml";
+        myChartConfig.renderAt = "treemapID";
+        myChartConfig.id = "treeid";
+        
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+          
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await renderTreeMap();
+        }
+        else
+        {
+        }
+    }
+}
