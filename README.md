@@ -56,7 +56,7 @@ The application's operational flow can be described as follows:
 
 ## Working with APIs
 
-We have to write the logic to render a fusion chart inside the Index.razor file. Inorder to render your own chart, edit this file.\
+We have to write the logic to render a FusionCharts inside the Index.razor file. Inorder to render your own chart, edit this file.\
 Here is the code to render a time chart:
 ```
 private async Task renderTimeCharts()
@@ -115,45 +115,39 @@ public async Task<String> CallFusionChartsFunction(String functionName, String c
         }
 ```
 
-The generic method which is used to call any fusion chart methods is embedded inside the blazor-fusioncharts.js file as shown:
+The generic method which is used to call any FusionCharts methods is embedded inside the blazor-fusioncharts.js file as shown:
 ```
 window.FusionCharts.invokeChartFunction = (functionName, chartID, ...args) => {
-    // data is an array
-    let currentChart = FusionCharts(chartID), result;
-  
-    if (args.length > 0 && args[0].type === CALLBACK) {
+  let currentChart = FusionCharts(chartID),
+    result;
 
-      let { event, fn } = args[0];
-      let callbackFn = parseFunction(null, fn);
-      result = currentChart[functionName].call(currentChart, event, callbackFn);
+  if (args.length > 0 && args[0].type === CALLBACK) {
+    let { event, fn } = args[0];
+    let callbackFn = parseFunction(null, fn);
+    result = currentChart[functionName].call(currentChart, event, callbackFn);
 
-      return String(result);
+    return String(result);
+  } else {
+    result = currentChart[functionName].apply(currentChart, ...args);
 
-    } else if (args.length > 0 && args[0].returnType === "NULL") {
-      // for functions that return the chart instance object the return type needs to be defined as the
-      // object contains circular deps which throws exception in blazor code while serialising and deserialising
-      currentChart[functionName].apply(currentChart, userData);
-    } else {
-
-      result = currentChart[functionName].apply(currentChart, ...args);
-
-      if (typeof result === "object") {
-        // this might fail if object return has circular deps
-        // if the user needs this data then it needs to be processes in the JS file only, 
-        // it cannot be sent to the razor file
+    if (typeof result === "object") {
+      try {
         result = JSON.stringify(result);
+      } catch (error) {
+        console.log(error);
       }
-
-      return String(result);
     }
-  };
+
+    return String(result);
+  }
+};
 ```
 
 ## Working with Events
 
 There are two ways to attach event listeners to Fusioncharts:
 
-### 1. Js method as an event listener
+### 1. JS method as an event listener
 
 To invoke a JavaScript method upon an event trigger, we have to follow the steps below:
 
@@ -163,7 +157,10 @@ To invoke a JavaScript method upon an event trigger, we have to follow the steps
 <script src="~/custom.js"></script>
 ```
 4. Implement the JavaScript function to activate it when the event is triggered.
-5. Execute an anonymous function to invoke the Js method upon event trigger. 
+5. Execute an anonymous function to invoke the JS method upon event trigger.
+   
+Note : We need to use 'function()' only and not '() => {}' this way, to pass the function, as we are parsing the function using this 'function()' only in blazor-fusionchart.js file. 
+
 ```
    myEvent.dataPlotClick = "function() { randomF();}";
 ```
@@ -176,7 +173,7 @@ To invoke a Blazor method upon an event trigger, we have to follow the steps bel
 ```
     public static Index _instance;
 ```
-2. Instantiate the instance inside the constructor to refer to Index file.
+2. Instantiate the instance inside the constructor to refer to Index file which needs to be the name of the Page/file.
 ```
     public Index()
     {
@@ -191,14 +188,14 @@ To invoke a Blazor method upon an event trigger, we have to follow the steps bel
         await _instance.NonStaticMethod();
     }
 ```
-4. Code the non-static method to perform any functionality, here we call the generic method to invoke fusion chart methods.
+4. Code the non-static method to perform any functionality, here we call the generic method to invoke FusionCharts methods.
 ```
    public async Task NonStaticMethod()
     {
         await fusionChartsService.CallFusionChartsFunction("setChartAttribute", "CHART_ID", "caption", "new-caption");
     }
 ```
-5. Now we are writing an anonymous function to call the Blazor method upon event trigger.
+5. Now we are writing an anonymous function to call the Blazor method upon event trigger. Here 'DotNet' is available in the global scope of JavaScript.
 ```
     myEvent.dataPlotClick = "function() { DotNet.invokeMethodAsync('BlazorApp1', 'ChangeData') }";
 ```
@@ -209,17 +206,21 @@ The addEventListener method listens to events across all FusionCharts instances 
 
 The generic method implemented above can be used to add a custom event listener which invokes a callback method and here it is: 
 ```
-await fusionChartsService.CallFusionChartsFunction("addEventListener", "CHART_ID", "callback", "dataPlotClick", "function() {console.log('Custom method for event handling using generic method')}");
+await fusionChartsService.CallFusionChartsFunction("addEventListener", "CHART_ID", "callback", {
+  "event" : "dataPlotClick",
+  "fn" : "function() {console.log('Custom method for event handling using generic method')}",
+  "type" : "callback"
+});
 ```
 
 Below code snippet demonstrates the callback method implementation upon the event trigger.
 ```
-if (functionName === 'addEventListener' || args[0][0] === "callback") {
-    let event = args[0][1]
-    let functionAsString = args[0][2];
-    let callbackFn = parseFunction(null, functionAsString);
-    var result = currentChart[functionName].call(currentChart, event, callbackFn);
-    return "Undefined";
+if (args.length > 0 && args[0].type === CALLBACK) {
+    let { event, fn } = args[0];
+    let callbackFn = parseFunction(null, fn);
+    result = currentChart[functionName].call(currentChart, event, callbackFn);
+
+    return String(result);
   }
 
 ```
@@ -228,7 +229,7 @@ if (functionName === 'addEventListener' || args[0][0] === "callback") {
 ## Fixes
 
 ### Time Series Method
-setDataStore() : This mehtod is specific to Time Series Charts which takes data and schema from as input from the external files and creates a data source and a data table so as to render the chart.
+setDataStore() : This method is used in TimeSeries and FusionGrid, this method takes data and schema from as input from the external files and creates a data source and a data table so as to render the chart.
 
 Initially an empty data source is created in the Index.razor file as shown:
 ```
@@ -238,8 +239,8 @@ myDataSource.data = new {};
 Below is the code snippet to read the contents of the external data and schema files. Also the method setDataStore() is invoked:
 
 ```
-String dataFilePath = "C:/Users/Harsh Jain/Desktop/Blazor FC Integration/blazor-fusioncharts/BlazorApp1/wwwroot/data.json";
-String schemeFilePath = "C:/Users/Harsh Jain/Desktop/Blazor FC Integration/blazor-fusioncharts/BlazorApp1/wwwroot/schema.json";
+String dataFilePath = "./data.json";
+String schemeFilePath = "./schema.json";
 String dataContent = File.ReadAllText(dataFilePath);
 String schemaContent = File.ReadAllText(schemeFilePath);
 
@@ -249,8 +250,8 @@ await fusionChartsService.setDataStore("chartId", dataContent, schemaContent1);
 Upon invoking the setDataStore() method above, it leads to the below code snippet in the FusionChartsService.cs file which in turn invokes another user-defined method in the blazor-fusioncharts.js:
 ```
 public async Task setDataStore(String id, params object[] args){
-            await _jsruntime.InvokeVoidAsync("FusionCharts.setDataStore", id, args);
-        }
+  await _jsruntime.InvokeVoidAsync("FusionCharts.setDataStore", id, args);
+}
 ```
 
 Finally, the functionality of setDataStore is implemented in the blazor-fusioncharts.js.\
@@ -275,6 +276,8 @@ window.FusionCharts.setDataStore = (id, args) =>  {
 ### Resize Method
 
 resizeTo() : Resizes the chart to the specified width and height. While invoking the method there is a circular json object exception due to which it will not be stringified inside the generic method. Inorder to resolve this we implemented a user-defined method which will not return any data.
+
+Inorder to simply the use case the users can define more such functions.
 
 This method is invoked in the Index.razor file directly as below:
 ```
@@ -307,14 +310,14 @@ In the Index.razor file, firstly the data is read from the json file and the cha
 ```
 string jsonUrl = navigationManager.ToAbsoluteUri("demo1.json").ToString();
 dynamic myDataSource = jsonUrl;
-await xyz.renderChart(chartConfig);
-await xyz.CallFusionChartsFunction("setJSONUrl", "demoId", jsonUrl);
+await fusionChartsService.renderChart(chartConfig);
+await fusionChartsService.CallFusionChartsFunction("setJSONUrl", "demoId", jsonUrl);
 ```
 Now there is a user-defined method addAnnotaotion() which acts renders the chart by adding an item or a group upon button click. Here is the sample where an item is added:
 
 ```
 private async Task addAnnotation(){
-        await xyz.addAnnotations("addItem", "demoId", "infobar", new {
+        await fusionChartsService.addAnnotations("addItem", "demoId", "infobar", new {
                 id = "label1",
                 align= "RiGHT",
                 type= "text",
@@ -356,64 +359,12 @@ myEvent.disposeCancelled = "function() { console.log('dispose cancelled') }";
 Upon a button click, the event can be canclelled by invoking the callDispose() method whose implementation is attached below:
 ```
 private async Task callDispose(){
-        await xyz.CallFusionChartsFunction("dispose", "demoId");
+        await fusionChartsService.CallFusionChartsFunction("dispose", "demoId");
 }
 ```
 
-In the blazor-fusioncharts.js file, there are multiple methods implemented to handle the multiple events cancellation.\
-The method invoked in the Index.razor file recieves a string which is a function with definition hence its necessary to obtain the arguments and the body separately. \
-As such there are two methods, one is extractArguments() which is used to extract the function arguments and a extractFunctionBody() method which is used to extract the function body. \
-For this purpose we have used the regular expressions to match and split the function string accordingly.
-```
-function extractArguments(functionString) {
-    // regex to extract the function arguments
-    const regex = /function\s*\(([^)]*)\)\s*\{/;
-    const matches = regex.exec(functionString);
 
-    if (matches && matches.length > 1) {
-        const argsString = matches[1];
-        const args = argsString.split(',').map(arg => arg.trim());
-
-        if (args.length === 1 && args[0] === "") {
-            // No arguments
-            return [];
-        } else {
-            // Multiple arguments
-            return args;
-        }
-    } else {
-        // No arguments
-        return [];
-    }
-}
-
-function extractFunctionBody(functionString) {
-    //regex to extract the function body
-    const regex = /function[^{]*{([\s\S]*)}$/;
-    const match = regex.exec(functionString);
-
-    if (match && match.length >= 2) {
-        const functionBody = match[1].trim();
-        return functionBody;
-    } else {
-        return null; // Function body not found
-    }
-}
-```
-
-Upon obtaining the function arguments and function body, the reviver function is implemented to parse the function.
-```
-// reviver function, key is passed by the JSON.parse
-function parseFunction(key, value) {
-    if (typeof value === "string" && value.match(/function\s*\(([^)]*)\)\s*\{/)) {
-        let fnArguments = extractArguments(value);
-        let fnBody = extractFunctionBody(value);
-        let parsedFn = fnArguments.length > 0 ? new Function(fnArguments, fnBody) : new Function(fnBody);
-        return parsedFn;
-    }
-    return value;
-}
-```
+Note : Any method that we invoke that is manipulating or interacting with the chart data then it has to called after the chart is rendered which means it has to be called after the "loaded" or "renderComplete" event has triggered.
 
 ## Going Beyond Charts
 
