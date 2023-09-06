@@ -22,6 +22,8 @@ Every year, new frameworks emerge in the JavaScript ecosystem. FusionCharts, bei
   - [Getting Started](#getting-started)
     - [Requirements](#requirements)
     - [Installation](#installation)
+        - [Setup steps for a new project](#setup-steps-for-a-new-project)
+        - [Setup using NuGet Package](#setup-using-nuget-package)
   - [Quick Start](#quick-start)
   - [Working with APIs](#working-with-apis)
   - [Working with Events](#working-with-events)
@@ -33,6 +35,7 @@ Every year, new frameworks emerge in the JavaScript ecosystem. FusionCharts, bei
 ### Requirements
 - Visual Studio (Used Community Edition 2022 - 17.6.1)
 ### Installation
+#### Setup steps for a new project
 1. Start by referring to the Blazor documentation link for a detailed guide on setting up and installing the necessary dependencies.
 2. Clone the code repository from (https://github.com/fusioncharts/blazor-fusioncharts) to your local machine.
 3. Windows Installation:
@@ -45,6 +48,17 @@ If you're on Windows, ensure that the following workloads are selected during th
 4. MacOS or Linux Installation:
 For MacOS or Linux users, run the 'dotnet watch' command from your project directory in the terminal.
 5. Open your preferred web browser and navigate to the appropriate address to view and interact with your Blazor app.
+
+#### Setup using NuGet Package
+
+1. Open the Project in Visual Studio.
+2. Click on Setting icon in the top-right and then click on Options.
+3. Navigate to NuGet Package Manager and select Package Sources from the left panel of the Options window opened.
+4. Click on the '+' symbol at the top right of the Package Sources window.
+5. At the Name field add the name of the package source as 'myget.org' and at the Source field paste the myGet package link.
+6. Click on Update and then click on OK.
+7. Under Tools click on NuGet Package Manager and select Manage NuGet Packages for Solution. Now change the project source to myget.org in the top-right.
+8. Move to Browse tab of the same window , enter the credentials when prompted and install the package BlazorApp1.
 
 ## Quick Start
 The application's operational flow can be described as follows:
@@ -158,8 +172,8 @@ To invoke a JavaScript method upon an event trigger, we have to follow the steps
 ```
 4. Implement the JavaScript function to activate it when the event is triggered.
 5. Execute an anonymous function to invoke the JS method upon event trigger.
-   
-Note : We need to use 'function()' only and not '() => {}' this way, to pass the function, as we are parsing the function using this 'function()' only in blazor-fusionchart.js file. 
+
+Please use the 'function()' format for the function definition in JavaScript. Arrow functions isn't supported out of the box but it can be added simply by extending the regex in the blazor-fusioncharts. Please reach out to us in case of any any query.
 
 ```
    myEvent.dataPlotClick = "function() { randomF();}";
@@ -173,7 +187,7 @@ To invoke a Blazor method upon an event trigger, we have to follow the steps bel
 ```
     public static Index _instance;
 ```
-2. Instantiate the instance inside the constructor to refer to Index file which needs to be the name of the Page/file.
+2. Instantiate the instance inside the constructor to refer to the current file/page name where it is being applied. 
 ```
     public Index()
     {
@@ -206,7 +220,8 @@ The addEventListener method listens to events across all FusionCharts instances 
 
 The generic method implemented above can be used to add a custom event listener which invokes a callback method and here it is: 
 ```
-await fusionChartsService.CallFusionChartsFunction("addEventListener", "CHART_ID", );
+var object = new { type="callback", eventname = "dataPlotClick", fn = "function() {console.log('I am a callback function')}" };
+await fusionChartsService.CallFusionChartsFunction("addEventListener", "CHART_ID", object);
 ```
 
 Below code snippet demonstrates the callback method implementation upon the event trigger.
@@ -240,7 +255,7 @@ String schemeFilePath = "./schema.json";
 String dataContent = File.ReadAllText(dataFilePath);
 String schemaContent = File.ReadAllText(schemeFilePath);
 
-await fusionChartsService.setDataStore("chartId", dataContent, schemaContent1);
+await fusionChartsService.setDataStore("chartId", dataContent, schemaContent);
 ```
 
 Upon invoking the setDataStore() method above, it leads to the below code snippet in the FusionChartsService.cs file which in turn invokes another user-defined method in the blazor-fusioncharts.js:
@@ -271,9 +286,9 @@ window.FusionCharts.setDataStore = (id, args) =>  {
 
 ### Resize Method
 
-resizeTo() : Resizes the chart to the specified width and height. While invoking the method there is a circular json object exception due to which it will not be stringified inside the generic method. Inorder to resolve this we implemented a user-defined method which will not return any data.
+resizeTo() : Resizes the chart to the specified width and height. While invoking the method there is a circular json object exception due to which it will throw error inside the generic method.
 
-Inorder to simply the use case the users can define more such functions.
+In order to mitigate the issue of circular deps in the FusionCharts, you can add your method definition where no data is returned back to the JS environment. This is caused due to the fact that certain methods return JSON which contain circular deps in FusionCharts and serialising a circular deps JSON isn't possible.
 
 This method is invoked in the Index.razor file directly as below:
 ```
