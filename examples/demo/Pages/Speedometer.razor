@@ -1,0 +1,152 @@
+﻿@page "/speedometer"
+
+@using System.Net.Http;
+@inject HttpClient httpClient;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@inject FusionChartsService fusionChartsService;
+
+<PageTitle>Speedometer</PageTitle>
+
+<div>
+    <div id="speedometerrt"></div>
+</div>
+
+@code {
+    public static Speedometer _instance;
+    public Speedometer()
+    {
+        _instance = this;
+    }
+    public async Task NonStaticMethod()
+    {
+        string Url = navigationManager.ToAbsoluteUri("data.json").ToString();
+        await fusionChartsService.CallFusionChartsFunction("setJSONUrl", "speedometerchart", Url);
+    }
+    [JSInvokable("ChangeSpeedometerData")]
+    public static async Task ChangeSpeedometerData()
+    {
+        await _instance.NonStaticMethod();
+    }
+
+    public async Task speedometerrt()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+
+        dynamic dials = new System.Dynamic.ExpandoObject();
+        dynamic annotations = new System.Dynamic.ExpandoObject();
+        dynamic groups1 = new System.Dynamic.ExpandoObject();
+        dynamic groups2 = new System.Dynamic.ExpandoObject();
+
+        dynamic items = new System.Dynamic.ExpandoObject();
+
+        dynamic categories = new System.Dynamic.ExpandoObject();
+
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        myEvent.loaded = "function() { DotNet.invokeMethodAsync('BlazorQATest1','ChangeSpeedometerData')}";
+        //myEvent.loaded = "function() { console.log('loaded')}";
+        myEvent.renderComplete = "function() { console.log('renderComplete')}";
+        myEvent.initialized = "function() { console.log('initialized')}";
+        myEvent.beforeRender = "function() { console.log('beforeRender')}";
+        myEvent.rendered = "function() { console.log('rendered')}";
+
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+        myEvent.initialized = "function(){speedometerdata()}";
+
+
+        //chart specific events
+        myEvent.realTimeUpdateComplete = "function() { console.log('realTimeUpdateComplete')}";
+        myEvent.alertComplete = "function() { console.log('alertComplete')}";
+        myEvent.realTimeUpdateError = "function() { console.log('realTimeUpdateError')}";
+
+        myChartConfig.id = "speedometerchart";
+        myChartConfig.type = "angulargauge";
+        myChartConfig.renderAt = "speedometerrt";
+
+        myChart.width = "100%";
+        myChart.height = "100%";
+        myChart.caption = "Speedometer";
+        myChart.origw = "320";
+        myChart.tickvaluedistance = "-10";
+        myChart.upperlimit = "240";
+        myChart.lowerlimit = "0";
+        myChart.basefontcolor = "#FFFFFF";
+        myChart.majortmnumber = "9";
+        myChart.majortmcolor = "#FFFFFF";
+        myChart.majortmheight = "8";
+        myChart.majortmthickness = "5";
+        myChart.minortmnumber = "5";
+        myChart.minortmcolor = "#FFFFFF";
+        myChart.minortmheight = "3";
+        myChart.minortmthickness = "2";
+        myChart.pivotradius = "10";
+        myChart.pivotbgcolor = "#000000";
+        myChart.pivotbordercolor = "#FFFFFF";
+        myChart.pivotborderthickness = "2";
+        myChart.tooltipbordercolor = "#FFFFFF";
+        myChart.tooltipbgcolor = "#333333";
+        myChart.gaugeouterradius = "115";
+        myChart.gaugestartangle = "240";
+        myChart.gaugeendangle = "-60";
+        myChart.decimals = "0";
+        myChart.placevaluesinside = "1";
+        myChart.pivotfillmix = "";
+        myChart.showpivotborder = "1";
+        myChart.annrenderdelay = "0";
+        myChart.gaugeoriginx = "160";
+        myChart.gaugeoriginy = "160";
+        myChart.theme = "fusion";
+        myChart.refreshInterval = "10";
+
+        dials.dial = new[]
+        {
+            new{value = "65", bgcolor = "000000", bordercolor = "#FFFFFF", borderalpha = "100", basewidth = "4", topwidth = "4", borderthickness = "2", valuey = "260"}
+    };
+
+        groups1.x = "160";
+        groups1.y = "160";
+        groups1.items = new[]
+        {
+            new {type = "circle", x = "", y = "", radius = "130", showborder="", bordercolor = "", fillasgradient ="1", fillcolor="#4B4B4B,#AAAAAA", fillalpha = "100,100", fillratio = "95,5" },
+            new {type = "circle", x = "0", y = "0", radius = "120", showborder="1", bordercolor = "cccccc", fillasgradient ="1", fillcolor="#ffffff,#000000", fillalpha = "50,100", fillratio = "1,99" },
+    };
+        groups2.x = "160";
+        groups2.y = "160";
+        groups2.showbelow = "0";
+        groups2.scaletext = "1";
+        groups2.items = new[]
+        {
+        new{ type ="text", y="100", label = "KPH", fontcolor = "#FFFFFF", fontsize = "14", bold = "1"}
+    };
+
+
+        myDataSource.chart = myChart;
+        myDataSource.dials = new[] { dials };
+        myDataSource.annotations = new[] { groups1, groups2 };
+
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+        var FilePath = "data.json";
+        var Url = NavigationManager.ToAbsoluteUri(FilePath).ToString();
+        await fusionChartsService.CallFusionChartsFunction("setJSONUrl", "speedometerchart", Url);
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await speedometerrt();
+        }
+        else
+        {
+
+        }
+    }
+
+}

@@ -1,0 +1,171 @@
+﻿@page "/combination"
+
+@using System.Net.Http;
+@inject HttpClient httpClient;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@inject FusionChartsService fusionChartsService;
+
+<PageTitle>CombinationChart</PageTitle> 
+
+<div>
+    <div id="combinationchart"></div>
+</div>
+
+@code{
+
+    public async Task combinationchart()
+    {
+        // chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+
+        dynamic dataset = new System.Dynamic.ExpandoObject();
+        dynamic dataset1 = new System.Dynamic.ExpandoObject();
+        dynamic dataset2 = new System.Dynamic.ExpandoObject();
+        dynamic dataset3 = new System.Dynamic.ExpandoObject();
+
+        dynamic categories = new System.Dynamic.ExpandoObject();
+
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+       //events
+        myEvent.loaded = "function() { console.log('loaded')}";
+        myEvent.renderComplete = "function() { console.log('renderComplete')}";
+        myEvent.initialized = "function() { console.log('initialized')}";
+        myEvent.beforeRender = "function() { console.log('beforeRender')}";
+        myEvent.rendered = "function() { console.log('rendered')}";
+
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+        myEvent.dataplotRollOver = "function() { console.log('dataplotRollOver')}";
+        myEvent.dataplotRollOut = "function() { console.log('dataplotRollOut')}";
+        myEvent.dataLabelClick = "function() { console.log('dataLabelClick')}";
+        myEvent.dataLabelRollOver = "function() { console.log('dataLabelRollOver')}";
+        myEvent.dataLabelRollOut = "function() { console.log('dataLabelRollOut')}";
+
+        myEvent.legendItemClicked = "function() { console.log('legendItemClicked')}";
+        myEvent.legendItemRollOver = "function() { console.log('legendItemRollOver')}";
+        myEvent.legendItemRollOut = "function() { console.log('legendItemRollOut')}";
+
+        myEvent.chartClick = "function() { console.log('chartClick')}";
+        myEvent.chartRollOver = "function() { console.log('chartRollOver')}";
+        myEvent.chartRollOut = "function() { console.log('chartRollOut')}"; 
+
+        myChartConfig.id = "combi";
+        myChartConfig.type = "mscombi2D";
+        myChartConfig.width = 1000;
+        myChartConfig.height = 600;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "combinationchart";
+
+        myChart.caption = "Harry's SuperMart";
+        myChart.subCaption = "Sales analysis of last year";
+        myChart.xAxisName = "Month";
+        myChart.yAxisName = "Amount (in USD)";
+        myChart.theme = "fusion";
+
+        categories.category = new[]
+        {
+            new { label = "Jan"},
+            new { label = "Feb"},
+            new { label = "Mar"},
+            new { label = "Apr"},
+            new { label = "May"},
+            new { label = "Jun"},
+            new { label = "Jul"},
+            new { label = "Aug"},
+            new { label = "Sep"},
+            new { label = "Oct"},
+            new { label = "Nov"},
+            new { label = "Dec"}
+    };
+        dataset1.seriesname = "Actual revenue";
+        dataset1.renderAs = "column";
+        dataset1.data = new[]
+        {
+            new { value = "16000"},
+            new { value = "20000"},
+            new { value = "18000"},
+            new { value = "19000"},
+            new { value = "15000"},
+            new { value = "21000"},
+            new { value = "16000"},
+            new { value = "20000"},
+            new { value = "17000"},
+            new { value = "25000"},
+            new { value = "19000"},
+            new { value = "23000"}
+       };
+        dataset2.seriesname = "Projected revenue";
+        dataset2.renderAs = "line";
+        dataset2.data = new[]
+        {
+            new { value = "15000"},
+            new { value = "16000"},
+            new { value = "17000"},
+            new { value = "18000"},
+            new { value = "19000"},
+            new { value = "19000"},
+            new { value = "19000"},
+            new { value = "19000"},
+            new { value = "20000"},
+            new { value = "21000"},
+            new { value = "22000"},
+            new { value = "23000"}
+       };
+        dataset3.seriesname = "Profit";
+        dataset3.renderAs = "area";
+        dataset3.data = new[]
+        {
+            new { value = "4000"},
+            new { value = "5000"},
+            new { value = "3000"},
+            new { value = "4000"},
+            new { value = "1000"},
+            new { value = "7000"},
+            new { value = "1000"},
+            new { value = "4000"},
+            new { value = "1000"},
+            new { value = "8000"},
+            new { value = "2000"},
+            new { value = "7000"}
+       };
+
+        myDataSource.chart = myChart;
+        myDataSource.categories = new[] { categories };
+        myDataSource.dataset = new[] { dataset1, dataset2, dataset3 };
+
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+        /*
+        //---methods----
+        //get chart ID
+        await fusionChartsService.CallFusionChartsFunction("chartType", "combi");
+        //set chart id
+        await fusionChartsService.CallFusionChartsFunction("chartType", "combi", "mscombi3d");
+        //get chart attribute
+        await fusionChartsService.CallFusionChartsFunction("getChartAttribute", "combi");
+        // get XML data
+        await fusionChartsService.CallFusionChartsFunction("getXMLData", "combi");
+        //show message
+        await fusionChartsService.CallFusionChartsFunction("showChartMessage", "combi", "Hi This is combination chart of line, column and area charts", "true", "true"); */
+
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+           await combinationchart();
+        }
+        else
+        {
+
+        }
+    }
+
+}
