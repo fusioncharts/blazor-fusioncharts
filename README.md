@@ -206,11 +206,7 @@ The addEventListener method listens to events across all FusionCharts instances 
 
 The generic method implemented above can be used to add a custom event listener which invokes a callback method and here it is: 
 ```
-await fusionChartsService.CallFusionChartsFunction("addEventListener", "CHART_ID", "callback", {
-  "event" : "dataPlotClick",
-  "fn" : "function() {console.log('Custom method for event handling using generic method')}",
-  "type" : "callback"
-});
+await fusionChartsService.CallFusionChartsFunction("addEventListener", "CHART_ID", );
 ```
 
 Below code snippet demonstrates the callback method implementation upon the event trigger.
