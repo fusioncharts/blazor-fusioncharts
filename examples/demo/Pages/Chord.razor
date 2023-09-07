@@ -1,0 +1,113 @@
+@page "/simplechord"
+@using Microsoft.JSInterop;
+@using System.Text.Json;
+@inject IJSRuntime JSInterop;
+@inject FusionChartsService fusionChartsService;
+@using System.Net.Http;
+@inject HttpClient httpClient;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@using System.Text.Json.Serialization;
+<center>
+    <h3>
+        <b>Simple Chord Chart</b>
+    </h3>
+</center>
+<div id="chordID"></div>
+@code {
+
+    public static Chord _instance;
+    public Chord()
+    {
+        _instance = this;
+    }
+    
+    public async Task NonStaticMethod()
+    {
+        string jsonUrl = navigationManager.ToAbsoluteUri("data-Chord.json").ToString();
+        
+        await fusionChartsService.CallFusionChartsFunction("setChartDataUrl", "chId", jsonUrl, "json");
+        //getChartTpe
+        await fusionChartsService.CallFusionChartsFunction("chartType", "chId");
+        //getJSONData
+        await fusionChartsService.CallFusionChartsFunction("getJSONData", "chId", 1);
+        //getChartAttribute
+        await fusionChartsService.CallFusionChartsFunction("getChartAttribute", "chId", "caption");
+        //showChartMessage
+        await fusionChartsService.CallFusionChartsFunction("showChartMessage", "chId", "Hi This is Chord", "true", "true");
+        //setChartAtribute
+        await fusionChartsService.CallFusionChartsFunction("setChartAttribute", "chId", "caption", "NEW");
+        await fusionChartsService.CallFusionChartsFunction("getChartAttribute", "chId", "NEW");
+        //getXMLData
+        await fusionChartsService.CallFusionChartsFunction("getXMLData", "chId");
+        //print chart
+        await fusionChartsService.CallFusionChartsFunction("print", "chId", true);
+    }
+    
+    [JSInvokable("ChangeChordData")]
+    public static async Task ChangeChordData()
+    {
+    
+        await _instance.NonStaticMethod();
+    }
+    public async Task renderChord()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+        //--------------------------EVENTS----------------------------------------------
+
+        myEvent.renderComplete = "function() { console.log('render complete for Simple Chord Chart')}";
+        myEvent.loaded = "function() { DotNet.invokeMethodAsync('demo','ChangeChordData')}";
+        myEvent.backgroundLoaded = "function(){console.log('chart background loaded')}";
+        myEvent.backgroundLoadError = "function(){console.log('chart background error')}";
+        myEvent.logoRollover = "function(){console.log('chart logo rollover')}";
+        myEvent.logoRollout = "function(){console.log('chart logo rollout')}";
+        myEvent.logoClick = "function(){console.log('chart logo click')}";
+        myEvent.logoLoaded = "function(){console.log('chart logo loaded')}";
+        myEvent.chartClick = "function() { console.log('chartClick')}";
+        myEvent.chartRollOver = "function() { console.log('chartRollOver')}";
+        myEvent.chartRollOut = "function() { console.log('chartRollOut')}";
+        myEvent.beforePrint = "function(){console.log('before print')}";
+        myEvent.printComplete = "function(){console.log('print complete')}";
+
+        //---------------------------------------------------------------------------
+
+        myChartConfig.type = "chord";
+        myChartConfig.width = 1000;
+        myChartConfig.height = 400;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "chordID";
+        myChartConfig.id = "chId";
+        myChartConfig.exportEnabled = 1;
+        myChart.caption = "Different countries Gross Export";
+        myChart.subcaption = "in 2017";
+        myChart.nodeLabelPosition = "outside";
+        myChart.showLegend = 0;
+        myChart.theme = "fusion";
+        myChart.mode = "post";
+        myChart.logoURL = "https://static.fusioncharts.com/sampledata/images/Logo-HM-72x72.png";
+        myChart.linkColorByDominance = 1;
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+        
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await renderChord();
+        }
+        else
+        {
+        }
+    }
+}

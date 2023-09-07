@@ -1,0 +1,221 @@
+﻿@page "/StackedArea"
+@inject FusionChartsService fusionChartsService;
+<h3>Stacked Bars</h3>
+<div id="chart-container1"></div>
+
+@code {
+    public async void stackAreaChart()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+
+
+        myChartConfig.type = "stackedarea2d";
+        myChartConfig.width = "100%";
+        myChartConfig.height = "100%";
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "chart-container1";
+
+        myChart.caption = "Yearly Energy Production";
+        myChart.plottooltext = "$dataValue from $seriesName";
+        myChart.theme = "candy";
+        myChart.numbersuffix = " TWh";
+        myChart.formatnumberscale = "0";
+        myChart.showvalues = "0";
+        myChart.drawcrossline = "1";
+        myChart.showsum = "1";
+
+        myDataSource.categories = new[]
+        {
+                new
+                {
+                    category = new[]
+                    {
+                         new{
+          label= "Canada"
+        },
+        new{
+          label= "China"
+        },
+        new{
+          label= "Russia"
+        },
+        new{
+          label= "Australia"
+        },
+        new{
+          label= "United States"
+        },
+        new{
+          label= "France"
+        }
+                    }
+                }
+
+
+
+
+       };
+
+
+
+        myDataSource.dataset = new[]
+        {
+                new
+                {
+                    seriesname= "Coal",
+                    data = new[]
+                    {
+                       new {
+                    value= "400"
+                },
+                new {
+                    value= "830"
+                },
+                new{
+                    value= "500"
+                },
+                new{
+                    value= "420"
+                },
+                new{
+                    value= "790"
+                },
+                new{
+                    value= "380"
+                }
+                    }
+               },
+
+
+                new
+                {
+                    seriesname= "Hydro",
+                    data = new[]
+                    {
+                        new{
+                  value= "350"
+                },
+                new{
+                  value= "620"
+                },
+                new{
+            value= "410"
+                },
+                new{
+            value= "370"
+                },
+                new{
+            value= "720"
+                },
+                new{
+            value= "310"
+                }
+                    }
+                },
+                new
+                {
+                    seriesname= "Nuclear",
+                    data = new[]
+                    {
+                        new{
+                value= "210"
+                },
+                new
+                {
+                value= "400"
+                },
+                new
+                {
+                value= "450"
+                },
+                new{
+                value= "180"
+                },
+                new {
+                value= "570"
+                },
+                new {
+                value="270"
+                }
+                    }
+                },
+                new
+                {
+                    seriesname= "Gas",
+                    data = new[]
+                    {
+                        new{
+                value= "180"
+                },
+                new{
+                value= "330"
+                },
+                new{
+                value= "230"
+                },
+                new{
+                value= "160"
+                },
+                new{
+                value= "440"
+                },
+                new{
+                value= "350"
+                }
+                    }
+                },
+                new
+                {
+                    seriesname= "oil",
+                    data = new[]
+                    {
+                        new {
+                value= "60"
+                },
+                new {
+                value= "200"
+                },
+                new {
+                value= "200"
+                },
+                new {
+                value= "50"
+                },
+                new {
+                value= "230"
+                },
+                new {
+                value= "150"
+                }
+                    }
+                },
+
+
+       };
+
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            stackAreaChart();
+        }
+        else
+        {
+
+        }
+    }
+}

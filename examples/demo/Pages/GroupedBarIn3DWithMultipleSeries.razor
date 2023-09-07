@@ -1,0 +1,174 @@
+﻿@page "/GroupedBarIn3DWithMultipleSeries"
+
+<h1>Grouped bar in 3D with multiple series</h1>
+
+
+<div id="Grouped bar in 3D with multiple series"></div>
+
+@inject FusionChartsService fusionChartsService;
+
+@code {
+    public async void GroupedBarIn3DWithMultipleSeriesChart()
+    {
+        //chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+
+
+        myChartConfig.type = "msbar3d";
+        myChartConfig.width = 600;
+        myChartConfig.height = 300;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "Grouped bar in 3D with multiple series";
+
+
+        myChart.caption = "Split of visitors by Channels";
+        myChart.yAxisName = "Number of Leads";
+        myChart.placevaluesinside = "1";
+        myChart.showvalues = "0";
+        myChart.plottooltext = "<b>$dataValue</b> visitors from $label in $seriesName";
+        myChart.theme = "candy";
+
+
+        myDataSource.categories = new[]{
+        new
+        {
+        category=new []
+        {
+            new
+            {
+                label= "Organic"
+            },
+            new
+            {
+                label= "Offline Stores"
+            }
+            ,
+            new
+            {
+                label= "Email Campaigns"
+            }
+            ,
+            new
+            {
+                label= "Social Event"
+            },
+            new
+            {
+                label= "Paid Channels"
+            }
+
+        }
+        }
+
+    };
+
+
+        myDataSource.dataset = new[]{
+            new{ seriesname = "2017",
+                data = new[]
+                {
+                    new
+                    {
+                        value= "17000"
+
+                    },new
+                    {
+                        value= "19500"
+
+                    },new
+                    {
+                        value= "12500"
+
+                    },new
+                    {
+                        value= "14500"
+
+                    },new
+                    {
+                        value= "17500"
+                    }
+                 }
+        },new{ seriesname = "2018",
+                data = new[]
+                {
+                    new
+                    {
+                        value= "25400"
+
+                    },new
+                    {
+                        value= "29800"
+
+                    },new
+                    {
+                        value= "21800"
+
+                    },new
+                    {
+                        value= "19500"
+
+                    },new
+                    {
+                        value= "21200"
+                    }
+                 }
+        }
+
+    };
+
+        myDataSource.trendlines = new[]
+        {
+            new
+            {
+                line = new[]
+                {
+                    new
+                    {
+                        startvalue= "16200",
+        color = "#5D62B5",
+        thickness = "1.5",
+        displayvalue = "2017's Avg."
+
+                    },
+                    new
+                    {startvalue= "23500",
+        color = "#29C3BE",
+        thickness = "1.5",
+        displayvalue = "2018's Avg."
+
+                    }
+                }
+            }
+    };
+
+
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+
+
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            GroupedBarIn3DWithMultipleSeriesChart();
+        }
+        else
+        {
+
+        }
+    }
+
+
+
+}

@@ -1,0 +1,510 @@
+﻿@page "/xyplot"
+
+@using System.Net.Http;
+@inject HttpClient httpClient;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@inject FusionChartsService fusionChartsService;
+
+<PageTitle>XYplotcharts</PageTitle>
+
+<h2>1. ScatterXYplot</h2>
+<div>
+    <div id="scatterplotxy"></div>
+</div>
+
+<h2>2. bubblexychart</h2>
+<div>
+    <div id="bubblexychart"></div>
+</div>
+
+<h2>3. zoomscatterxy</h2>
+<div>
+    <div id="zoomscatterxy"></div>
+</div>
+
+@code{
+    public async Task scatterplotxy()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+        //events
+        myEvent.loaded = "function() { console.log('loaded')}";
+        myEvent.renderComplete = "function() { console.log('renderComplete')}";
+        myEvent.initialized = "function() { console.log('initialized')}";
+        myEvent.beforeRender = "function() { console.log('beforeRender')}";
+        myEvent.rendered = "function() { console.log('rendered')}";
+
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+        myEvent.dataplotRollOver = "function() { console.log('dataplotRollOver')}";
+        myEvent.dataplotRollOut = "function() { console.log('dataplotRollOut')}";
+        myEvent.dataLabelClick = "function() { console.log('dataLabelClick')}";
+        myEvent.dataLabelRollOver = "function() { console.log('dataLabelRollOver')}";
+        myEvent.dataLabelRollOut = "function() { console.log('dataLabelRollOut')}";
+
+        myEvent.legendItemClicked = "function() { console.log('legendItemClicked')}";
+        myEvent.legendItemRollOver = "function() { console.log('legendItemRollOver')}";
+        myEvent.legendItemRollOut = "function() { console.log('legendItemRollOut')}";
+
+        myEvent.chartClick = "function() { console.log('chartClick')}";
+        myEvent.chartRollOver = "function() { console.log('chartRollOver')}";
+        myEvent.chartRollOut = "function() { console.log('chartRollOut')}";
+
+        dynamic categories = new System.Dynamic.ExpandoObject();
+        dynamic category = new System.Dynamic.ExpandoObject();
+        dynamic dataset = new System.Dynamic.ExpandoObject();
+        dynamic dataset1 = new System.Dynamic.ExpandoObject();
+        dynamic dataset2 = new System.Dynamic.ExpandoObject();
+        dynamic data = new System.Dynamic.ExpandoObject();
+        dynamic data1 = new System.Dynamic.ExpandoObject();
+        dynamic data2 = new System.Dynamic.ExpandoObject();
+        dynamic verticalLineDashed = new System.Dynamic.ExpandoObject();
+        dynamic verticalLineDashLen = new System.Dynamic.ExpandoObject();
+        dynamic verticalLineThickness = new System.Dynamic.ExpandoObject();
+        dynamic verticalLineColor = new System.Dynamic.ExpandoObject();
+        dynamic seriesname1 = new System.Dynamic.ExpandoObject();
+        dynamic showregressionline = new System.Dynamic.ExpandoObject();
+        dynamic seriesname2 = new System.Dynamic.ExpandoObject();
+        dynamic showregressionline2 = new System.Dynamic.ExpandoObject();
+        dynamic vtrendlines = new System.Dynamic.ExpandoObject();
+        dynamic line = new System.Dynamic.ExpandoObject();
+
+        myChartConfig.id = "scatterxy";
+        myChartConfig.type = "scatter";
+        myChartConfig.width = 1000;
+        myChartConfig.height = 600;
+        // myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "scatterplotxy";
+
+        myChart.caption = "Sales of Beer & Ice-cream vs Temperature";
+        myChart.subCaption = "Los Angeles Topanga";
+        myChart.baseFont = "Helvetica Neue,Arial";
+        myChart.xAxisName = "Average Day Temperature";
+        myChart.yAxisName = "Sales (in USD)";
+        myChart.xAxisMinValue = "23";
+        myChart.xAxisMaxValue = "95";
+        myChart.yNumberPrefix = "$";
+        myChart.xNumberSuffix = "&deg; F";
+        myChart.theme = "fusion";
+
+        categories.verticalLineDashed = "1";
+        categories.verticalLineDashLen = "1";
+        categories.verticalLineDashGap = "1";
+        categories.verticalLineThickness = "1";
+        categories.verticalLineColor = "#000000";
+        categories.category = new[]
+        {
+           new{ x = "23", label = "23° F", showverticalline = "0"},
+           new{ x = "32", label = "32° F", showverticalline = "1"},
+           new{ x = "50", label = "50° F", showverticalline = "1"},
+           new{ x = "68", label = "68° F", showverticalline = "1"},
+           new{ x = "80", label = "80° F", showverticalline = "1"},
+           new{ x = "95", label = "95° F", showverticalline = "1" }
+    };
+
+        dataset1.seriesname1 = "Ice Cream";
+        dataset1.showregressionline = "1";
+        dataset1.data = new[]
+        {
+           new{ x= "23", y = "1560"},
+           new{ x= "24", y = "1500"},
+           new{ x= "24", y = "1680"},
+           new{ x= "25", y = "1780"},
+           new{ x= "25", y = "1620"},
+           new{ x= "26", y = "1810"},
+           new{ x= "27", y = "2310"},
+           new{ x= "29", y = "2620"},
+           new{ x= "31", y = "2500"},
+           new{ x= "32", y = "2410"},
+           new{ x= "35", y = "2880"},
+           new{ x= "36", y = "3910"},
+           new{ x= "34", y = "3960"},
+           new{ x= "38", y = "4080"},
+           new{ x= "40", y = "4190"},
+           new{ x= "41", y = "4170"},
+           new{ x= "42", y = "4280"},
+           new{ x= "54", y = "5180"},
+           new{ x= "53", y = "5770"},
+           new{ x= "55", y = "5900"},
+           new{ x= "56", y = "5940"},
+           new{ x= "58", y = "6090"},
+           new{ x= "61", y = "6086"},
+           new{ x= "67", y = "6100"},
+           new{ x= "68", y = "6200"},
+           new{ x= "70", y = "6360"},
+           new{ x= "75", y = "6450"},
+           new{ x= "79", y = "6650"},
+           new{ x= "80", y = "6710"},
+           new{ x= "79", y = "6975"},
+           new{ x= "82", y = "7000"},
+           new{ x= "85", y = "7150"},
+           new{ x= "86", y = "7160"},
+           new{ x= "88", y = "7230"},
+           new{ x= "87", y = "7210"},
+           new{ x= "86", y = "7480"},
+           new{ x= "89", y = "7540"},
+           new{ x= "89", y = "7400"},
+           new{ x= "90", y = "7500"},
+           new{ x= "92", y = "7640"},
+    };
+        dataset2.seriesname2 = "Beer";
+        dataset2.showregressionline = "1";
+        dataset2.data = new[]
+        {
+            new{ x = "23", y = "3160"},
+            new{ x = "24", y = "3000"},
+            new{ x = "24", y = "3080"},
+            new{ x = "25", y = "3680"},
+            new{ x = "25", y = "3320"},
+            new{ x = "26", y = "3810"},
+            new{ x = "27", y = "5310"},
+            new{ x = "29", y = "3620"},
+            new{ x = "31", y = "4100"},
+            new{ x = "32", y = "3910"},
+            new{ x = "35", y = "4280"},
+            new{ x = "36", y = "4210"},
+            new{ x = "34", y = "4160"},
+            new{ x = "38", y = "4480"},
+            new{ x = "40", y = "4890"},
+            new{ x = "41", y = "4770"},
+            new{ x = "42", y = "4880"},
+            new{ x = "54", y = "4980"},
+            new{ x = "53", y = "4770"},
+            new{ x = "55", y = "4900"},
+            new{ x = "56", y = "4940"},
+            new{ x = "58", y = "4990"},
+            new{ x = "61", y = "5086"},
+            new{ x = "67", y = "5100"},
+            new{ x = "68", y = "4700"},
+            new{ x = "70", y = "5360"},
+            new{ x = "75", y = "5150"},
+            new{ x = "79", y = "4975"},
+            new{ x = "82", y = "5400"},
+            new{ x = "85", y = "5150"},
+            new{ x = "86", y = "5480"},
+            new{ x = "89", y = "5440"},
+            new{ x = "89", y = "5300"},
+            new{ x = "90", y = "5500"},
+            new{ x = "92", y = "5240"},
+    };
+        line.data = new[]
+        {
+            new{ startvalue = "23", endvalue = "32", istrendzone = "1", displayvalue = " ", color = "#adebff", alpha = "25"},
+            new{ startvalue = "23", endvalue = "32", istrendzone = "1", displayvalue = "Very cold", color = "", alpha = "0"},
+            new{ startvalue = "32", endvalue = "50", istrendzone = "1", displayvalue = " ", color = "#adebff", alpha = "15"},
+            new{ startvalue = "32", endvalue = "50", istrendzone = "1", displayvalue = "Cold ", color = "", alpha = "0"},
+            new{ startvalue = "50", endvalue = "68", istrendzone = "1", displayvalue = "Moderate", color = "", alpha = "0"},
+            new{ startvalue = "68", endvalue = "80", istrendzone = "1", displayvalue = "Hot", color = "", alpha = "0"},
+            new{ startvalue = "68", endvalue = "80", istrendzone = "1", displayvalue = " ", color = "#f2a485", alpha = "15"},
+            new{ startvalue = "80", endvalue = "95", istrendzone = "1", displayvalue = "Very hot", color = "", alpha = "0"},
+            new{ startvalue = "80", endvalue = "95", istrendzone = "1", displayvalue = " ", color = "#f2a485", alpha = "25"},
+    };
+        vtrendlines.data = new[] { line };
+        myDataSource.chart = myChart;
+        myDataSource.categories = new[] { categories };
+        myDataSource.dataset = new[] { dataset1, dataset2 };
+        myDataSource.vtrendlines = new[] { vtrendlines };
+
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+        /*  //---methods----
+        //get chart ID
+        await fusionChartsService.CallFusionChartsFunction("chartType", "scatterxy");
+      //set chart id
+      //  await fusionChartsService.CallFusionChartsFunction("chartType", "scatterxy", "mscombi3d");
+        //get chart attribute
+        await fusionChartsService.CallFusionChartsFunction("getChartAttribute", "scatterxy");
+        // get XML data
+        await fusionChartsService.CallFusionChartsFunction("getXMLData", "scatterxy");
+        //show message
+        await fusionChartsService.CallFusionChartsFunction("showChartMessage", "scatterxy", "Hi This is Scatter plot chart", "true", "true"); */
+    }
+
+    public async Task bubblexychart()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+
+        dynamic categories = new System.Dynamic.ExpandoObject();
+        dynamic category = new System.Dynamic.ExpandoObject();
+        dynamic dataset = new System.Dynamic.ExpandoObject();
+        dynamic trendlines = new System.Dynamic.ExpandoObject();
+        dynamic vTrendlines = new System.Dynamic.ExpandoObject();
+
+        myChartConfig.id = "bubblexy";
+        myChartConfig.type = "bubble";
+        myChartConfig.width = 1000;
+        myChartConfig.height = 600;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "bubblexychart";
+
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+        //events
+        myEvent.loaded = "function() { console.log('loaded')}";
+        myEvent.renderComplete = "function() { console.log('renderComplete')}";
+        myEvent.initialized = "function() { console.log('initialized')}";
+        myEvent.beforeRender = "function() { console.log('beforeRender')}";
+        myEvent.rendered = "function() { console.log('rendered')}";
+
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+        myEvent.dataplotRollOver = "function() { console.log('dataplotRollOver')}";
+        myEvent.dataplotRollOut = "function() { console.log('dataplotRollOut')}";
+        myEvent.dataLabelClick = "function() { console.log('dataLabelClick')}";
+        myEvent.dataLabelRollOver = "function() { console.log('dataLabelRollOver')}";
+        myEvent.dataLabelRollOut = "function() { console.log('dataLabelRollOut')}";
+
+        myEvent.legendItemClicked = "function() { console.log('legendItemClicked')}";
+        myEvent.legendItemRollOver = "function() { console.log('legendItemRollOver')}";
+        myEvent.legendItemRollOut = "function() { console.log('legendItemRollOut')}";
+
+        myEvent.chartClick = "function() { console.log('chartClick')}";
+        myEvent.chartRollOver = "function() { console.log('chartRollOver')}";
+        myEvent.chartRollOut = "function() { console.log('chartRollOut')}";
+
+        myChart.caption = "Sales Analysis of Shoe Brands";
+        myChart.subcaption = "Last Quarter";
+        myChart.xAxisMinValue = "0";
+        myChart.xAxisMaxValue = "100";
+        myChart.yAxisMinValue = "0";
+        myChart.yAxisMaxValue = "30000";
+        myChart.plotFillAlpha = "70";
+        myChart.plotFillHoverColor = "#6baa01";
+        myChart.xAxisName = "average price";
+        myChart.yAxisName = "units sold";
+        myChart.numDivlines = "2";
+        myChart.showValues = "1";
+        myChart.plotTooltext = "$name : Profit Contribution - $zvalue%";
+        myChart.drawQuadrant = "1";
+        myChart.quadrantLineAlpha = "80";
+        myChart.quadrantLineThickness = "3";
+        myChart.quadrantXVal = "50";
+        myChart.quadrantYVal = "15000";
+        myChart.quadrantLabelTL = "Low Price / High Sale";
+        myChart.quadrantLabelTR = "High Price / High Sale";
+        myChart.quadrantLabelBL = "Low Price / Low Sale";
+        myChart.quadrantLabelBR = "High Price / Low Sale";
+        myChart.use3dlighting = "0";
+        myChart.showAlternateHGridColor = "0";
+        myChart.showAlternateVGridColor = "0";
+        myChart.theme = "fusion";
+
+        categories.category = new[]
+        {
+            new { label = "", x = "0", showverticalline = ""},
+            new { label = "$20", x = "20", showverticalline = "1"},
+            new { label = "$40", x = "40", showverticalline = "1"},
+            new { label = "$60", x = "60", showverticalline = "1"},
+            new { label = "$80", x = "80", showverticalline = "1"},
+            new { label = "$100", x = "100", showverticalline = "1"}
+    };
+
+        dataset.color = "#00aee4";
+        dataset.data = new[]
+        {
+            new{ x= "80", y= "15000", z="24", name= "Nike"},
+            new{ x= "60", y= "18500", z="26", name= "Adidas"},
+            new{ x= "50", y= "19450", z="19", name= "Puma"},
+            new{ x= "65", y= "10500", z="8", name= "Fila"},
+            new{ x= "43", y= "8750", z="5", name= "Lotto"},
+            new{ x= "32", y= "22000", z="10", name= "Reebok"},
+            new{ x= "44", y= "13000", z="9", name= "Woodland"},
+    };
+
+        trendlines.line = new[]
+        {
+            new{ startValue= "20000", endValue = "30000", isTrendZone = "1", color = "#aaaaaa", alpha = "14"},
+            new{ startValue= "10000", endValue = "20000", isTrendZone = "1", color = "#aaaaaa", alpha = "7"},
+    };
+
+        vTrendlines.line = new[]
+        {
+          new { startValue = "44", isTrendZone = "0", color = "#0066cc", thickness = "1", dashed = "1", displayValue = "Gross Avg."}
+    };
+
+        myDataSource.chart = myChart;
+        myDataSource.categories = new[] { categories };
+        myDataSource.dataset = new[] { dataset };
+        myDataSource.trendlines = new[] { trendlines };
+        myDataSource.vTrendlines = new[] { vTrendlines };
+
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+        /*
+        //---methods----
+        //get chart ID
+        await fusionChartsService.CallFusionChartsFunction("chartType", "bubblexy");
+      //set chart id
+      //  await fusionChartsService.CallFusionChartsFunction("chartType", "scatterxy", "mscombi3d");
+        //get chart attribute
+        await fusionChartsService.CallFusionChartsFunction("getChartAttribute", "bubblexy");
+        // get XML data
+        await fusionChartsService.CallFusionChartsFunction("getXMLData", "bubblexy");
+        //show message
+        await fusionChartsService.CallFusionChartsFunction("showChartMessage", "bubblexy", "Hi This is Scatter plot chart", "true", "true"); */
+    }
+
+    public async Task zoomscatterxy()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+        //events
+        myEvent.loaded = "function() { console.log('loaded')}";
+        myEvent.renderComplete = "function() { console.log('renderComplete')}";
+        myEvent.initialized = "function() { console.log('initialized')}";
+        myEvent.beforeRender = "function() { console.log('beforeRender')}";
+        myEvent.rendered = "function() { console.log('rendered')}";
+
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+        myEvent.dataplotRollOver = "function() { console.log('dataplotRollOver')}";
+        myEvent.dataplotRollOut = "function() { console.log('dataplotRollOut')}";
+        myEvent.dataLabelClick = "function() { console.log('dataLabelClick')}";
+        myEvent.dataLabelRollOver = "function() { console.log('dataLabelRollOver')}";
+        myEvent.dataLabelRollOut = "function() { console.log('dataLabelRollOut')}";
+
+        myEvent.legendItemClicked = "function() { console.log('legendItemClicked')}";
+        myEvent.legendItemRollOver = "function() { console.log('legendItemRollOver')}";
+        myEvent.legendItemRollOut = "function() { console.log('legendItemRollOut')}";
+
+        myEvent.chartClick = "function() { console.log('chartClick')}";
+        myEvent.chartRollOver = "function() { console.log('chartRollOver')}";
+        myEvent.chartRollOut = "function() { console.log('chartRollOut')}";
+
+        dynamic dataset = new System.Dynamic.ExpandoObject();
+        dynamic dataset1 = new System.Dynamic.ExpandoObject();
+        dynamic dataset2 = new System.Dynamic.ExpandoObject();
+        dynamic vtrendlines = new System.Dynamic.ExpandoObject();
+        dynamic trendlines = new System.Dynamic.ExpandoObject();
+
+        myChartConfig.id = "zoomxy";
+        myChartConfig.type = "zoomscatter";
+        myChartConfig.dataFormat = "json";
+        myChartConfig.width = 1000;
+        myChartConfig.height = 600;
+        myChartConfig.renderAt = "zoomscatterxy";
+
+        myChart.caption = "Server Performance";
+        myChart.xAxisName = "Server Load (TPS)";
+        myChart.yAxisName = "Response Time (sec)";
+        myChart.xaxismaxvalue = "100";
+        myChart.xaxisminvalue = "20";
+        myChart.yaxismaxvalue = "7";
+        myChart.theme = "fusion";
+
+        dataset1.drawline = "1";
+        dataset1.seriesname = "Server 1";
+        dataset1.color = "009900";
+        dataset1.anchorsides = "3";
+        dataset1.anchorradius = "4";
+        dataset1.anchorbgcolor = "D5FFD5";
+        dataset1.anchorbordercolor = "009900";
+        dataset1.data = new[]
+        {
+              new {y = "2.4", x = "21" },
+              new {y = "3.5", x = "32" },
+              new {y = "2.5", x = "43" },
+              new {y = "4.1", x = "48" },
+              new {y = "3.5", x = "50" },
+              new {y = "4.6", x = "56" },
+              new {y = "4.8", x = "59" },
+              new {y = "4.9", x = "73" },
+              new {y = "4.6", x = "89" },
+              new {y = "4.2", x = "93" }
+    };
+        dataset2.seriesname = "Server 2";
+        dataset2.color = "0000FF";
+        dataset2.anchorsides = "4";
+        dataset2.anchorradius = "4";
+        dataset2.anchorbgcolor = "C6C6FF";
+        dataset2.anchorbordercolor = "0000FF";
+        dataset2.data = new[]
+        {
+              new {y = "1.4", x = "23" },
+              new {y = "1.5", x = "29" },
+              new {y = "1.5", x = "33" },
+              new {y = "1.1", x = "41" },
+              new {y = "1.5", x = "47" },
+              new {y = "1.6", x = "49" },
+              new {y = "1.8", x = "51" },
+              new {y = "1.9", x = "53" },
+              new {y = "1.6", x = "57" },
+              new {y = "1.2", x = "58" },
+              new {y = "1.9", x = "61" },
+              new {y = "1.1", x = "63" },
+              new {y = "1.9", x = "64" },
+              new {y = "1.7", x = "71" },
+              new {y = "1.1", x = "77" },
+              new {y = "1.3", x = "79" },
+              new {y = "1.7", x = "83" },
+              new {y = "1.8", x = "89" },
+              new {y = "1.9", x = "91" },
+              new {y = "1.0", x = "93" },
+    };
+
+        vtrendlines.line = new[]
+        {
+            new{ startvalue = "20", endvalue = "65", alpha = "5", color = "00FF00"},
+            new{ startvalue = "65", endvalue = "75", alpha = "15", color = "FFFF00"},
+            new{ startvalue = "75", endvalue = "100", alpha = "15", color = "FF0000"},
+    };
+
+        trendlines.line = new[]
+        {
+            new{ startvalue = "5.2", displayvalue = "Check", linethickness = "2", color = "FF0000", valueonright = "1", dashed = "1", dashgap = "5" }
+    };
+
+        myDataSource.chart = myChart;
+        myDataSource.vtrendlines = new[] { vtrendlines };
+        myDataSource.trendlines = new[] { trendlines };
+        myDataSource.dataset = new[] { dataset1, dataset2 };
+        myChartConfig.events = myEvent;
+
+        myChartConfig.dataSource = myDataSource;
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+        //await fusionChartsService.CallFusionChartsFunction("getChartAttribute", "1", "caption");
+        /*
+        //---methods----
+        //get chart ID
+        await fusionChartsService.CallFusionChartsFunction("chartType", "zoomscatterxy");
+      //set chart id
+      //  await fusionChartsService.CallFusionChartsFunction("chartType", "zoomscatterxy", "mscombi3d");
+        //get chart attribute
+        await fusionChartsService.CallFusionChartsFunction("getChartAttribute", "zoomscatterxy");
+        // get XML data
+        await fusionChartsService.CallFusionChartsFunction("getXMLData", "zoomscatterxy");
+        //show message
+        await fusionChartsService.CallFusionChartsFunction("showChartMessage", "zoomscatterxy", "Hi This is Scatter plot chart", "true", "true"); */
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await scatterplotxy();
+            await bubblexychart();
+            await zoomscatterxy();
+        }
+        else
+        {
+
+        }
+    }
+
+}

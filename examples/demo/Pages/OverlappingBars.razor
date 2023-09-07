@@ -1,0 +1,194 @@
+﻿@page "/OverlappingBars"
+
+<h1>Overlapping Bars</h1>
+
+<div id="Overlapping Bars"></div>
+
+
+@inject FusionChartsService fusionChartsService;
+
+@code {
+    public async void OverlappingBarsChart()
+    {
+        //chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+
+
+        myChartConfig.type = "overlappedbar2d";
+        myChartConfig.width = 600;
+        myChartConfig.height = 300;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "Overlapping Bars";
+
+
+        myChart.caption = "Prescott Branch Expense Report for 2017";
+        myChart.subcaption = "Charles Schwab Corporation";
+        myChart.xAxisName = "Month";
+        myChart.yAxisName = "Expense (In USD)";
+        myChart.drawcrossline = "1";
+        myChart.plottooltext = "<b>$seriesName</b> expense in $label was <b>$$dataValue</b>";
+        myChart.theme = "candy";
+        myChart.showvalues = "0";
+
+        myDataSource.categories = new[]{
+        new
+        {
+        category=new []
+        {
+        new {
+          label= "Jan"
+        },
+        new {
+          label= "Feb"
+        },
+        new {
+          label= "Mar"
+        },
+        new {
+          label= "Apr"
+        },
+        new {
+          label= "May"
+        },
+        new {
+          label= "Jun"
+        },
+        new {
+          label= "Jul"
+        },
+        new {
+          label= "Aug"
+        },
+        new {
+          label= "Sep"
+        },
+        new {
+          label= "Oct"
+        },
+        new {
+          label= "Nov"
+        },
+        new {
+          label= "Dec"
+        }
+
+        }
+        }
+
+    };
+
+
+        myDataSource.dataset = new[]{
+            new{ seriesname = "Budgeted",
+                data = new[]
+                {
+                    new {
+          value= "16500"
+        },
+        new {
+          value= "16000"
+        },
+        new {
+          value= "15000"
+        },
+        new {
+          value= "14500"
+        },
+        new {
+          value= "14000"
+        },
+        new {
+          value= "13500"
+        },
+        new {
+          value= "13000"
+        },
+        new {
+          value= "12500"
+        },
+        new {
+          value= "12500"
+        },
+        new {
+          value= "12000"
+        },
+        new {
+          value= "11500"
+        },
+        new {
+          value= "13500"
+        }
+                 }
+        },new{ seriesname = "Actual",
+                data = new[]
+                {
+                    new {
+          value= "17000"
+        },
+        new {
+          value= "16300"
+        },
+        new {
+          value= "14900"
+        },
+        new {
+          value= "14300"
+        },
+        new {
+          value= "13400"
+        },
+        new {
+          value= "13100"
+        },
+        new {
+          value= "13700"
+        },
+        new {
+          value= "12100"
+        },
+        new {
+          value= "12000"
+        },
+        new {
+          value= "11100"
+        },
+        new {
+          value= "10900"
+        },
+        new {
+          value= "13500"
+        }
+                 }
+        }
+
+    };
+
+
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            OverlappingBarsChart();
+        }
+        else
+        {
+
+        }
+    }
+
+
+
+}

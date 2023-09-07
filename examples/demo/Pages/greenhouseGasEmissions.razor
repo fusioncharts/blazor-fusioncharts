@@ -1,0 +1,211 @@
+@page "/greenhouseGasEmissions"
+@using Microsoft.JSInterop;
+@using System.Net.Http;
+@inject HttpClient httpClient;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@inject IJSRuntime JSInterop;
+@inject FusionChartsService fusionChartsService;
+<PageTitle>Index</PageTitle>
+<h1>Hello, World!</h1>
+<h2>1. Demo Chart </h2>
+<div id="chartContainer1"></div>
+Welcome.
+@code {
+    protected override async Task OnAfterRenderAsync(bool
+    firstRender)
+    {
+        if (firstRender)
+        {
+            await demo();
+        }
+        else
+        {
+        }
+    }
+    private async Task demo()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myData = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        dynamic myColorRange = new System.Dynamic.ExpandoObject();
+        dynamic finallinkeddata = new System.Dynamic.ExpandoObject();
+        dynamic data1 = new System.Dynamic.ExpandoObject();
+        dynamic chart1 = new System.Dynamic.ExpandoObject();
+        dynamic colorrange1 = new System.Dynamic.ExpandoObject();
+        dynamic colorrange2 = new System.Dynamic.ExpandoObject();
+        dynamic colorrange3 = new System.Dynamic.ExpandoObject();
+        dynamic colorrange4 = new System.Dynamic.ExpandoObject();
+        dynamic linkeddata1 = new System.Dynamic.ExpandoObject();
+        dynamic chart2 = new System.Dynamic.ExpandoObject();
+        dynamic linkeddata2 = new System.Dynamic.ExpandoObject();
+        dynamic l1 = new System.Dynamic.ExpandoObject();
+        dynamic l2 = new System.Dynamic.ExpandoObject();
+
+        dynamic mySource = new System.Dynamic.ExpandoObject();
+
+        dynamic chart3 = new System.Dynamic.ExpandoObject();
+        dynamic linkeddata3 = new System.Dynamic.ExpandoObject();
+        dynamic chart4 = new System.Dynamic.ExpandoObject();
+        dynamic linkeddata4 = new System.Dynamic.ExpandoObject();
+        dynamic l3 = new System.Dynamic.ExpandoObject();
+        dynamic l4 = new System.Dynamic.ExpandoObject();
+
+        myChart.caption = "Worldwide CO₂ emissions - 2016";
+        myChart.subcaption = "Measured in tonnes per year";
+        myChart.captionalignment = "left";
+        myChart.theme = "candy";
+        myChart.formatnumberscale = "0";
+        myChart.numbersuffix = " tonns per capita";
+        myChart.entityfillhovercolor = "#E5E5E9";
+        myChart.entitytooltext =
+        "<div style='font-size:14px; text-align:center; padding: 2px 4px 2px 4px; color:black'>$lname</div><div style='font-size:12px; color:black'>$value tonns per capita</div>";
+
+
+        myColorRange.startlabel = "Low";
+        myColorRange.endlabel = "High";
+        myColorRange.code = "#D7DDFF";
+        myColorRange.minvalue = "0";
+        myColorRange.gradient = "1";
+        myColorRange.color =
+        new[]{
+      new{
+            maxvalue= "150",
+    displayvalue= "Average",
+    code= "#828FD6"
+      },
+      new{
+            maxvalue= "300",
+            displayvalue="",
+    code= "#36469F"
+      }
+        };
+        data1 = new[]{
+    new{
+      id= "NA",
+        value = "57.2",
+        link = "newchart-json-NA",
+    },
+    new{
+      id= "SA",
+      value= "57.1",
+      link= "newchart-json-SA"
+    },
+    new{
+      id= "AS",
+      value= "247",
+      link= "newchart-json-AS"
+    },
+    new{
+      id= "EU",
+      value= "188.5",
+      link= "newchart-json-EU"
+    },
+    new{
+      id= "AF",
+      value= "87.2",
+      link= "newchart-json-AF"
+    },
+    new{
+      id= "AU",
+      value= "8.32",
+      link= "newchart-json-AU"
+    }
+    };
+
+        chart1.caption = "North America Worldwide CO₂ emissions - 2016";
+        chart1.subcaption = "Measured in tonnes per year";
+        chart1.numbersuffix = " tonns per capita";
+        chart1.captionalignment = "left";
+        chart1.theme = "candy";
+        chart1.formatnumberscale = "0";
+        chart1.entityfillhovercolor = "#E5E5E9";
+        chart1.entitytooltext =
+        "<div style='font-size:14px; text-align:center; padding: 2px 4px 2px 4px; color:black'>$lName</div><div style='font-size:12px;color:black'>$value tonns per capita</div>";
+
+        colorrange1.minvalue = "0";
+        colorrange1.startlabel = "Low";
+        colorrange1.endlabel = "High";
+        colorrange1.code = "#D7DDFF";
+        colorrange1.gradient = "1";
+        colorrange1.color =
+            new[]{
+        new{
+            maxvalue= 18,
+          displayvalue= "Average",
+          code= "#828FD6"
+        },
+        new{
+            maxvalue= 36,
+            displayvalue="",
+          code= "#36469F"
+        }
+            };
+
+        linkeddata1 = new[]{
+          new{
+            id= "001",
+            value= 5.547
+          },
+          new{
+            id= "002",
+            value= 6.518
+          },
+          new{
+            id= "003",
+            value=4.702
+          },
+          new{
+            id= "004",
+            value= 1.417
+          },
+          new{
+            id= "005",
+            value= 15.515
+          },
+          new{
+            id= "026",
+            value= 9.38
+          }
+    };
+        l1.chart = chart1;
+        l1.data = linkeddata1;
+        l1.colorrange = colorrange1;
+        finallinkeddata = new[]
+        {
+            new
+            {
+                id = "NA",
+                linkedchart = l1
+            }
+    };
+
+
+        mySource.chart = myChart;
+        mySource.data = data1;
+        mySource.linkeddata = finallinkeddata;
+
+
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "chartContainer1";
+        myChartConfig.type = "maps/world";
+        myChartConfig.width = "100%";
+        myChartConfig.height = "100%";
+        myChartConfig.id = "id4";
+
+        myChartConfig.dataSource = mySource;
+
+
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+
+        <!-- World map is rendered properly but when a particular entity is clicked it is not
+        showing line chart with the data related to that entity. The same happens with cdn link
+        given in the documentation. This is termed as an existing issue-->
+        await fusionChartsService.renderChart(chartConfig);
+
+
+    }
+}
+<SurveyPrompt Title="How is Blazor working for you?" />
