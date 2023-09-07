@@ -375,7 +375,10 @@ private async Task callDispose(){
 ```
 
 
-Note : Any method that we invoke that is manipulating or interacting with the chart data then it has to called after the chart is rendered which means it has to be called after the "loaded" or "renderComplete" event has triggered.
+Note: Any method that we invoke that is manipulating or interacting with the chart data then it has to be called after the chart is rendered which means it has to be called after the "loaded" or "renderComplete" event has triggered.
+
+Here is the link to an example that demonstrates the above point.\
+<https://github.com/fusioncharts/blazor-fusioncharts/blob/feature/examples/examples/demo/Pages/Adding-Blazor-and-JS-functions-to-events-By-Sanskar>
 
 ## Going Beyond Charts
 
