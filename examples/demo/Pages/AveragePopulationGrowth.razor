@@ -1,0 +1,199 @@
+@page "/AveragePopulationGrowth"
+@using Microsoft.JSInterop;
+@inject IJSRuntime JSInterop;
+@inject FusionChartsService fusionChartsService;
+<PageTitle>Index</PageTitle>
+<h1>Hello, World!</h1>
+<h2>1. Demo Chart </h2>
+<div id="chartContainer1"></div>
+Welcome.
+@code {
+    protected override async Task OnAfterRenderAsync(bool
+    firstRender)
+    {
+        if (firstRender)
+        {
+            await demo();
+        }
+        else
+        {
+        }
+    }
+    private async Task demo()
+    {
+
+
+
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myData = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        dynamic myColorRange = new System.Dynamic.ExpandoObject();
+        dynamic finallinkeddata = new System.Dynamic.ExpandoObject();
+        dynamic data1 = new System.Dynamic.ExpandoObject();
+        dynamic chart1 = new System.Dynamic.ExpandoObject();
+        dynamic linkeddata1 = new System.Dynamic.ExpandoObject();
+        dynamic chart2 = new System.Dynamic.ExpandoObject();
+        dynamic linkeddata2 = new System.Dynamic.ExpandoObject();
+        dynamic l1 = new System.Dynamic.ExpandoObject();
+        dynamic l2 = new System.Dynamic.ExpandoObject();
+
+        dynamic chart3 = new System.Dynamic.ExpandoObject();
+        dynamic linkeddata3 = new System.Dynamic.ExpandoObject();
+        dynamic chart4 = new System.Dynamic.ExpandoObject();
+        dynamic linkeddata4 = new System.Dynamic.ExpandoObject();
+        dynamic l3 = new System.Dynamic.ExpandoObject();
+        dynamic l4 = new System.Dynamic.ExpandoObject();
+
+        dynamic chart5 = new System.Dynamic.ExpandoObject();
+        dynamic linkeddata5 = new System.Dynamic.ExpandoObject();
+        dynamic l5 = new System.Dynamic.ExpandoObject();
+
+
+        myChart.caption = "Average Annual Population Growth";
+        myChart.subcaption = "Click on a continent to see trend from 1955-2015";
+        myChart.numbersuffix = "%";
+        myChart.includevalueinlabels = "1";
+        myChart.labelsepchar = ": ";
+        myChart.entityfillhovercolor = "#FFF9C4";
+        myChart.theme = "candy";
+
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "chartContainer1";
+        myChartConfig.type = "maps/world";
+        myChartConfig.width = "100%";
+        myChartConfig.height = "100%";
+
+
+        myColorRange.minvalue = "0";
+        myColorRange.code = "#FFE0B2";
+        myColorRange.gradient = "1";
+        myColorRange.color = new[]{
+      new{
+        minvalue= "0.5",
+        maxvalue= "1.0",
+        color= "#FFD74D"
+      },
+      new{
+        minvalue= "1.0",
+        maxvalue= "2.0",
+        color= "#FB8C00"
+      },
+      new{
+        minvalue= "2.0",
+        maxvalue= "3.0",
+        color= "#E65100"
+      }
+    };
+        chart1.caption = "Average Annual Population Growth - North America";
+        chart1.subcaption = "1955 - 2015";
+        chart1.yaxisname = "Growth";
+        chart1.numbersuffix = "%";
+        chart1.palettecolors = "FFD74D";
+        chart1.theme = "candy";
+
+
+        linkeddata1 = new[]{
+            new{
+        label= "1955",
+        value= "1.5078"
+          },
+      new{
+        label= "1960",
+        value= "1.5502"
+      },
+      new{
+        label= "1965",
+        value= "1.3121"
+      },
+      new{
+        label= "1970",
+        value= "0.8648"
+      },
+      new{
+        label= "2015",
+        value= "0.4291"
+      } };
+
+
+        data1 = new[] {
+new{
+      id= "NA",
+      value= ".82",
+      showlabel= "1",
+      link= "newchart-json-NAM"
+    },
+    new{
+      id= "SA",
+      value= "2.04",
+      showlabel= "1",
+      link= "newchart-json-SAM"
+    },
+    new{
+      id= "AS",
+      value= "1.78",
+      showlabel= "1",
+      link= "newchart-json-ASI"
+    },
+    new{
+      id= "EU",
+      value= ".40",
+      showlabel= "1",
+      link= "newchart-json-EUP"
+    },
+    new{
+      id= "AF",
+      value= "2.58",
+      showlabel= "1",
+      link= "newchart-json-AFC"
+    },
+    new{
+      id= "AU",
+      value= "1.30",
+      showlabel= "1",
+      link= "newchart-json-AUS"
+    }
+};
+
+
+
+
+
+        l1.chart = chart1;
+        l1.data = linkeddata1;
+
+        finallinkeddata = new[]{
+            new{
+                id= "NA",
+                linkedchart = l1
+            }
+    };
+
+        myEvent.entityRollOver = "function(){console.log('======== entityRollOver ===========')}";
+        myEvent.entityRollOut = "function(){console.log('======== entityRollOut ===========')}";
+        myEvent.entityClick = "function(){console.log('======== entityClick ===========')}";
+        myEvent.markerRollOver = "function(){console.log('======== markerRollOver ===========')}";
+        myEvent.markerRollOut = "function(){console.log('======== markerRollOut ===========')}";
+        myEvent.markerClick = "function(){console.log('======== markerClick ===========')}";
+        myEvent.connectorRollOver = "function(){console.log('======== connectorRollOver ===========')}";
+        myEvent.connectorRollOut = "function(){console.log('======== connectorRollOut ===========')}";
+        myEvent.connectorClick = "function(){console.log('======== connectorClick ===========')}";
+
+
+
+        myChartConfig.events = myEvent;
+        myData.chart = myChart;
+        myData.colorrange = myColorRange;
+
+        myData.data = data1;
+        myData.linkeddata = finallinkeddata;
+        myChartConfig.dataSource = myData;
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+
+        <!-- World map is rendered properly but when a particular entity is clicked it is not 
+        showing line chart with the data related to that entity. The same happens with cdn link 
+        given in the documentation. This is termed as an existing issue-->
+        await fusionChartsService.renderChart(chartConfig);
+    }
+}
+<SurveyPrompt Title="How is Blazor working for you?" />

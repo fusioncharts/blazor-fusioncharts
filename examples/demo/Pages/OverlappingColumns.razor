@@ -1,0 +1,152 @@
+﻿@page "/OverlappingColumns"
+
+<h1>Overlapping Columns</h1>
+
+
+<div id="Overlapping Columns"></div>
+
+@inject FusionChartsService fusionChartsService;
+
+@code {
+
+    public async void OverlappingColumnsChart()
+    {
+        //chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+
+
+        myChartConfig.type = "overlappedcolumn2d";
+        myChartConfig.width = 600;
+        myChartConfig.height = 300;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "Overlapping Columns";
+
+
+        myChart.caption = "Sales Targets vs Achieved";
+        myChart.subcaption = "Bilbus";
+
+        myChart.yAxisName = "Revenue (In USD)";
+        myChart.numberprefix = "$";
+        myChart.drawcrossline = "1";
+        myChart.theme = "candy";
+        myChart.showvalues = "0";
+
+        myDataSource.categories = new[]{
+        new
+        {
+        category=new []
+        {
+        new {
+          label= "Oliver"
+        },
+        new {
+          label= "Andy"
+        },
+        new {
+          label= "Peter"
+        },
+        new {
+          label= "Natasha"
+        },
+        new {
+          label= "Robert"
+        },
+        new {
+          label= "Bruce"
+        },
+        new {
+          label= "Wanda"
+        }
+
+        }
+        }
+
+    };
+
+
+        myDataSource.dataset = new[]{
+            new{ seriesname = "Target",
+                data = new[]
+                {
+                    new {
+          value= "250000"
+        },
+        new {
+          value= "200000"
+        },
+        new {
+          value= "300000"
+        },
+        new {
+          value= "200000"
+        },
+        new {
+          value= "270000"
+        },
+        new {
+          value= "350000"
+        },
+        new {
+          value= "200000"
+        }
+                 }
+        },new{ seriesname = "Achieved",
+                data = new[]
+                {
+                    new {
+          value= "260000"
+        },
+        new {
+          value= "180000"
+        },
+        new {
+          value= "290000"
+        },
+        new {
+          value= "195000"
+        },
+        new {
+          value= "300000"
+        },
+        new {
+          value= "380000"
+        },
+        new {
+          value= "210000"
+        }
+                 }
+        }
+
+    };
+
+
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+    }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            OverlappingColumnsChart();
+        }
+        else
+        {
+
+        }
+    }
+
+
+
+}
