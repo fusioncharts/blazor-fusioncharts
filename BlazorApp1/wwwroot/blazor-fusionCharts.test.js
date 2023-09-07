@@ -3,7 +3,16 @@ import './blazor-fusionCharts';
 describe('Render Chart', () => {  
     test('Render Chart', () => {
     
-        var chartConfigString ='{"type": "pie2d","width": "500","height": "300","dataFormat": "json","dataSource": {"chart": {"caption": "Sample Pie Chart","theme": "fusion"}},"renderAt": "chartContainer1","id": "idj"}';
+        var chartConfigString ='{"type": "pie2d","width": "500","height": "300","dataFormat": "json","dataSource": {"chart": {"caption": "Sample Pie Chart","theme": "fusion"}},"renderAt": "chartContainer1","id": "id1"}';
+
+        expect(() => {
+            window.FusionCharts.renderChart(chartConfigString);
+          }).not.toThrow();
+        });
+
+    test('Render Chart', () => {
+    
+        var chartConfigString ='{"type": "column2d","renderAt": "chart-container","width": "500","height": "350","dataFormat": "json","dataSource": {"chart": {"caption": "Monthly revenue for last year","subCaption": "Harrys SuperMart","xAxisName": "Month","yAxisName": "Revenue (In USD)","numberPrefix": "$","paletteColors": "#0075c2"},"data": [{"label": "Jan","value": "420000"},{"label": "Feb","value": "810000"}]},"events": {"dataPlotClick": "function (eventObj, dataObj) {  console.log(eventObj);}"}}'
 
         expect(() => {
             window.FusionCharts.renderChart(chartConfigString);
@@ -25,7 +34,7 @@ describe('setDataStore', () => {
                     },
                 },
                 renderAt: "chartContainer1",
-                id: "id14"
+                id: "id2"
             };
                     
             const chart = new FusionCharts(chartConfig);
@@ -66,7 +75,7 @@ describe('get chart Attribute', () => {
                 },
             },
             renderAt: "chartContainer1",
-            id: "id1"
+            id: "id3"
         };
                 
         const chart = new FusionCharts(chartConfig);
@@ -92,7 +101,7 @@ describe('set chart attribute', () => {
                 },
             },
             renderAt: "chartContainer1",
-            id: "id2"
+            id: "id4"
         };
                 
         const chart = new FusionCharts(chartConfig);
@@ -120,7 +129,7 @@ describe('set chart data', () => {
                 }
             },
             renderAt: "chartContainer1",
-            id: "id3"
+            id: "id5"
         };
                 
         const chart = new FusionCharts(chartConfig);
@@ -156,7 +165,7 @@ describe('get chart Data', () => {
                 },
             },
             renderAt: "chartContainer1",
-            id: "id4"
+            id: "id6"
         };
                 
         const chart = new FusionCharts(chartConfig);
@@ -183,7 +192,7 @@ describe('Destroy chart', () => {
                 },
             },
             renderAt: "chartContainer1",
-            id: "id5"
+            id: "id7"
         };
                 
         const chart = new FusionCharts(chartConfig);
@@ -208,7 +217,7 @@ describe('change chart type', () => {
                 },
             },
             renderAt: "chartContainer1",
-            id: "id6"
+            id: "id8"
         };
                 
         const chart = new FusionCharts(chartConfig);
@@ -233,7 +242,7 @@ describe('get XML data', () => {
                 },
             },
             renderAt: "chartContainer1",
-            id: "id7"
+            id: "id9"
         };
                 
         const chart = new FusionCharts(chartConfig);
@@ -260,7 +269,7 @@ describe('set XML data', () => {
                 },
             },
             renderAt: "chartContainer1",
-            id: "id8"
+            id: "id10"
         };
                 
         const chart = new FusionCharts(chartConfig);
@@ -288,7 +297,7 @@ describe('show chart message', () => {
                 },
             },
             renderAt: "chartContainer1",
-            id: "id9"
+            id: "id11"
         };
                 
         const chart = new FusionCharts(chartConfig);
@@ -314,7 +323,7 @@ describe('get JSON Data', () => {
                 },
             },
             renderAt: "chartContainer1",
-            id: "id10"
+            id: "id12"
         };
                 
         const chart = new FusionCharts(chartConfig);
@@ -341,7 +350,7 @@ describe('set JSON Data', () => {
                 },
             },
             renderAt: "chartContainer1",
-            id: "id11"
+            id: "id13"
         };
                 
         const chart = new FusionCharts(chartConfig);
@@ -368,7 +377,7 @@ describe('format number', () => {
                 },
             },
             renderAt: "chartContainer1",
-            id: "id12"
+            id: "id14"
         };
                 
         const chart = new FusionCharts(chartConfig);
@@ -394,7 +403,7 @@ describe('resizeTo', () => {
                     },
                 },
                 renderAt: "chartContainer1",
-                id: "id16"
+                id: "id15"
             };
                     
             const chart = new FusionCharts(chartConfig);
@@ -407,28 +416,121 @@ describe('resizeTo', () => {
 });
 
 describe('addEventListener', () => {  
-  test('addEventListener', () => {
-      var chartConfig = {
-          type: "pie2d", 
-          width: "500",  
-          height: "300", 
-          dataFormat: "json", 
-          dataSource: {
-              chart: {
-                  caption: "Sample Pie Chart", 
-                  theme: "fusion", 
-              },
-          },
-          renderAt: "chartContainer1",
-          id: "id16"
-      };
-              
-      const chart = new FusionCharts(chartConfig);
-      chart.render();
+    test('addEventListener1', () => {
+        var chartConfig = {
+            type: 'pie3d',
+            renderAt: 'chart-container1',
+            width: '500',
+            height: '200',
+            dataFormat: 'json',
+            dataSource: {
+                "chart": {
+                    "caption": "Revenue Comparison",
+                        "subCaption": "2012",
+                        "numberPrefix": "$",
+                        "theme": "fint"
+                },
+                    "data": [{
+                    "label": "Food products",
+                        "value": "2500"
+                }, {
+                    "label": "Electronics",
+                        "value": "2000"
+                }]
+            },
+            id : 'id16'
+        }
+                
+        const chart = new FusionCharts(chartConfig);
+        chart.render();
+        
+        var result = window.FusionCharts.invokeChartFunction("addEventListener", chart.id , {
+            type: "callback",
+            event: "dataplotRollOver",
+            fn: 'function (eventObj, dataObj){console.log(eventObj, dataObj);}',
+        });
+
+        const expectedOutputPattern = /function\s+anonymous\s*\([^)]*\)\s*\{[^}]*\}/;
+
+        expect(result).toEqual(expect.stringMatching(expectedOutputPattern));
+    });  
     
-      var result = window.FusionCharts.invokeChartFunction("addEventListener", chart.id , ["dataPlotClick", "function() {console.log(' this function passed as callback function in generic method')}"]);
-    
-  
-  });    
+    test('addEventListener2', () => {
+        var chartConfig = {
+            type: 'pie3d',
+            renderAt: 'chart-container1',
+            width: '500',
+            height: '200',
+            dataFormat: 'json',
+            dataSource: {
+                "chart": {
+                    "caption": "Revenue Comparison",
+                        "subCaption": "2012",
+                        "numberPrefix": "$",
+                        "theme": "fint"
+                },
+                    "data": [{
+                    "label": "Food products",
+                        "value": "2500"
+                }, {
+                    "label": "Electronics",
+                        "value": "2000"
+                }]
+            },
+            id : 'id17'
+        }
+                    
+        const chart = new FusionCharts(chartConfig);
+        chart.render();
+        
+        var result = window.FusionCharts.invokeChartFunction("addEventListener", chart.id , {
+            type: "callback",
+            event: "dataplotRollOver",
+            fn:'function (eventObj, dataObj){ '
+            });
+
+        const expectedOutputPattern = /function\s+anonymous\s*\([^)]*\)\s*\{[^}]*\}/;
+
+        expect(result).toEqual(expect.stringMatching(expectedOutputPattern));  
+    });
+
+    test('addEventListener3', () => {
+        var chartConfig = {
+        type: 'pie3d',
+        renderAt: 'chart-container1',
+        width: '500',
+        height: '200',
+        dataFormat: 'json',
+        dataSource: {
+            "chart": {
+                "caption": "Revenue Comparison",
+                    "subCaption": "2012",
+                    "numberPrefix": "$",
+                    "theme": "fint"
+            },
+                "data": [{
+                "label": "Food products",
+                    "value": "2500"
+            }, {
+                "label": "Electronics",
+                    "value": "2000"
+            }]
+        },
+        id : 'id18'
+    }
+                
+    const chart = new FusionCharts(chartConfig);
+    chart.render();
+
+    var result = window.FusionCharts.invokeChartFunction("addEventListener", chart.id , {
+        type: "callback",
+        event: "dataplotRollOver",
+        fn:'function (){console.log(eventObj, dataObj); }'
+        });
+    const expectedOutputPattern = /function\s+anonymous\s*\([^)]*\)\s*\{[^}]*\}/;
+
+    expect(result).toEqual(expect.stringMatching(expectedOutputPattern));
+    });
+        
 });
 
