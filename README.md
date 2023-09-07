@@ -189,7 +189,7 @@ To invoke a Blazor method upon an event trigger, we have to follow the steps bel
 ```
 2. Instantiate the instance inside the constructor to refer to the current file/page name where it is being applied. 
 ```
-    public Index()
+    public <CurrentPageName>()
     {
         _instance = this;
     }
@@ -220,8 +220,8 @@ The addEventListener method listens to events across all FusionCharts instances 
 
 The generic method implemented above can be used to add a custom event listener which invokes a callback method and here it is: 
 ```
-var object = new { type="callback", eventname = "dataPlotClick", fn = "function() {console.log('I am a callback function')}" };
-await fusionChartsService.CallFusionChartsFunction("addEventListener", "CHART_ID", object);
+var jsonData = new { type="callback", eventname = "dataPlotClick", fn = "function() {console.log('I am a callback function')}" };
+await fusionChartsService.CallFusionChartsFunction("addEventListener", "CHART_ID", jsonData);
 ```
 
 Below code snippet demonstrates the callback method implementation upon the event trigger.
