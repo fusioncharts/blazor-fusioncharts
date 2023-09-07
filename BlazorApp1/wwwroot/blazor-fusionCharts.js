@@ -52,6 +52,16 @@ function parseFunction(key, value) {
 // Responsible for rendering any chart//
 window.FusionCharts.renderChart = (chartConfiguration) => {
   const configAsJSObject = JSON.parse(chartConfiguration, parseFunction);
+
+  // checking if chart already exists with the same id, and then disposing it//
+  if (configAsJSObject && configAsJSObject.id) {
+    let checkExistingChart = FusionCharts(configAsJSObject.id);
+
+    if (checkExistingChart) {
+      checkExistingChart.dispose();
+    }
+  }
+
   const chart = new FusionCharts(configAsJSObject);
   chart.render();
 };
