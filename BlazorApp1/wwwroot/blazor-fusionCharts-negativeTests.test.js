@@ -170,5 +170,19 @@ describe('format number', () => {
       });   
 });
 
+describe('addEventListener', () => {  
+  test('invoking addEventListener with invalid chart id', () => {
+      const invalidChartId = 'invalidChartId';
+    
+      expect(() => {
+        window.FusionCharts.invokeChartFunction("addEventListener", invalidChartId , {
+          type: "callback",
+          event: "dataplotRollOver",
+          fn:'function (){console.log(eventObj, dataObj); }'
+        })
+      }).toThrowError("Cannot read properties of undefined (reading 'addEventListener')");
+    });   
+});
+
 
 
