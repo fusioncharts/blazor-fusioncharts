@@ -9,6 +9,16 @@ describe('Render Chart', () => {
             window.FusionCharts.renderChart(chartConfigString);
           }).not.toThrow();
         });
+    
+    test('Render Chart', () => {
+    
+        var chartConfigString ='{"type": "pie2d","width": "500","height": "300","dataFormat": "json","dataSource": {"chart": {"caption": "Sample Pie Chart","theme": "fusion"}},"renderAt": "chartContainer1","id": "id19"}';
+    
+        expect(() => {
+            window.FusionCharts.renderChart(chartConfigString);
+            window.FusionCharts.renderChart(chartConfigString);
+        }).not.toThrow();
+    });
 
     test('Render Chart', () => {
     
@@ -533,4 +543,6 @@ describe('addEventListener', () => {
     });
         
 });
+
+
 
