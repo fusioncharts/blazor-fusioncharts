@@ -2,7 +2,6 @@
 @using Microsoft.JSInterop;
 @inject IJSRuntime JSInterop;
 @inject FusionChartsService fusionChartsService;
-@using Microsoft.JSInterop;
 @using System.Text.Json;
 @inject IJSRuntime JSInterop;
 @inject FusionChartsService xyz;
@@ -35,7 +34,7 @@ Welcome.
     private async Task annotationsChart(){
 
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
-        
+
         dynamic myChart = new System.Dynamic.ExpandoObject();
         dynamic myEvent = new System.Dynamic.ExpandoObject();
 

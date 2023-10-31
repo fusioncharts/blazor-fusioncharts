@@ -5534,7 +5534,7 @@
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "C:\\Program Files\\dotnet\\sdk\\7.0.302\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
-        "https://api.nuget.org/v3/index.json": {},
+        "https://fusioncharts.myget.org/F/blazorfusioncharts/api/v3/index.json": {},
         "https://www.myget.org/F/feed18072023/api/v3/index.json": {}
       },
       "frameworks": {
