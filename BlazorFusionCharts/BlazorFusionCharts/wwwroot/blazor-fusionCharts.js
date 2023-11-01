@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import FusionCharts from 'fusioncharts';
+>>>>>>> 599f4ae7b6a1f4c2405b973ba1c39df8f5f00ed5
 const CALLBACK = "callback";
 
 function extractArguments(functionString) {

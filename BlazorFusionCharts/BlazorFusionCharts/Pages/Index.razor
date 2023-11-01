@@ -1,5 +1,11 @@
 ﻿@page "/"
 @using Microsoft.JSInterop;
+<<<<<<< HEAD
+=======
+@inject IJSRuntime JSInterop;
+@inject FusionChartsService fusionChartsService;
+@using Microsoft.JSInterop;
+>>>>>>> 599f4ae7b6a1f4c2405b973ba1c39df8f5f00ed5
 @using System.Text.Json;
 @inject IJSRuntime JSInterop;
 @inject FusionChartsService xyz;
@@ -32,7 +38,11 @@ Welcome.
     private async Task annotationsChart(){
 
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 599f4ae7b6a1f4c2405b973ba1c39df8f5f00ed5
         dynamic myChart = new System.Dynamic.ExpandoObject();
         dynamic myEvent = new System.Dynamic.ExpandoObject();
 

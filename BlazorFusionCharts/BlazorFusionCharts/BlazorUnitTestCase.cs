@@ -1,10 +1,15 @@
+<<<<<<< HEAD
 using Microsoft.JSInterop;
+=======
+﻿using Microsoft.JSInterop;
+>>>>>>> 599f4ae7b6a1f4c2405b973ba1c39df8f5f00ed5
 using Xunit;
 
 namespace Microsoft.FusionChartsInterop.Tests
 {
     public class MockJSRuntime : IJSRuntime
     {
+<<<<<<< HEAD
         public List<Tuple<string, object?[]>> Invocations { get; } = new List<Tuple<string, object?[]>>();
 
         public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args)
@@ -17,6 +22,20 @@ namespace Microsoft.FusionChartsInterop.Tests
         {
             Invocations.Add(Tuple.Create(identifier, args ?? Array.Empty<object>()));
             return new ValueTask<TValue>(result: default!);
+=======
+        public List<Tuple<string, object[]>> Invocations { get; } = new List<Tuple<string, object[]>>();
+
+        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object[] args)
+        {
+            Invocations.Add(Tuple.Create(identifier, args));
+            return new ValueTask<TValue>(default(TValue));
+        }
+
+        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object[] args)
+        {
+            Invocations.Add(Tuple.Create(identifier, args));
+            return new ValueTask<TValue>(default(TValue));
+>>>>>>> 599f4ae7b6a1f4c2405b973ba1c39df8f5f00ed5
         }
     }
 
@@ -56,11 +75,19 @@ namespace Microsoft.FusionChartsInterop.Tests
             var licenseObject = mockJsRuntime.Invocations[0].Item2[0] as object;
             Assert.NotNull(licenseObject);
 
+<<<<<<< HEAD
             var key = licenseObject?.GetType().GetProperty("key")?.GetValue(licenseObject)?.ToString();
             var creditLabel = (bool?)(licenseObject?.GetType().GetProperty("creditLabel")?.GetValue(licenseObject));
 
             Assert.Equal(licenseKey, key);
             Assert.False(creditLabel ?? false);
+=======
+            var key = licenseObject.GetType().GetProperty("key")?.GetValue(licenseObject)?.ToString();
+            var creditLabel = (bool)licenseObject.GetType().GetProperty("creditLabel")?.GetValue(licenseObject);
+
+            Assert.Equal(licenseKey, key);
+            Assert.False(creditLabel);
+>>>>>>> 599f4ae7b6a1f4c2405b973ba1c39df8f5f00ed5
         }
 
         [Fact]
