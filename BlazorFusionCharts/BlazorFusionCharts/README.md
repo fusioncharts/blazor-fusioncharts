@@ -57,8 +57,8 @@ If you're on Windows, ensure that the following workloads are selected during th
 - ASP.NET and Web development
 - Azure Development
 - .NET Desktop
-- After installation, launch Visual Studio and choose "Open a project or solution." Navigate to the 'BlazorApp1.sln' file in the
-   extracted folder. Run the BlazorApp1 by clicking the run button in the toolbar.
+- After installation, launch Visual Studio and choose "Open a project or solution." Navigate to the 'BlazorFusionCharts.sln' file in the
+   extracted folder. Run the BlazorFusionCharts by clicking the run button in the toolbar.
 
 4. MacOS or Linux Installation:
 For MacOS or Linux users, run the 'dotnet watch' command from your project directory in the terminal.
@@ -73,7 +73,7 @@ For MacOS or Linux users, run the 'dotnet watch' command from your project direc
 5. At the Name field add the name of the package source as 'myget.org' and at the Source field paste the myGet package link.
 6. Click on Update and then click on OK.
 7. Under Tools click on NuGet Package Manager and select Manage NuGet Packages for Solution. Now change the project source to myget.org in the top-right.
-8. Move to Browse tab of the same window , enter the credentials when prompted and install the package BlazorApp1.
+8. Move to Browse tab of the same window , enter the credentials when prompted and install the package BlazorFusionCharts.
 
 ## Quick Start
 
@@ -243,7 +243,7 @@ To invoke a Blazor method upon an event trigger, we have to follow the steps bel
 5. Now we are writing an anonymous function to call the Blazor method upon event trigger. Here 'DotNet' is available in the global scope of JavaScript.
 
 ```
-    myEvent.dataPlotClick = "function() { DotNet.invokeMethodAsync('BlazorApp1', 'ChangeData') }";
+    myEvent.dataPlotClick = "function() { DotNet.invokeMethodAsync('BlazorFusionCharts', 'ChangeData') }";
 ```
 
 ### Custom Event Handler
