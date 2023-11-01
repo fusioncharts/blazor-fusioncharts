@@ -1,4 +1,4 @@
-﻿using Xunit;
+using Xunit;
 
 namespace Microsoft.FusionChartsInterop.Tests
 {
@@ -10,10 +10,10 @@ namespace Microsoft.FusionChartsInterop.Tests
             // Arrange
             var mockJsRuntime = new MockJSRuntime();
             var fusionChartsService = new FusionChartsService(mockJsRuntime);
-            string invalidChartConfig = null;
+            string? invalidChartConfig = null;
 
             // Act and Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(() => fusionChartsService.renderChart(invalidChartConfig));
+            await Assert.ThrowsAsync<ArgumentNullException>(() => fusionChartsService.renderChart(invalidChartConfig!));
         }
 
         [Fact]
@@ -36,7 +36,7 @@ namespace Microsoft.FusionChartsInterop.Tests
             var fusionChartsService = new FusionChartsService(mockJsRuntime);
             var functionName = "Function";
             var chartId = "ChartId";
-            var invalidArgs = new object[] { null, 42 }; // Example of invalid arguments
+            var invalidArgs = new object[] { null!, 42 }; // Example of invalid arguments
 
             // Act and Assert
             await Assert.ThrowsAsync<ArgumentNullException>(async () =>
@@ -53,13 +53,13 @@ namespace Microsoft.FusionChartsInterop.Tests
             var fusionChartsService = new FusionChartsService(mockJsRuntime);
             var functionName = "setChartAttribute";
             var chartId = "ChartId";
-            string attributeName = null; // Explicitly specifying string type for attributeName
+            string? attributeName = null; // Explicitly specifying string type for attributeName
             var attributeValue = "Value";
-            var args = new object[] { attributeName, attributeValue };
+            object?[] args = new object?[] { attributeName, attributeValue };
 
             // Act and Assert
             await Assert.ThrowsAsync<ArgumentNullException>(() =>
-                fusionChartsService.CallFusionChartsFunction(functionName, chartId, args));
+                fusionChartsService.CallFusionChartsFunction(functionName, chartId, args!));
         }
 
         [Fact]
@@ -70,13 +70,13 @@ namespace Microsoft.FusionChartsInterop.Tests
             var fusionChartsService = new FusionChartsService(mockJsRuntime);
             var functionName = "getChartAttribute";
             var chartId = "ChartId";
-            string attributeName = null; // Invalid attribute name
-            var args = new object[] { attributeName };
+            string? attributeName = null; // Invalid attribute name
+            object?[] args = new object?[] { attributeName };
 
             // Act and Assert
             await Assert.ThrowsAsync<ArgumentNullException>(async () =>
             {
-                await fusionChartsService.CallFusionChartsFunction(functionName, chartId, args);
+                await fusionChartsService.CallFusionChartsFunction(functionName, chartId, args!);
             });
             Assert.Empty(mockJsRuntime.Invocations);
         }
@@ -104,12 +104,12 @@ namespace Microsoft.FusionChartsInterop.Tests
             var fusionChartsService = new FusionChartsService(mockJsRuntime);
             var functionName = "setXMLData";
             var chartId = "ChartId";
-            string XMLData = null;
-            var args = new object[] { XMLData };
+            string? XMLData = null;
+            object?[] args = new object?[] { XMLData };
 
             // Act and Assert
             await Assert.ThrowsAsync<ArgumentNullException>(() =>
-            fusionChartsService.CallFusionChartsFunction(functionName, chartId, args));
+            fusionChartsService.CallFusionChartsFunction(functionName, chartId, args!));
         }
 
         [Fact]
@@ -135,12 +135,12 @@ namespace Microsoft.FusionChartsInterop.Tests
             var fusionChartsService = new FusionChartsService(mockJsRuntime);
             var functionName = "setChartData";
             var chartId = "ChartId";
-            object[] data = null;
-            var args = new object[] { data };
+            object[]? data = null;
+            object?[] args = new object?[] { data };
 
             // Act and Assert
             await Assert.ThrowsAsync<ArgumentNullException>(() =>
-            fusionChartsService.CallFusionChartsFunction(functionName, chartId, args));
+            fusionChartsService.CallFusionChartsFunction(functionName, chartId, args!));
         }
 
         [Fact]
@@ -166,12 +166,12 @@ namespace Microsoft.FusionChartsInterop.Tests
             var fusionChartsService = new FusionChartsService(mockJsRuntime);
             var functionName = "showChartMessage";
             var chartId = "ChartId";
-            string message = null;
-            var args = new object[] { message };
+            string? message = null;
+            object?[] args = new object?[] { message };
 
             // Act and Assert
             await Assert.ThrowsAsync<ArgumentNullException>(() =>
-            fusionChartsService.CallFusionChartsFunction(functionName, chartId, args));
+            fusionChartsService.CallFusionChartsFunction(functionName, chartId, args!));
         }
 
         [Fact]
@@ -261,14 +261,14 @@ namespace Microsoft.FusionChartsInterop.Tests
             var fusionChartsService = new FusionChartsService(mockJsRuntime);
             var functionName = "setChartAttribute";
             var chartId = "ChartId";
-            string attributeName = null;
+            string? attributeName = null;
             var attributeValue = "Value";
-            var args = new object[] { attributeName, attributeValue };
+            object?[] args = new object?[] { attributeName, attributeValue };
 
             // Act & Assert
             await Assert.ThrowsAsync<ArgumentNullException>(async () =>
             {
-                await fusionChartsService.CallFusionChartsFunction(functionName, chartId, args);
+                await fusionChartsService.CallFusionChartsFunction(functionName, chartId, args!);
             });
             Assert.Empty(mockJsRuntime.Invocations);
         }
@@ -281,13 +281,13 @@ namespace Microsoft.FusionChartsInterop.Tests
             var fusionChartsService = new FusionChartsService(mockJsRuntime);
             var functionName = "getChartAttribute";
             var chartId = "ChartId";
-            string attributeName = null; // Explicitly specifying string type
-            var args = new object[] { attributeName };
+            string? attributeName = null; // Explicitly specifying string type
+            object?[] args = new object?[] { attributeName };
 
             // Act & Assert
             await Assert.ThrowsAsync<ArgumentNullException>(async () =>
             {
-                await fusionChartsService.CallFusionChartsFunction(functionName, chartId, args);
+                await fusionChartsService.CallFusionChartsFunction(functionName, chartId, args!);
             });
             Assert.Empty(mockJsRuntime.Invocations);
         }
@@ -316,12 +316,12 @@ namespace Microsoft.FusionChartsInterop.Tests
             var mockJsRuntime = new MockJSRuntime();
             var fusionChartsService = new FusionChartsService(mockJsRuntime);
             var chartId = "ChartId";
-            object[] args = null; // Explicitly specifying object[] type
+            object[]? args = null; // Explicitly specifying object[] type
 
             // Act & Assert
             await Assert.ThrowsAsync<ArgumentNullException>(async () =>
             {
-                await fusionChartsService.setDataStore(chartId, args);
+                await fusionChartsService.setDataStore(chartId, args!);
             });
             Assert.Empty(mockJsRuntime.Invocations);
         }
