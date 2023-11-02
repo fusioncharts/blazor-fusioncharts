@@ -2,7 +2,7 @@
 @using Microsoft.JSInterop;
 @using System.Text.Json;
 @inject IJSRuntime JSInterop;
-@inject FusionChartsService xyz;
+@inject FusionChartsService fusioncharts;
 @using System.Net.Http;
 @inject HttpClient httpClient;
 @inject NavigationManager navigationManager;
@@ -50,12 +50,11 @@ Welcome.
         string jsonUrl = navigationManager.ToAbsoluteUri("stackedBar2D.json").ToString();
         dynamic myDataSource = jsonUrl;
 
-        await xyz.renderChart(chartConfig);
-        await xyz.CallFusionChartsFunction("setJSONUrl", "demoId", jsonUrl);
+        await fusioncharts.renderChart(chartConfig);
+        await fusioncharts.CallFusionChartsFunction("setJSONUrl", "demoId", jsonUrl);
     }
 
     private async Task callDispose(){
-        await xyz.CallFusionChartsFunction("dispose", "demoId");
+        await fusioncharts.CallFusionChartsFunction("dispose", "demoId");
     }
 }
-<SurveyPrompt Title="How is Blazor working for you?" />
