@@ -2,7 +2,7 @@
 using Microsoft.JSInterop;
 using Xunit;
 
-namespace Microsoft.FusionChartsInterop.Tests
+namespace FusionCharts.FusionChartsInterop.Tests
 {
     public class MockJSRuntime : IJSRuntime
     {

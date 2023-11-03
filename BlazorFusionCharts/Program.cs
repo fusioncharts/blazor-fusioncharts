@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.FusionChartsInterop;
+using FusionCharts.FusionChartsInterop;
 
 var builder = WebApplication.CreateBuilder(args);
 

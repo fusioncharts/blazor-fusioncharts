@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components.RenderTree;
 using Microsoft.JSInterop;
-namespace Microsoft.FusionChartsInterop
+
+namespace FusionCharts.FusionChartsInterop
 {
     public class FusionChartsService
     {
