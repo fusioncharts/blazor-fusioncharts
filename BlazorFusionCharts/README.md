@@ -52,16 +52,16 @@ Every year, new frameworks emerge in the JavaScript ecosystem. FusionCharts, bei
 1. Start by referring to the Blazor documentation link for a detailed guide on setting up and installing the necessary dependencies.
 2. Clone the code repository from (<https://github.com/fusioncharts/blazor-fusioncharts>) to your local machine.
 3. Windows Installation:
-If you're on Windows, ensure that the following workloads are selected during the Visual Studio installation:
+   If you're on Windows, ensure that the following workloads are selected during the Visual Studio installation:
 
 - ASP.NET and Web development
 - Azure Development
 - .NET Desktop
 - After installation, launch Visual Studio and choose "Open a project or solution." Navigate to the 'BlazorFusionCharts.sln' file in the
-   extracted folder. Run the BlazorFusionCharts by clicking the run button in the toolbar.
+  extracted folder. Run the BlazorFusionCharts by clicking the run button in the toolbar.
 
 4. MacOS or Linux Installation:
-For MacOS or Linux users, run the 'dotnet watch' command from your project directory in the terminal.
+   For MacOS or Linux users, run the 'dotnet watch' command from your project directory in the terminal.
 5. Open your preferred web browser and navigate to the appropriate address to view and interact with your Blazor app.
 
 #### Setup using NuGet Package
@@ -77,9 +77,31 @@ For MacOS or Linux users, run the 'dotnet watch' command from your project direc
 
 ## Quick Start
 
+Update \_imports.razor to include the service by adding:
+
+```
+@using FusionCharts.FusionChartsInterop;
+```
+
+Update Program.cs by adding:
+
+```
+builder.Services.AddScoped<FusionCharts.FusionChartsInterop.FusionChartsService>();
+builder.Services.AddHttpClient();
+```
+
+Insert scripts in the \_Host.cshtml:
+
+```
+  <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+  <script src="~/blazor-fusionCharts.js"></script>
+```
+
+## Application Flow in a Gist
+
 The application's operational flow can be described as follows:
 
-1. It initiates from the entry point of the application, "_Hosts.cshtml" and "Index.razor".
+1. It initiates from the entry point of the application, "\_Hosts.cshtml" and "Index.razor".
 2. Within "Index.razor", the coding resides to facilitate chart rendering.
 3. From here it progresses to "FusionChartsService.cs," which serves as the interface between the end-user's Blazor application and the minified FusionCharts library.
 4. The flow then extends towards "blazor-fusionCharts.js." This file exposes specific functions for "FusionChartsService.cs" and establishes bindings with Fusioncharts.
@@ -187,7 +209,7 @@ There are two ways to attach event listeners to Fusioncharts:
 To invoke a JavaScript method upon an event trigger, we have to follow the steps below:
 
 1. Generate a JavaScript file within the wwwroot directory that encompasses the implementation of the event handler method.
-2. Include the above created file as script tag in the _Hosts.cshtml. Here the created file name is custom.js present in wwwroot folder.
+2. Include the above created file as script tag in the \_Hosts.cshtml. Here the created file name is custom.js present in wwwroot folder.
 
 ```
 <script src="~/custom.js"></script>
@@ -310,7 +332,7 @@ window.FusionCharts.setDataStore = (id, args) =>  {
 
     let currentChart = FusionCharts(id);
     let fusionDataStore = new FusionCharts.DataStore();
-    
+
     let data = JSON.parse(args[0]);
     let schema = JSON.parse(args[1]);
 
@@ -408,7 +430,7 @@ In the Index.razor file, the functionality of the event that has to be disposed 
 
 ```
 myEvent.dataPlotClick = "function() {DotNet.invokeMethodAsync('BlazorApp2TestQA2', 'ChangeData')}";
-myEvent.beforeDispose = "function(e) { console.log(e); e.preventDefault() }"; 
+myEvent.beforeDispose = "function(e) { console.log(e); e.preventDefault() }";
 myEvent.disposeCancelled = "function() { console.log('dispose cancelled') }";
 ```
 
