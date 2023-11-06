@@ -3,39 +3,25 @@
 @using System.Net.Http
 @inject HttpClient httpClient
 @inject NavigationManager navigationManager
-
 <PageTitle>ParitoDualAxis</PageTitle>
-
 <h3>PARITO WITH DUAL AXIS</h3>
 <div id="demoID2"></div>
-
 @code {
     public async void renderParetoDualAxis()
     {
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
         //(UNCOMMENT TO TEST DATA LOAD ERROR)
         //string DataLoadErrorUrl = "~demo2.json";
-
-        string jsonUrl = navigationManager.ToAbsoluteUri("demo2.json").ToString();
-        string jsonUrl_1 = navigationManager.ToAbsoluteUri("demo2_1.json").ToString();
+        string jsonUrl = navigationManager.ToAbsoluteUri("PD2.json").ToString();
+        string jsonUrl_1 = navigationManager.ToAbsoluteUri("PD.json").ToString();
         //string xmlUrl = navigationManager.ToAbsoluteUri("demo2_2.xml").ToString();
-
-
-
-
         dynamic myDataSource = jsonUrl;
-
-
-
-
         //(UNCOMMENT TO TEST DATA LOAD ERROR)
         //dynamic myDataSource = DataLoadErrorUrl;
-
         //dynamic myDataSource = new System.Dynamic.ExpandoObject();
         //dynamic myChart = new System.Dynamic.ExpandoObject();
         dynamic myEvent = new System.Dynamic.ExpandoObject();
         myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
-
         ////Data load events
         //myEvent.dataInvalid = "function() { console.log('Data Invalid on Parito with dual axis Chart')}";
         //myEvent.dataLoadError = "function() { console.log('Data load error on Parito with dual axis Chart')}";
@@ -43,14 +29,12 @@
         //myEvent.dataLoadRequestCancelled = "function() { console.log('data load request cancelled on Parito with dual axis Chart')}";
         myEvent.dataLoadRequestCompleted = "function() { console.log('data load request completed on Parito with dual axis Chart')}";
         //myEvent.dataLoaded = "function() { console.log('data loaded on Parito with dual axis Chart')}";
-
         myChartConfig.type = "pareto2d";
         myChartConfig.width = 500;
         myChartConfig.height = 300;
         myChartConfig.dataFormat = "jsonurl";
         myChartConfig.renderAt = "demoID2";
         myChartConfig.id = "demo_id2";
-
         //myChart.caption = " Top Hardware Defects Frequency";
         //myChart.subCaption = "Last year - ACME Computers";
         //myChart.yaxisname = "# reported instances";
@@ -58,7 +42,6 @@
         //myChart.theme = "candy";
         //myChart.decimals = "1";
         //myChart.drawcrossline = "1";
-
         //    myDataSource.data = new[] {
         //        new { label = "Hard-Disk", value = "40" },
         //        new { label = "PCB", value = "22" },
@@ -66,69 +49,60 @@
         //        new { label = "CDROM", value = "10" },
         //        new { label = "Keyboard", value = "6" },
         //        new { label = "Others", value = "68" },
-
         //};
         //myDataSource.chart = myChart;
         myChartConfig.events = myEvent;
         myChartConfig.dataSource = myDataSource;
-
         String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
         await xyz.renderChart(chartConfig);
         //await xyz.CallFusionChartsFunction("setChartDataUrl", "demo_id2", jsonUrl_1, "json");
-
         //await xyz.CallFusionChartsFunction("getJSONData", "demo_id2");
         //await xyz.CallFusionChartsFunction("getCSVData", "demo_id2");
-
-
         //await xyz.CallFusionChartsFunction("setXMLUrl", "demo_id2", xmlUrl);
-        //        await xyz.CallFusionChartsFunction(
-        //             "setChartData", "demo_id2", @"
-        //{
-        //  ""chart"": {
-        //    ""caption"": "" Top Hardware Defects Frequencies"",
-        //    ""subcaption"": ""Last year - ACME Computers"",
-        //    ""theme"": ""candy"",
-        //    ""yaxisname"": ""# reported instances"",
-        //    ""syaxisname"": ""% of total instances"",
-        //    ""decimals"": ""1"",
-        //    ""drawcrossline"": ""1""
-        //  },
-        //  ""data"": [
-        //    {
-        //      ""label"": ""Hard-Disk"",
-        //      ""value"": ""50""
-        //    },
-        //    {
-        //      ""label"": ""PCB"",
-        //      ""value"": ""22""
-        //    },
-        //    {
-        //      ""label"": ""Printer"",
-        //      ""value"": ""12""
-        //    },
-        //    {
-        //      ""label"": ""CDROM"",
-        //      ""value"": ""10""
-        //    },
-        //    {
-        //      ""label"": ""Keyboard"",
-        //      ""value"": ""6""
-        //    }
-        //  ]
-        //}", "json");
+                await xyz.CallFusionChartsFunction(
+                     "setChartData", "demo_id2", @"
+        {
+          ""chart"": {
+            ""caption"": "" Top Hardware Defects Frequencies"",
+            ""subcaption"": ""Last year - ACME Computers"",
+            ""theme"": ""candy"",
+            ""yaxisname"": ""# reported instances"",
+            ""syaxisname"": ""% of total instances"",
+            ""decimals"": ""1"",
+            ""drawcrossline"": ""1""
+          },
+          ""data"": [
+            {
+              ""label"": ""Hard-Disk"",
+              ""value"": ""50""
+            },
+            {
+              ""label"": ""PCB"",
+              ""value"": ""22""
+            },
+            {
+              ""label"": ""Printer"",
+              ""value"": ""12""
+            },
+            {
+              ""label"": ""CDROM"",
+              ""value"": ""10""
+            },
+            {
+              ""label"": ""Keyboard"",
+              ""value"": ""6""
+            }
+          ]
+        }", "json");
     }
-
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-
             renderParetoDualAxis();
-
         }
         else
         {
-
         }
     }
 }

@@ -45,7 +45,7 @@
         myChartConfig.height = "100%";
         myChartConfig.dataFormat = "json";
         myChartConfig.renderAt = "d2";
-        myChartConfig.id = "3";
+        myChartConfig.id = "d3";
         myChartConfig.events = myEvent;
         String chartConfig =
        System.Text.Json.JsonSerializer.Serialize(myChartConfig);
@@ -53,7 +53,7 @@
         //setJSONUrl
         var FilePath = "dataJSON.json";
         var Url = NavigationManager.ToAbsoluteUri(FilePath).ToString();
-        await xyz.CallFusionChartsFunction("setJSONUrl", "3", Url);
+        await xyz.CallFusionChartsFunction("setJSONUrl", "d3", Url);
     }
 }
 

@@ -11,18 +11,6 @@
 @using System.Text.Json.Serialization;
 <PageTitle>Index</PageTitle>
 
-
-
-
-
-
-
-
-
-
-
-
-
 <div id="pie3d"></div>
 @code {
     protected override async Task OnAfterRenderAsync(bool
@@ -54,7 +42,7 @@
         myChartConfig.height = "100%";
         myChartConfig.dataFormat = "json";
         myChartConfig.renderAt = "pie3d";
-        myChartConfig.id = "2";
+        myChartConfig.id = "d2";
         myChartConfig.events = myEvent;
          String chartConfig =
         System.Text.Json.JsonSerializer.Serialize(myChartConfig);
@@ -62,6 +50,6 @@
          //setJSONUrl
          var FilePath = "dataJSON.json";
          var Url = NavigationManager.ToAbsoluteUri(FilePath).ToString();
-         await xyz.CallFusionChartsFunction("setJSONUrl", "2", Url);
+         await xyz.CallFusionChartsFunction("setJSONUrl", "d2", Url);
 }
 }

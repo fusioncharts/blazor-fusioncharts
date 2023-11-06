@@ -1,7 +1,6 @@
 @page "/SelectScatter"
 @inject FusionChartsService xyz;
 @using System.Net.Http
-@using Microsoft.JSInterop;
 @inject HttpClient httpClient
 @inject NavigationManager navigationManager
 <PageTitle>SelectScatter</PageTitle>
@@ -16,16 +15,18 @@
     // calling this method from static method using instance of ScatterChart
     public async Task NonStaticMethod()
     {
-        string jsonUrl = navigationManager.ToAbsoluteUri("ScatterChart.json").ToString();
-	// RIGHT WAY TO CALL METHODS (ESPECIALLY FOR THOSE HAVING RELOAD ISSUES)
+
+        var FilePath = "ScatterChart.json";
+        string jsonUrl = navigationManager.ToAbsoluteUri(FilePath).ToString();
+        // RIGHT WAY TO CALL METHODS (ESPECIALLY FOR THOSE HAVING RELOAD ISSUES)
     await xyz.CallFusionChartsFunction("setChartDataUrl", "demo_id5", jsonUrl, "json");
-	await xyz.CallFusionChartsFunction("getCSVData", "demo_id1");
-	await xyz.CallFusionChartsFunction("getDataAsCSV", "demo_id1");
-	await xyz.CallFusionChartsFunction("getSVGString", "demo_id1");
+	await xyz.CallFusionChartsFunction("getCSVData", "demo_id5");
+	await xyz.CallFusionChartsFunction("getDataAsCSV", "demo_id5");
+	await xyz.CallFusionChartsFunction("getSVGString", "demo_id5");
     }
     // this is static method which we have added in the event using dotnet
-    [JSInvokable("ChangeData")]
-    public static async Task ChangeData()
+    [JSInvokable("Change")]
+    public static async Task Change()
     {
         // Call the non-static method from the instance
         await _instance.NonStaticMethod();
@@ -39,7 +40,7 @@
         dynamic myEvent = new System.Dynamic.ExpandoObject();
         myEvent.renderComplete = "function() { console.log('render complete for Simple Parito Chart')}";
 	//ATTACHING ALL THE METHOD CALL TO "LOADED EVENT" SO THAT METHODS ARE CALLED ONLY AFTER CHART IS LOADED
-        myEvent.loaded = "function() { DotNet.invokeMethodAsync('demo','ChangeData')}";
+        myEvent.loaded = "function() { DotNet.invokeMethodAsync('demo','Change')}";
         myChartConfig.type = "selectscatter";
         myChartConfig.width = 500;
         myChartConfig.height = 300;
