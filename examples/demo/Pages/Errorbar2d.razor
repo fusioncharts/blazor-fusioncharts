@@ -1,0 +1,182 @@
+﻿@page "/errorbar2d"
+
+<h1>Error Bar Chart</h1>
+
+<div id="errorbar2d"></div>
+
+
+@inject FusionChartsService fusionChartsService;
+
+@code {
+    public async void demo()
+    {
+        //chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        dynamic categories = new System.Dynamic.ExpandoObject();
+        myEvent.rendered = "function() { console.log('rendered successful')}";
+
+        myChartConfig.type = "errorbar2d";
+        myChartConfig.width = 600;
+        myChartConfig.height = 300;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "errorbar2d";
+
+        myChart.caption = "Machinery lifespan range";
+        myChart.subcaption = "Means & standard deviations";
+        myChart.xAxisName = "Systems";
+        myChart.yAxisName = "Life Span";
+        myChart.numberSuffix = " Years";
+        myChart.halfErrorBar = "0";
+        myChart.theme = "fusion";
+
+        myDataSource.categories = new[]{
+            new
+                {
+                category=new []
+                    {
+                    new {
+                    label = "Central AC"
+                    }, new
+                    {
+                        label = "Computers"
+                    }, new
+                    {
+                        label = "Bar-code Scanners"
+                    }, new
+                    {
+                        label = "Packaging Machines"
+                    }, new
+                    {
+                        label = "Chilling Compartments"
+                    }
+                }
+            }
+    };
+
+        myDataSource.dataset = new[]{
+            new{
+                seriesname = "Daly City Serramonte",
+                data = new[]
+                {
+                    new {
+                        value = "8",
+                        errorvalue = "2"
+                    }, new
+                    {
+                        value = "3",
+                        errorvalue = "0.5"
+                    }, new
+                    {
+                        value = "2",
+                        errorvalue = "1"
+                    }, new
+                    {
+                        value = "6",
+                        errorvalue = "1.8"
+                    }, new
+                    {
+                        value = "8",
+                        errorvalue = "1.2"
+                    }
+                 }
+            }, new{
+                seriesname = "Bakersfield Central",
+                data = new[]
+                {
+                    new {
+                        value = "7",
+                        errorvalue = "1"
+                    }, new
+                    {
+                        value = "4",
+                        errorvalue = "0.5"
+                    }, new
+                    {
+                        value = "2",
+                        errorvalue = "1"
+                    }, new
+                    {
+                        value = "4",
+                        errorvalue = "0.8"
+                    }, new
+                    {
+                        value = "7",
+                        errorvalue = "1"
+                    }
+                 }
+            }, new {
+                seriesname = "Garden Groove harbour",
+                data = new[]
+                {
+                    new {
+                        value = "9",
+                        errorvalue = "2"
+                    }, new
+                    {
+                        value = "3",
+                        errorvalue = "0.7"
+                    }, new
+                    {
+                        value = "3",
+                        errorvalue = "1"
+                    }, new
+                    {
+                        value = "6",
+                        errorvalue = "1.8"
+                    }, new
+                    {
+                        value = "7",
+                        errorvalue = "1.2"
+                    }
+                }
+            }
+    };
+
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+        myEvent.initialized = "function() { console.log('initialized')}";
+        myEvent.beforeRender = "function() { console.log('beforeRender')}";
+        myEvent.rendered = "function() { console.log('rendered')}";
+
+        myEvent.dataplotRollOver = "function() { console.log('dataplotRollOver')}";
+        myEvent.dataplotRollOut = "function() { console.log('dataplotRollOut')}";
+        myEvent.dataLabelClick = "function() { console.log('dataLabelClick')}";
+        myEvent.dataLabelRollOver = "function() { console.log('dataLabelRollOver')}";
+
+        myEvent.dataLabelRollOut = "function() { console.log('dataLabelRollOut')}";
+        myEvent.legendItemClicked = "function() { console.log('legendItemClicked')}";
+        myEvent.legendItemRollOver = "function() { console.log('legendItemRollOver')}";
+        myEvent.legendItemRollOut = "function() { console.log('legendItemRollOut')}";
+
+        myEvent.chartClick = "function() { console.log('chartClick')}";
+        myEvent.chartRollOver = "function() { console.log('chartRollOver')}";
+        myEvent.chartRollOut = "function() { console.log('chartRollOut')}";
+        myEvent.keyPressed = "function() { console.log('keyPressed')}";
+        myEvent.dataplotDragStart = "function() { console.log('dataplotDragStart')}";
+        myEvent.dataplotDragEnd = "function() { console.log('dataplotDragEnd')}";
+
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            demo();
+        }
+        else
+        {
+
+        }
+    }
+
+}
