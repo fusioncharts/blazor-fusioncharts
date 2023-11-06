@@ -1,0 +1,109 @@
+﻿@page "/InverseMSColumn2D"
+
+<h1>Error Line 2D Chart</h1>
+
+<div id="InverseMSColumn2D"></div>
+
+
+@inject FusionChartsService fusionChartsService;
+
+@code {
+    public async void demo()
+    {
+        //chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        dynamic categories = new System.Dynamic.ExpandoObject();
+        myEvent.rendered = "function() { console.log('rendered successful')}";
+
+        myChartConfig.type = "InverseMSColumn2D";
+        myChartConfig.width = 600;
+        myChartConfig.height = 300;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "InverseMSColumn2D";
+
+        myChart.caption = "Average Page Load Time (hsm.com)";
+        myChart.subCaption = "Last Week";
+        myChart.yAxisName = "Time (In Sec)";
+        myChart.numberSuffix = "s";
+        myChart.xAxisLineThickness = "1";
+        myChart.theme = "fusion";
+
+        myDataSource.categories = new[]{
+            new
+                {
+                category=new[] {
+                    new { label = "Mon" },
+                    new { label = "Tue" },
+                    new { label = "Wed" },
+                    new { label = "Thu" },
+                    new { label = "Fri" },
+                    new { label = "Sat" },
+                    new { label = "Sun" },
+                }
+            }
+    };
+
+        myDataSource.dataset = new[]{
+            new {
+                seriesname = "Loading Time",
+                allowDrag = "0",
+                data = new[] {
+                    new { value = "27" },
+                    new { value = "22" },
+                    new { value = "25" },
+                    new { value = "27" },
+                    new { value = "21" },
+                    new { value = "29" },
+                    new { value = "22" },
+                }
+            }
+        };
+
+        myDataSource.value = "92";
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+        myEvent.initialized = "function() { console.log('initialized')}";
+        myEvent.beforeRender = "function() { console.log('beforeRender')}";
+        myEvent.rendered = "function() { console.log('rendered')}";
+
+        myEvent.dataplotRollOver = "function() { console.log('dataplotRollOver')}";
+        myEvent.dataplotRollOut = "function() { console.log('dataplotRollOut')}";
+        myEvent.dataLabelClick = "function() { console.log('dataLabelClick')}";
+        myEvent.dataLabelRollOver = "function() { console.log('dataLabelRollOver')}";
+
+        myEvent.dataLabelRollOut = "function() { console.log('dataLabelRollOut')}";
+        myEvent.legendItemClicked = "function() { console.log('legendItemClicked')}";
+        myEvent.legendItemRollOver = "function() { console.log('legendItemRollOver')}";
+        myEvent.legendItemRollOut = "function() { console.log('legendItemRollOut')}";
+
+        myEvent.chartClick = "function() { console.log('chartClick')}";
+        myEvent.chartRollOver = "function() { console.log('chartRollOver')}";
+        myEvent.chartRollOut = "function() { console.log('chartRollOut')}";
+        myEvent.keyPressed = "function() { console.log('keyPressed')}";
+        myEvent.dataplotDragStart = "function() { console.log('dataplotDragStart')}";
+        myEvent.dataplotDragEnd = "function() { console.log('dataplotDragEnd')}";
+
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            demo();
+        }
+        else
+        {
+
+        }
+    }
+
+}

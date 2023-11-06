@@ -1,0 +1,157 @@
+﻿@page "/dragcolumn2d"
+
+<h1>Drag-able Area 2D Chart</h1>
+
+<div id="dragcolumn2d"></div>
+
+
+@inject FusionChartsService fusionChartsService;
+
+@code {
+    public async void demo()
+    {
+        //chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        dynamic categories = new System.Dynamic.ExpandoObject();
+        myEvent.rendered = "function() { console.log('rendered successful')}";
+
+        myChartConfig.type = "dragcolumn2d";
+        myChartConfig.width = 600;
+        myChartConfig.height = 300;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "dragcolumn2d";
+
+        myChart.caption = "Inventory status - Bakersfield Central";
+        myChart.subCaption = "Top 5 Food items";
+        myChart.xAxisName = "Food Item";
+        myChart.yAxisName = "No. of Units";
+        myChart.theme = "fusion";
+
+        myDataSource.categories = new[]{
+            new
+                {
+                category=new []
+                    {
+                    new {
+                        label = "Poultry"
+                    }, new
+                    {
+                        label = "Rice"
+                    }, new
+                    {
+                        label = "Peanut Butter"
+                    }, new
+                    {
+                        label = "Salmon"
+                    }, new
+                    {
+                        label = "Cereal"
+                    }
+                }
+            }
+    };
+
+        myDataSource.dataset = new[]{
+            new{
+                seriesname = "Available Stock",
+                allowDrag = "1",
+                dashed = "0",
+                data = new[]
+                {
+                    new
+                    {
+                        value = "6000"
+
+                    }, new
+                    {
+                        value = "9500"
+
+                    },new
+                    {
+                        value = "11900"
+
+                    },new
+                    {
+                        value = "8000"
+                    },new
+                    {
+                        value = "9700"
+                    }
+                 }
+            }, new{
+                seriesname = "Estimated Demand",
+                allowDrag = "0",
+                dashed = "1",
+                data = new[]
+                {
+                    new
+                    {
+                        value = "19000"
+
+                    }, new
+                    {
+                        value = "16500"
+
+                    },new
+                    {
+                        value = "14300"
+
+                    },new
+                    {
+                        value = "10000"
+                    },new
+                    {
+                        value = "9800"
+                    }
+                 }
+            }
+    };
+
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+        myEvent.initialized = "function() { console.log('initialized')}";
+        myEvent.beforeRender = "function() { console.log('beforeRender')}";
+        myEvent.rendered = "function() { console.log('rendered')}";
+
+        myEvent.dataplotRollOver = "function() { console.log('dataplotRollOver')}";
+        myEvent.dataplotRollOut = "function() { console.log('dataplotRollOut')}";
+        myEvent.dataLabelClick = "function() { console.log('dataLabelClick')}";
+        myEvent.dataLabelRollOver = "function() { console.log('dataLabelRollOver')}";
+
+        myEvent.dataLabelRollOut = "function() { console.log('dataLabelRollOut')}";
+        myEvent.legendItemClicked = "function() { console.log('legendItemClicked')}";
+        myEvent.legendItemRollOver = "function() { console.log('legendItemRollOver')}";
+        myEvent.legendItemRollOut = "function() { console.log('legendItemRollOut')}";
+
+        myEvent.chartClick = "function() { console.log('chartClick')}";
+        myEvent.chartRollOver = "function() { console.log('chartRollOver')}";
+        myEvent.chartRollOut = "function() { console.log('chartRollOut')}";
+        myEvent.keyPressed = "function() { console.log('keyPressed')}";
+        myEvent.dataplotDragStart = "function() { console.log('dataplotDragStart')}";
+        myEvent.dataplotDragEnd = "function() { console.log('dataplotDragEnd')}";
+
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            demo();
+        }
+        else
+        {
+
+        }
+    }
+
+}

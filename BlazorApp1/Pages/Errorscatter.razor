@@ -1,0 +1,208 @@
+﻿@page "/errorscatter"
+
+<h1>Error Scatter Chart</h1>
+
+<div id="errorscatter"></div>
+
+
+@inject FusionChartsService fusionChartsService;
+
+@code {
+    public async void demo()
+    {
+        //chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        dynamic categories = new System.Dynamic.ExpandoObject();
+        myEvent.rendered = "function() { console.log('rendered successful')}";
+
+        myChartConfig.type = "errorscatter";
+        myChartConfig.width = 600;
+        myChartConfig.height = 300;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "errorscatter";
+
+        myChart.xaxisname = "Month";
+        myChart.yaxisname = "Revenue (In USD)";
+        myChart.caption = "Revenue forecast";
+        myChart.subcaption = "For Next Year";
+        myChart.halfverticalerrorbar = "0";
+        myChart.numberPrefix = "$";
+        myChart.theme = "fusion";
+
+        myDataSource.categories = new[]{
+            new
+                {
+                category=new []
+                    {
+                    new {
+                        label = "Jan",
+                        x = "20"
+                    }, new
+                    {
+                        label = "Feb",
+                        x = "30"
+                    }, new
+                    {
+                        label = "Mar",
+                        x = "40"
+                    }, new
+                    {
+                        label = "Apr",
+                        x = "50"
+                    }, new
+                    {
+                        label = "May",
+                        x = "60"
+                    }, new
+                    {
+                        label = "Jun",
+                        x = "70"
+                    }, new
+                    {
+                        label = "Jul",
+                        x = "80"
+                    }, new
+                    {
+                        label = "Aug",
+                        x = "90"
+                    }, new
+                    {
+                        label = "Sep",
+                        x = "100"
+                    }, new
+                    {
+                        label = "Oct",
+                        x = "110"
+                    }, new
+                    {
+                        label = "Nov",
+                        x = "120"
+                    }, new
+                    {
+                        label = "Dec",
+                        x = "130"
+                    }
+                }
+            }
+    };
+
+        myDataSource.dataset = new[]{
+            new{
+                seriesname = "This Year",
+                color = "",
+                anchorradius = "8",
+                anchorbgcolor = "#1aaf5d",
+                data = new[]
+                {
+                    new {
+                        y = "450000",
+                        x = "20",
+                        verticalErrorValue = "50000"
+                    }, new
+                    {
+                        y = "860000",
+                        x = "30",
+                        verticalErrorValue = "69000"
+                    }, new
+                    {
+                        y = "750000",
+                        x = "40",
+                        verticalErrorValue = "69000"
+                    }, new
+                    {
+                        y = "570000",
+                        x = "50",
+                        verticalErrorValue = "60000"
+                    }, new
+                    {
+                        y = "910000",
+                        x = "60",
+                        verticalErrorValue = "50000"
+                    }, new
+                    {
+                        y = "580000",
+                        x = "70",
+                        verticalErrorValue = "55000"
+                    }, new
+                    {
+                        y = "610000",
+                        x = "80",
+                        verticalErrorValue = "87000"
+                    }, new
+                    {
+                        y = "620000",
+                        x = "90",
+                        verticalErrorValue = "45000"
+                    }, new
+                    {
+                        y = "520000",
+                        x = "100",
+                        verticalErrorValue = "59000"
+                    }, new
+                    {
+                        y = "530000",
+                        x = "110",
+                        verticalErrorValue = "72000"
+                    }, new
+                    {
+                        y = "950000",
+                        x = "120",
+                        verticalErrorValue = "69000"
+                    }, new
+                    {
+                        y = "770000",
+                        x = "130",
+                        verticalErrorValue = "69000"
+                    }
+                }
+            }
+    };
+
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+        myEvent.initialized = "function() { console.log('initialized')}";
+        myEvent.beforeRender = "function() { console.log('beforeRender')}";
+        myEvent.rendered = "function() { console.log('rendered')}";
+
+        myEvent.dataplotRollOver = "function() { console.log('dataplotRollOver')}";
+        myEvent.dataplotRollOut = "function() { console.log('dataplotRollOut')}";
+        myEvent.dataLabelClick = "function() { console.log('dataLabelClick')}";
+        myEvent.dataLabelRollOver = "function() { console.log('dataLabelRollOver')}";
+
+        myEvent.dataLabelRollOut = "function() { console.log('dataLabelRollOut')}";
+        myEvent.legendItemClicked = "function() { console.log('legendItemClicked')}";
+        myEvent.legendItemRollOver = "function() { console.log('legendItemRollOver')}";
+        myEvent.legendItemRollOut = "function() { console.log('legendItemRollOut')}";
+
+        myEvent.chartClick = "function() { console.log('chartClick')}";
+        myEvent.chartRollOver = "function() { console.log('chartRollOver')}";
+        myEvent.chartRollOut = "function() { console.log('chartRollOut')}";
+        myEvent.keyPressed = "function() { console.log('keyPressed')}";
+        myEvent.dataplotDragStart = "function() { console.log('dataplotDragStart')}";
+        myEvent.dataplotDragEnd = "function() { console.log('dataplotDragEnd')}";
+
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            demo();
+        }
+        else
+        {
+
+        }
+    }
+
+}
