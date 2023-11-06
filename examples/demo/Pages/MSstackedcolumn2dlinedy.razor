@@ -1,0 +1,184 @@
+﻿@page "/msstackedcolumn2dlinedy"
+
+@using System.Net.Http;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@inject FusionChartsService fusionChartsService;
+
+<PageTitle>Multi-series Column 3D + Line Single Y-axis  </PageTitle>
+
+<div>
+    <div id="msstackedcolumn2dlinedy"></div>
+</div>
+
+@code {
+
+    public async Task combinationchart()
+    {
+        // chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+
+        dynamic dataset = new System.Dynamic.ExpandoObject();
+        dynamic dataset1 = new System.Dynamic.ExpandoObject();
+        dynamic dataset2 = new System.Dynamic.ExpandoObject();
+        dynamic dataset3 = new System.Dynamic.ExpandoObject();
+        dynamic dataset4 = new System.Dynamic.ExpandoObject();
+        dynamic dataset5 = new System.Dynamic.ExpandoObject();
+
+
+        dynamic categories = new System.Dynamic.ExpandoObject();
+
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+        //events
+        myEvent.loaded = "function() { console.log('loaded')}";
+        myEvent.renderComplete = "function() { console.log('renderComplete')}";
+        myEvent.initialized = "function() { console.log('initialized')}";
+        myEvent.beforeRender = "function() { console.log('beforeRender')}";
+        myEvent.rendered = "function() { console.log('rendered')}";
+
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+        myEvent.dataplotRollOver = "function() { console.log('dataplotRollOver')}";
+        myEvent.dataplotRollOut = "function() { console.log('dataplotRollOut')}";
+        myEvent.dataLabelClick = "function() { console.log('dataLabelClick')}";
+        myEvent.dataLabelRollOver = "function() { console.log('dataLabelRollOver')}";
+        myEvent.dataLabelRollOut = "function() { console.log('dataLabelRollOut')}";
+
+        myEvent.legendItemClicked = "function() { console.log('legendItemClicked')}";
+        myEvent.legendItemRollOver = "function() { console.log('legendItemRollOver')}";
+        myEvent.legendItemRollOut = "function() { console.log('legendItemRollOut')}";
+
+        myEvent.chartClick = "function() { console.log('chartClick')}";
+        myEvent.chartRollOver = "function() { console.log('chartRollOver')}";
+        myEvent.chartRollOut = "function() { console.log('chartRollOut')}";
+
+        myChartConfig.type = "msstackedcolumn2dlinedy";
+        myChartConfig.width = 1000;
+        myChartConfig.height = 600;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "msstackedcolumn2dlinedy";
+
+        myChart.caption = "Product-wise break-up of quarterly revenue in last year";
+        myChart.subcaption = "Harry's SuperMart";
+        myChart.xaxisname = "Quarter";
+        myChart.yaxisname = "Sales (In USD)";
+        myChart.numberPrefix = "$";
+        myChart.numbersuffix = "M";
+        myChart.theme = "fusion";
+
+        categories.category = new[]
+        {
+            new { label = "Q1" },
+            new { label = "Q2" },
+            new { label = "Q3" },
+            new { label = "Q4" },
+
+    };
+
+        myDataSource.dataset = new[]{
+            new
+            {
+                dataset = new[]
+                {
+                    new
+                    {
+                        seriesname = "Daly City Serramonte",
+                        data = new[]
+                        {
+                            new { value = "31"},
+                            new { value = "18"},
+                            new { value = "25"},
+                            new { value = "33"},
+                         }
+                    }, new
+                    {
+                        seriesname = "Un-Processed Food",
+                        data = new[]
+                        {
+                            new { value = "40"},
+                            new { value = "45"},
+                            new { value = "50"},
+                            new { value = "33"},
+                         }
+                    }, new
+                    {
+                        seriesname = "Electronics",
+                        data = new[]
+                        {
+                            new { value = "25"},
+                            new { value = "33"},
+                            new { value = "19"},
+                            new { value = "44"},
+                         }
+                    }
+                }
+            }, new
+            {
+                dataset = new[]
+                {
+                    new
+                    {
+                        seriesname = "Apparels",
+                        data = new[]
+                        {
+                            new { value = "35"},
+                            new { value = "23"},
+                            new { value = "29"},
+                            new { value = "54"},
+                         }
+                    }, new
+                    {
+                        seriesname = "Others",
+                        data = new[]
+                        {
+                            new { value = "15"},
+                            new { value = "23"},
+                            new { value = "29"},
+                            new { value = "24"},
+                         }
+                    }
+                }
+            }
+    };
+
+        myDataSource.lineset = new[]
+        {
+            new
+            {
+                seriesname = "Profit %",
+                showValues = "0",
+                data = new[]
+                {
+                    new { value = "14"},
+                    new { value = "16"},
+                    new { value = "15"},
+                    new { value = "17"},
+                }
+            }
+    };
+
+        myDataSource.chart = myChart;
+        myDataSource.categories = new[] { categories };
+
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await combinationchart();
+        }
+        else
+        {
+
+        }
+    }
+
+}

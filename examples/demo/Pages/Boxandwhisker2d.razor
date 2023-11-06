@@ -1,0 +1,130 @@
+﻿@page "/boxandwhisker2d"
+
+<h1>Box and whisker 2d</h1>
+
+<div id="box-and-whisker-2d"></div>
+
+
+@inject FusionChartsService fusionChartsService;
+
+@code {
+    public async void demo()
+    {
+        //chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        dynamic categories = new System.Dynamic.ExpandoObject();
+        myEvent.rendered = "function() { console.log('rendered successful')}";
+
+        myChartConfig.type = "boxandwhisker2d";
+        myChartConfig.width = 600;
+        myChartConfig.height = 300;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "box-and-whisker-2d";
+
+        myChart.caption = "Distribution of annual salaries";
+        myChart.subCaption = "By Gender";
+        myChart.xAxisName = "Pay Grades";
+        myChart.yAxisName = "Salaries (In USD";
+        myChart.numberPrefix = "$";
+        myChart.theme = "fusion";
+
+        myDataSource.categories = new[]{
+            new
+                {
+                category=new []
+                    {
+                    new {
+                      label= "Grade 1"
+                    },
+                    new {
+                      label= "Grade 2"
+                    },
+                    new {
+                      label= "Grade 3"
+                    },
+
+                }
+            }
+    };
+        myDataSource.dataset = new[]{
+            new{ seriesname = "Male",
+                data = new[]
+                {
+                    new
+                    {
+                        value= "2400,2000,2500,2800,3500,4000, 3700, 3750, 3880, 5000,5500,7500,8000,8200, 8400, 8500, 8550, 8800, 8700, 9000, 14000"
+
+                    },new
+                    {
+                        value= "7500,9000,12000,13000,14000,16500,17000, 18000, 19000, 19500"
+
+                    },new
+                    {
+                        value= "15000,19000,25000,32000,50000,65000"
+
+                    }
+                 }
+        },new{ seriesname = "Female",
+                data = new[]
+                {
+                    new
+                    {
+                        value= "1900,2100,2300,2350,2400,2550,3000,3500,4000, 6000, 6500, 9000"
+
+                    },new
+                    {
+                        value= "7000,8000,8300,8700,9500,11000,15000, 17000, 21000"
+
+                    },new
+                    {
+                        value= "24000,32000,35000,37000,39000, 58000"
+
+                    }
+                 }
+            }
+
+    };
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+        myEvent.initialized = "function() { console.log('initialized')}";
+        myEvent.beforeRender = "function() { console.log('beforeRender')}";
+        myEvent.rendered = "function() { console.log('rendered')}";
+
+        myEvent.dataplotRollOver = "function() { console.log('dataplotRollOver')}";
+        myEvent.dataplotRollOut = "function() { console.log('dataplotRollOut')}";
+        myEvent.dataLabelClick = "function() { console.log('dataLabelClick')}";
+        myEvent.dataLabelRollOver = "function() { console.log('dataLabelRollOver')}";
+
+        myEvent.dataLabelRollOut = "function() { console.log('dataLabelRollOut')}";
+        myEvent.legendItemClicked = "function() { console.log('legendItemClicked')}";
+        myEvent.legendItemRollOver = "function() { console.log('legendItemRollOver')}";
+        myEvent.legendItemRollOut = "function() { console.log('legendItemRollOut')}";
+
+        myEvent.chartClick = "function() { console.log('chartClick')}";
+        myEvent.chartRollOver = "function() { console.log('chartRollOver')}";
+        myEvent.chartRollOut = "function() { console.log('chartRollOut')}";
+        myEvent.keyPressed = "function() { console.log('keyPressed')}";
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            demo();
+        }
+        else
+        {
+
+        }
+    }
+
+}

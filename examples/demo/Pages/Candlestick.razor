@@ -1,0 +1,363 @@
+﻿@page "/candlestick"
+
+<h1>Candlestick Chart</h1>
+
+<div id="candlestick"></div>
+
+
+@inject FusionChartsService fusionChartsService;
+
+@code {
+    public async void demo()
+    {
+        //chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        dynamic categories = new System.Dynamic.ExpandoObject();
+        myEvent.rendered = "function() { console.log('rendered successful')}";
+
+        myChartConfig.type = "candlestick";
+        myChartConfig.width = 600;
+        myChartConfig.height = 300;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "candlestick";
+
+        myChart.caption = "Daily Stock Price HRYS";
+        myChart.subcaption = "Last 2 months";
+        myChart.numberprefix = "$";
+        myChart.vNumberPrefix = " ";
+        myChart.pyaxisname = "Average Price";
+        myChart.vyaxisname = "Units Sold";
+        myChart.theme = "fusion";
+
+
+        myDataSource.categories = new[]{
+            new
+                {
+                category=new []
+                    {
+                    new {
+                        label= "2 month ago",
+                        x= "1",
+                    },
+                    new {
+                        label= "1 month ago",
+                        x= "31",
+                    },
+                    new {
+                        label= "Today",
+                        x= "60",
+                    },
+                }
+            }
+    };
+
+        myDataSource.dataset = new[]{
+            new{
+                data = new[]
+                {
+                    new
+                    {
+                       open = "18.74", high = "19.16", low = "18.67", close = "18.99", x = "1", volume = "4991285"
+
+                    },new
+                    {
+                       open = "18.74", high = "19.06", low = "18.54", close = "18.82", x = "1", volume = "3615889"
+
+                    },new
+                    {
+                       open = "19.21", high = "19.3", low = "18.59", close = "18.65", x = "3", volume = "4749586"
+                    },new
+                    {
+                       open = "18.74", high = "19.16", low = "18.67", close = "18.99", x = "1", volume = "4991285"
+                    },new
+                    {
+                       open = "18.72", high = "19.11", low = "137.67", close = "17.99", x = "1", volume = "3991285"
+                    },new
+                    {
+                       open = "17.74", high = "17.16", low = "19.67", close = "19.99", x = "1", volume = "4923285"
+                    },new
+                    {
+                       open = "18.74", high = "19.16", low = "18.67", close = "18.99", x = "1", volume = "4991285"
+                    },new
+                    {
+                        open = "20.19", high = "20.21", low = "19.57", close = "19.92", x = "5", volume = "3982709"
+                    },new
+                    {
+                        open = "20.47", high = "20.64", low = "20.15", close = "20.16", x = "6", volume = "2289403"
+                    },new
+                    {
+                        open = "20.36", high = "20.52", low = "20.29", close = "20.48", x = "7", volume = "1950919"
+                    },new
+                    {
+                        open = "20.21", high = "20.25", low = "19.91", close = "20.15", x= "8", volume = "2391070"
+                    },new
+                    {
+                        open = "19.46", high = "20.54", low = "19.46", close = "20.22", x = "9", volume = "4548422"
+                    },new
+                    {
+                        open = "19.24", high= "19.5", low = "19.13", close = "19.44", x = "10", volume = "1889811"
+                    },new
+                    {
+                        open = "19.25", high = "19.41", low = "18.99", close = "19.22", x = "11", volume = "2543355"
+                    },new
+                    {
+                        open= "18.85", high = "19.45", low = "18.8", close = "19.24", x = "12", volume = "2134393"
+                    },new
+                    {
+                        open = "18.97", high = "19.01", low = "18.68", close = "18.95", x = "13", volume = "1740852"
+                    },new
+                    {
+                        open = "18.69", high = "19", low = "18.35", close = "18.97", x = "14", volume = "2701392"
+                    },new
+                    {
+                        open = "19.02", high = "19.1", low = "18.68", close = "18.7", x = "15", volume = "2198755"
+                    },new
+                    {
+                        open = "19.29", high = "19.38", low = "18.88", close = "19.05", x = "16", volume = "2464958"
+                    },new
+                    {
+                        open = "18.64", high = "19.35", low = "18.53", close = "19.33", x= "17", volume = "2962994"
+                    },new
+                    {
+                        open = "18.14", high = "18.58", low = "18.08", close = "18.52", x = "18", volume = "1964932"
+                    },new
+                    {
+                        open= "18.49", high = "18.92", low = "18.19", close = "18.26", x = "19", volume = "3013102"
+                    },new
+                    {
+                        open = "18.71", high = "18.84", low = "18", close = "18.51", x = "20", volume = "4435894"
+                    },new
+                    {
+                        open = "19.17", high = "19.35", low = "18.61", close = "18.66", x= "21", volume = "3245851"
+                    },new
+                    {
+                        open = "19.12", high = "19.41", low = "18.92", close = "19.2", x = "22", volume = "2259792"
+                    },new
+                    {
+                        open = "19.43", high = "19.58", low= "19.16", close= "19.33", x= "23", volume= "3531327"
+                    },new
+                    {
+                        open= "19.72", high= "19.81", low= "19.04", close = "19.27", x= "24", volume= "5834733"
+                    },new
+                    {
+                        open= "19.7", high= "19.94",low= "19.49", close= "19.77", x= "25", volume= "2009987"
+                    },new
+                    {
+                        open= "19.84", high= "19.98", low= "19.39", close= "19.88",x="26", volume= "2767592"
+                    },new
+                    {
+                        open= "20.71", high= "20.73", low="19.16", close= "19.63", x= "27", volume= "673358"
+                    },new
+                    {
+                        open= "21.14", high = "21.14", low= "20.55", close = "20.65", x= "28", volume= "3164006"
+                    },new
+                    {
+                        open= "21.5", high= "21.86", low = "21.2", close = "21.33", x= "29", volume= "7986466"
+                    },new
+                    {
+                        open= "20.45", high= "21.08", low= "20.1", close= "20.56", x = "30", volume= "5813040"
+                    },new
+                    {
+                        open= "20.07", high= "20.69", low= "20.04", close= "20.36", x= "31", volume= "3440002"
+                    },new
+                    {
+                        open= "19.88", high= "20.11", low= "19.51", close= "20.03", x= "32", volume= "2779171"
+                    },new
+                    {
+                        open= "19.76", high= "20.13", low= "19.65", close= "19.88", x = "33", volume= "2918115"
+                    },new
+                    {
+                        open= "19.77", high= "19.97", low= "19.27", close= "19.9", x= "34", volume= "3850357"
+                    },new
+                    {
+                        open = "19.43", high = "19.72", low = "18.88", close = "19.5", x= "35", volume= "5047378"
+                    },new
+                    {
+                        open= "19.69", high= "19.84", low= "19.17", close= "19.43", x= "36", volume= "3479017"
+                    },new
+                    {
+                        open= "19.59", high= "20.02", low= "19.02", close= "19.41", x= "37", volume= "5749874"
+                    },new
+                    {
+                        open= "20.95", high= "21.09", low = "19.64", close = "19.83", x= "38", volume= "6319111"
+                    },new
+                    {
+                        open= "20.52", high= "21.03", low = "20.45", close= "21", x= "39", volume = "4412413"
+                    },new
+                    {
+                       open = "18.74", high = "19.16", low = "18.67", close = "18.99", x = "1", volume = "4991285"
+
+                    },new
+                    {
+                       open = "18.74", high = "19.06", low = "18.54", close = "18.82", x = "1", volume = "3615889"
+
+                    },new
+                    {
+                       open = "19.21", high = "19.3", low = "18.59", close = "18.65", x = "3", volume = "4749586"
+                    },new
+                    {
+                       open = "18.74", high = "19.16", low = "18.67", close = "18.99", x = "1", volume = "4991285"
+                    },new
+                    {
+                       open = "18.72", high = "19.11", low = "137.67", close = "17.99", x = "1", volume = "3991285"
+                    },new
+                    {
+                       open = "17.74", high = "17.16", low = "19.67", close = "19.99", x = "1", volume = "4923285"
+                    },new
+                    {
+                       open = "18.74", high = "19.16", low = "18.67", close = "18.99", x = "1", volume = "4991285"
+                    },new
+                    {
+                        open = "20.19", high = "20.21", low = "19.57", close = "19.92", x = "5", volume = "3982709"
+                    },new
+                    {
+                        open = "20.47", high = "20.64", low = "20.15", close = "20.16", x = "6", volume = "2289403"
+                    },new
+                    {
+                        open = "20.36", high = "20.52", low = "20.29", close = "20.48", x = "7", volume = "1950919"
+                    },new
+                    {
+                        open = "20.21", high = "20.25", low = "19.91", close = "20.15", x= "8", volume = "2391070"
+                    },new
+                    {
+                        open = "19.46", high = "20.54", low = "19.46", close = "20.22", x = "9", volume = "4548422"
+                    },new
+                    {
+                        open = "19.24", high= "19.5", low = "19.13", close = "19.44", x = "10", volume = "1889811"
+                    },new
+                    {
+                        open = "19.25", high = "19.41", low = "18.99", close = "19.22", x = "11", volume = "2543355"
+                    },new
+                    {
+                        open= "18.85", high = "19.45", low = "18.8", close = "19.24", x = "12", volume = "2134393"
+                    },new
+                    {
+                        open = "18.97", high = "19.01", low = "18.68", close = "18.95", x = "13", volume = "1740852"
+                    },new
+                    {
+                        open = "18.69", high = "19", low = "18.35", close = "18.97", x = "14", volume = "2701392"
+                    },new
+                    {
+                        open = "19.02", high = "19.1", low = "18.68", close = "18.7", x = "15", volume = "2198755"
+                    },new
+                    {
+                        open = "19.29", high = "19.38", low = "18.88", close = "19.05", x = "16", volume = "2464958"
+                    },new
+                    {
+                        open = "18.64", high = "19.35", low = "18.53", close = "19.33", x= "17", volume = "2962994"
+                    },new
+                    {
+                        open = "18.14", high = "18.58", low = "18.08", close = "18.52", x = "18", volume = "1964932"
+                    },new
+                    {
+                        open= "18.49", high = "18.92", low = "18.19", close = "18.26", x = "19", volume = "3013102"
+                    },new
+                    {
+                        open = "18.71", high = "18.84", low = "18", close = "18.51", x = "20", volume = "4435894"
+                    },new
+                    {
+                        open = "19.17", high = "19.35", low = "18.61", close = "18.66", x= "21", volume = "3245851"
+                    },new
+                    {
+                        open = "19.12", high = "19.41", low = "18.92", close = "19.2", x = "22", volume = "2259792"
+                    },new
+                    {
+                        open = "19.43", high = "19.58", low= "19.16", close= "19.33", x= "23", volume= "3531327"
+                    },new
+                    {
+                        open= "19.72", high= "19.81", low= "19.04", close = "19.27", x= "24", volume= "5834733"
+                    },new
+                    {
+                        open= "19.7", high= "19.94",low= "19.49", close= "19.77", x= "25", volume= "2009987"
+                    },new
+                    {
+                        open= "19.84", high= "19.98", low= "19.39", close= "19.88",x="26", volume= "2767592"
+                    },new
+                    {
+                        open= "20.71", high= "20.73", low="19.16", close= "19.63", x= "27", volume= "673358"
+                    },new
+                    {
+                        open= "21.14", high = "21.14", low= "20.55", close = "20.65", x= "28", volume= "3164006"
+                    },new
+                    {
+                        open= "21.5", high= "21.86", low = "21.2", close = "21.33", x= "29", volume= "7986466"
+                    },new
+                    {
+                        open= "20.45", high= "21.08", low= "20.1", close= "20.56", x = "30", volume= "5813040"
+                    },new
+                    {
+                        open= "20.07", high= "20.69", low= "20.04", close= "20.36", x= "31", volume= "3440002"
+                    },new
+                    {
+                        open= "19.88", high= "20.11", low= "19.51", close= "20.03", x= "32", volume= "2779171"
+                    },new
+                    {
+                        open= "19.76", high= "20.13", low= "19.65", close= "19.88", x = "33", volume= "2918115"
+                    },new
+                    {
+                        open= "19.77", high= "19.97", low= "19.27", close= "19.9", x= "34", volume= "3850357"
+                    },new
+                    {
+                        open = "19.43", high = "19.72", low = "18.88", close = "19.5", x= "35", volume= "5047378"
+                    },new
+                    {
+                        open= "19.69", high= "19.84", low= "19.17", close= "19.43", x= "36", volume= "3479017"
+                    },new
+                    {
+                        open= "19.59", high= "20.02", low= "19.02", close= "19.41", x= "37", volume= "5749874"
+                    },new
+                    {
+                        open= "20.95", high= "21.09", low = "19.64", close = "19.83", x= "38", volume= "6319111"
+                    },new
+                    {
+                        open= "20.52", high= "21.03", low = "20.45", close= "21", x= "39", volume = "4412413"
+                    }
+                 }
+            }
+    };
+
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+        myEvent.initialized = "function() { console.log('initialized')}";
+        myEvent.beforeRender = "function() { console.log('beforeRender')}";
+        myEvent.rendered = "function() { console.log('rendered')}";
+
+        myEvent.dataplotRollOver = "function() { console.log('dataplotRollOver')}";
+        myEvent.dataplotRollOut = "function() { console.log('dataplotRollOut')}";
+        myEvent.dataLabelClick = "function() { console.log('dataLabelClick')}";
+        myEvent.dataLabelRollOver = "function() { console.log('dataLabelRollOver')}";
+
+        myEvent.dataLabelRollOut = "function() { console.log('dataLabelRollOut')}";
+        myEvent.legendItemClicked = "function() { console.log('legendItemClicked')}";
+        myEvent.legendItemRollOver = "function() { console.log('legendItemRollOver')}";
+        myEvent.legendItemRollOut = "function() { console.log('legendItemRollOut')}";
+
+        myEvent.chartClick = "function() { console.log('chartClick')}";
+        myEvent.chartRollOver = "function() { console.log('chartRollOver')}";
+        myEvent.chartRollOut = "function() { console.log('chartRollOut')}";
+        myEvent.keyPressed = "function() { console.log('keyPressed')}";
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            demo();
+        }
+        else
+        {
+
+        }
+    }
+
+}

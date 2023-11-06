@@ -1,0 +1,248 @@
+﻿@page "/mscombi3d"
+
+@using System.Net.Http;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@inject FusionChartsService fusionChartsService;
+
+<PageTitle>Multi-series 3D Single Y Combination Chart (Column + Line + Area + Spline)</PageTitle>
+
+<div>
+    <div id="mscombi3d"></div>
+</div>
+
+@code {
+
+    public async Task combinationchart()
+    {
+        // chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+
+        dynamic dataset = new System.Dynamic.ExpandoObject();
+        dynamic dataset1 = new System.Dynamic.ExpandoObject();
+        dynamic dataset2 = new System.Dynamic.ExpandoObject();
+        dynamic dataset3 = new System.Dynamic.ExpandoObject();
+
+        dynamic categories = new System.Dynamic.ExpandoObject();
+
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+        //events
+        myEvent.loaded = "function() { console.log('loaded')}";
+        myEvent.renderComplete = "function() { console.log('renderComplete')}";
+        myEvent.initialized = "function() { console.log('initialized')}";
+        myEvent.beforeRender = "function() { console.log('beforeRender')}";
+        myEvent.rendered = "function() { console.log('rendered')}";
+
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+        myEvent.dataplotRollOver = "function() { console.log('dataplotRollOver')}";
+        myEvent.dataplotRollOut = "function() { console.log('dataplotRollOut')}";
+        myEvent.dataLabelClick = "function() { console.log('dataLabelClick')}";
+        myEvent.dataLabelRollOver = "function() { console.log('dataLabelRollOver')}";
+        myEvent.dataLabelRollOut = "function() { console.log('dataLabelRollOut')}";
+
+        myEvent.legendItemClicked = "function() { console.log('legendItemClicked')}";
+        myEvent.legendItemRollOver = "function() { console.log('legendItemRollOver')}";
+        myEvent.legendItemRollOut = "function() { console.log('legendItemRollOut')}";
+
+        myEvent.chartClick = "function() { console.log('chartClick')}";
+        myEvent.chartRollOver = "function() { console.log('chartRollOver')}";
+        myEvent.chartRollOut = "function() { console.log('chartRollOut')}";
+
+        myChartConfig.id = "combi";
+        myChartConfig.type = "mscombi3d";
+        myChartConfig.width = 1000;
+        myChartConfig.height = 600;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "mscombi3d";
+
+        myChart.caption = "Revenue, Profits & Number of employees";
+        myChart.drawcrossline = "1";
+        myChart.yaxisname = "Revenue / Profit (in $)";
+        myChart.syaxisname = "Number of employees";
+        myChart.showvalues = "0";
+        myChart.showanchors = "0";
+        myChart.numberprefix = "$";
+        myChart.plothighlighteffect = "fadeout";
+        myChart.theme = "fusion";
+
+        categories.category = new[]
+        {
+            new {
+                label = "Mar-2012"
+            }, new
+            {
+                label = "Jun-2012"
+            }, new
+            {
+                label = "Sept-2012"
+            }, new
+            {
+                label = "Dec-2012"
+            }, new
+            {
+                label = "Mar-2013"
+            }, new
+            {
+                label = "Jun-2013"
+            }, new
+            {
+                label = "Sept-2013"
+            }, new
+            {
+                label = "Dec-2013"
+            }, new
+            {
+                label = "Mar-2014"
+            }, new
+            {
+                label = "Jun-2014"
+            }, new
+            {
+                label = "Sept-2014"
+            }, new
+            {
+                label = "Dec-2014"
+            }, new
+            {
+                label = "Mar-2015"
+            }, new
+            {
+                label = "Jun-2015"
+            }, new
+            {
+                label = "Sept-2015"
+            }, new
+            {
+                label = "Dec-2015"
+            }, new
+            {
+                label = "Mar-2016"
+            }, new
+            {
+                label = "Jun-2016"
+            }, new
+            {
+                label = "Sept-2016"
+            }, new
+            {
+                label = "Dec-2016"
+            }, new
+            {
+                label = "Mar-2017"
+            }, new
+            {
+                label = "Jun-2017"
+            }
+    };
+        dataset1.seriesname = "Profit";
+        dataset1.plottooltext = "Profit in $label : <b>$dataValue</b>";
+        dataset1.renderas = "area";
+        dataset1.showvalues = "0";
+
+        dataset1.data = new[]
+        {
+            new { value = "16000"},
+            new { value = "20000"},
+            new { value = "18000"},
+            new { value = "19000"},
+            new { value = "15000"},
+            new { value = "21000"},
+            new { value = "16000"},
+            new { value = "20000"},
+            new { value = "17000"},
+            new { value = "25000"},
+            new { value = "19000"},
+            new { value = "23000"},
+            new { value = "18000"},
+            new { value = "19000"},
+            new { value = "15000"},
+            new { value = "21000"},
+            new { value = "16000"},
+            new { value = "20000"},
+            new { value = "17000"},
+            new { value = "25000"},
+            new { value = "19000"},
+            new { value = "23000"}
+       };
+        dataset2.seriesname = "Revenue";
+        dataset2.seriesname = "Revenue in $label : <b>$dataValue</b>";
+        dataset2.data = new[]
+        {
+            new { value = "15000"},
+            new { value = "16000"},
+            new { value = "17000"},
+            new { value = "18000"},
+            new { value = "19000"},
+            new { value = "19000"},
+            new { value = "19000"},
+            new { value = "19000"},
+            new { value = "20000"},
+            new { value = "21000"},
+            new { value = "22000"},
+            new { value = "23000"},
+            new { value = "18000"},
+            new { value = "19000"},
+            new { value = "15000"},
+            new { value = "21000"},
+            new { value = "16000"},
+            new { value = "20000"},
+            new { value = "17000"},
+            new { value = "25000"},
+            new { value = "19000"},
+            new { value = "23000"}
+       };
+        dataset3.seriesname = "Profit";
+        dataset3.renderAs = "area";
+        dataset3.data = new[]
+        {
+            new { value = "31"},
+            new { value = "25"},
+            new { value = "35"},
+            new { value = "29"},
+            new { value = "14"},
+            new { value = "25"},
+            new { value = "25"},
+            new { value = "33"},
+            new { value = "19"},
+            new { value = "27"},
+            new { value = "20"},
+            new { value = "30"},
+            new { value = "35"},
+            new { value = "29"},
+            new { value = "14"},
+            new { value = "25"},
+            new { value = "25"},
+            new { value = "33"},
+            new { value = "19"},
+            new { value = "27"},
+            new { value = "20"},
+            new { value = "30"},
+       };
+
+        myDataSource.chart = myChart;
+        myDataSource.categories = new[] { categories };
+        myDataSource.dataset = new[] { dataset1, dataset2, dataset3 };
+
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await combinationchart();
+        }
+        else
+        {
+
+        }
+    }
+
+}

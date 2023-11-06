@@ -1,0 +1,241 @@
+﻿@page "/errorline"
+
+<h1>Error Line 2D Chart</h1>
+
+<div id="errorline"></div>
+
+
+@inject FusionChartsService fusionChartsService;
+
+@code {
+    public async void demo()
+    {
+        //chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        dynamic categories = new System.Dynamic.ExpandoObject();
+        myEvent.rendered = "function() { console.log('rendered successful')}";
+
+        myChartConfig.type = "errorline";
+        myChartConfig.width = 600;
+        myChartConfig.height = 300;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "errorline";
+
+        myChart.caption = "Revenues and Profits";
+        myChart.subCaption = "Predicted for next year";
+        myChart.xAxisname = "Month";
+        myChart.yAxisName = "Amount (In USD)";
+        myChart.numberPrefix = "$";
+        myChart.halferrorbar = "0";
+        myChart.plotTooltext = "<div id='nameDiv' style='font-size: 14px; border-bottom: 1px dashed #999999; font-weight:bold; padding-bottom: 3px; margin-bottom: 5px; display: inline-block;'>$label :</div>{br}$seriesName : <b>$dataValue</b>{br}Deviation : <b>± $errorDataValue</b>";
+        myChart.theme = "fusion";
+
+        myDataSource.categories = new[]{
+            new
+                {
+                category=new []
+                    {
+                    new {
+                        label = "Jan"
+                    }, new
+                    {
+                        label = "Feb"
+                    }, new
+                    {
+                        label = "Mar"
+                    }, new
+                    {
+                        label = "Apr"
+                    }, new
+                    {
+                        label = "May"
+                    }, new
+                    {
+                        label = "Jun"
+                    }, new
+                    {
+                        label = "Jul"
+                    }, new
+                    {
+                        label = "Aug"
+                    }, new
+                    {
+                        label = "Sep"
+                    }, new
+                    {
+                        label = "Oct"
+                    }, new
+                    {
+                        label = "Nov"
+                    }, new
+                    {
+                        label = "Dec"
+                    }
+                }
+            }
+    };
+
+        myDataSource.dataset = new[]{
+            new{
+                seriesName = "Revenues",
+                dashed = "1",
+                dashlen = "2",
+                dashGap = "2",
+                data = new[]
+                {
+                    new {
+                        value = "16000",
+                        errorvalue = "2000"
+                    }, new
+                    {
+                        value = "20000",
+                        errorvalue = "4000"
+                    }, new
+                    {
+                        value = "18000",
+                        errorvalue = "1000"
+                    }, new
+                    {
+                        value = "19000",
+                        errorvalue = "1500"
+                    }, new
+                    {
+                        value = "15000",
+                        errorvalue = "1000"
+                    }, new
+                    {
+                        value = "21000",
+                        errorvalue = "4500"
+                    }, new
+                    {
+                        value = "16000",
+                        errorvalue = "1500"
+                    }, new
+                    {
+                        value = "20000",
+                        errorvalue = "3000"
+                    }, new
+                    {
+                        value = "17000",
+                        errorvalue = "2000"
+                    }, new
+                    {
+                        value = "22000",
+                        errorvalue = "4000"
+                    }, new
+                    {
+                        value = "19000",
+                        errorvalue = "2500"
+                    }, new
+                    {
+                        value = "23000",
+                        errorvalue = "3000"
+                    }
+                 }
+            }, new{
+                seriesName = "Profits",
+                dashed = "1",
+                dashlen = "2",
+                dashGap = "2",
+                data = new[]
+                {
+                    new {
+                        value = "8000",
+                        errorvalue = "2000"
+                    }, new
+                    {
+                        value = "9000",
+                        errorvalue = "2000"
+                    }, new
+                    {
+                        value = "7000",
+                        errorvalue = "2700"
+                    }, new
+                    {
+                        value = "8000",
+                        errorvalue = "2750"
+                    }, new
+                    {
+                        value = "6000",
+                        errorvalue = "1200"
+                    }, new
+                    {
+                        value = "11000",
+                        errorvalue = "3000"
+                    }, new
+                    {
+                        value = "6900",
+                        errorvalue = "1250"
+                    }, new
+                    {
+                        value = "8000",
+                        errorvalue = "1400"
+                    }, new
+                    {
+                        value = "6500",
+                        errorvalue = "1200"
+                    }, new
+                    {
+                        value = "12000",
+                        errorvalue = "3000"
+                    }, new
+                    {
+                        value = "6000",
+                        errorvalue = "1500"
+                    }, new
+                    {
+                        value = "11000",
+                        errorvalue = "2500"
+                    }
+                 }
+            }
+    };
+
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+        myEvent.initialized = "function() { console.log('initialized')}";
+        myEvent.beforeRender = "function() { console.log('beforeRender')}";
+        myEvent.rendered = "function() { console.log('rendered')}";
+
+        myEvent.dataplotRollOver = "function() { console.log('dataplotRollOver')}";
+        myEvent.dataplotRollOut = "function() { console.log('dataplotRollOut')}";
+        myEvent.dataLabelClick = "function() { console.log('dataLabelClick')}";
+        myEvent.dataLabelRollOver = "function() { console.log('dataLabelRollOver')}";
+
+        myEvent.dataLabelRollOut = "function() { console.log('dataLabelRollOut')}";
+        myEvent.legendItemClicked = "function() { console.log('legendItemClicked')}";
+        myEvent.legendItemRollOver = "function() { console.log('legendItemRollOver')}";
+        myEvent.legendItemRollOut = "function() { console.log('legendItemRollOut')}";
+
+        myEvent.chartClick = "function() { console.log('chartClick')}";
+        myEvent.chartRollOver = "function() { console.log('chartRollOver')}";
+        myEvent.chartRollOut = "function() { console.log('chartRollOut')}";
+        myEvent.keyPressed = "function() { console.log('keyPressed')}";
+        myEvent.dataplotDragStart = "function() { console.log('dataplotDragStart')}";
+        myEvent.dataplotDragEnd = "function() { console.log('dataplotDragEnd')}";
+
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            demo();
+        }
+        else
+        {
+
+        }
+    }
+
+}

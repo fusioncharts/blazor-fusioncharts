@@ -1,0 +1,94 @@
+﻿@page "/area2d"
+@using Microsoft.JSInterop;
+
+@inject FusionChartsService fusionChartsService;
+
+<PageTitle>Area2</PageTitle>
+
+<h1>Area2</h1>
+<div id="chart-container"></div>
+
+@code {
+
+    private async Task demo()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        dynamic myCategories = new System.Dynamic.ExpandoObject();
+        dynamic myDataSet = new System.Dynamic.ExpandoObject();
+
+        myChartConfig.id = "stockRealTimeChart";
+        myChartConfig.type = "area2d";
+        myChartConfig.renderAt = "chart-container";
+        myChartConfig.width = 700;
+        myChartConfig.height = 400;
+        myChartConfig.dataFormat = "json";
+
+
+        myChart.caption = "Sales of Liquor";
+        myChart.subCaption = "Last week";
+        myChart.xAxisName = "Day";
+        myChart.yAxisName = "Sales (In USD)";
+        myChart.numberPrefix = "$";
+        myChart.showValues = 1;
+        myChart.theme = "fusion";
+
+        myCategories = new[] { new { catagory = new[] { new { label = "Day Start" } } } };
+
+        myEvent.initialized = "function() { updateTimeChartData() }";
+        myDataSource.chart = myChart;
+        myDataSource.data = new[] {
+            new { label = "Mon", value = "4123" },
+            new { label = "Tue", value = "5491" },
+            new { label = "Wed", value = "4591" },
+            new { label = "Thu", value = "1235" },
+            new { label = "Fri", value = "4591" },
+            new { label = "Sat", value = "5803" },
+            new { label = "Sun", value = "3885" },
+        };
+        //myDataSource.categories = myCategories;
+        myChartConfig.dataSource = myDataSource;
+        myChartConfig.events = myEvent;
+
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+        myEvent.initialized = "function() { console.log('initialized')}";
+        myEvent.beforeRender = "function() { console.log('beforeRender')}";
+        myEvent.rendered = "function() { console.log('rendered')}";
+
+        myEvent.dataplotRollOver = "function() { console.log('dataplotRollOver')}";
+        myEvent.dataplotRollOut = "function() { console.log('dataplotRollOut')}";
+        myEvent.dataLabelClick = "function() { console.log('dataLabelClick')}";
+        myEvent.dataLabelRollOver = "function() { console.log('dataLabelRollOver')}";
+
+        myEvent.dataLabelRollOut = "function() { console.log('dataLabelRollOut')}";
+        myEvent.legendItemClicked = "function() { console.log('legendItemClicked')}";
+        myEvent.legendItemRollOver = "function() { console.log('legendItemRollOver')}";
+        myEvent.legendItemRollOut = "function() { console.log('legendItemRollOut')}";
+
+        myEvent.chartClick = "function() { console.log('chartClick')}";
+        myEvent.chartRollOver = "function() { console.log('chartRollOver')}";
+        myEvent.chartRollOut = "function() { console.log('chartRollOut')}";
+        myEvent.keyPressed = "function() { console.log('keyPressed')}";
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await demo();
+        }
+        else
+        {
+
+        }
+    }
+}
+<SurveyPrompt Title="How is Blazor working for you?" />
