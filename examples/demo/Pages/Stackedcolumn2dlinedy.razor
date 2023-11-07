@@ -1,0 +1,200 @@
+﻿@page "/stackedcolumn2dlinedy"
+
+@using System.Net.Http;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@inject FusionChartsService fusionChartsService;
+
+<PageTitle>Stacked Column 2D Line Dual Y-axis Chart chart</PageTitle>
+
+<div>
+    <div id="stackedcolumn2dlinedy"></div>
+</div>
+
+@code {
+
+    public async Task demo()
+    {
+        // chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+        //events
+        myEvent.loaded = "function() { console.log('loaded')}";
+        myEvent.renderComplete = "function() { console.log('renderComplete')}";
+        myEvent.initialized = "function() { console.log('initialized')}";
+        myEvent.beforeRender = "function() { console.log('beforeRender')}";
+        myEvent.rendered = "function() { console.log('rendered')}";
+
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+        myEvent.dataplotRollOver = "function() { console.log('dataplotRollOver')}";
+        myEvent.dataplotRollOut = "function() { console.log('dataplotRollOut')}";
+        myEvent.dataLabelClick = "function() { console.log('dataLabelClick')}";
+        myEvent.dataLabelRollOver = "function() { console.log('dataLabelRollOver')}";
+        myEvent.dataLabelRollOut = "function() { console.log('dataLabelRollOut')}";
+
+        myEvent.legendItemClicked = "function() { console.log('legendItemClicked')}";
+        myEvent.legendItemRollOver = "function() { console.log('legendItemRollOver')}";
+        myEvent.legendItemRollOut = "function() { console.log('legendItemRollOut')}";
+
+        myEvent.chartClick = "function() { console.log('chartClick')}";
+        myEvent.chartRollOver = "function() { console.log('chartRollOver')}";
+        myEvent.chartRollOut = "function() { console.log('chartRollOut')}";
+
+        myChartConfig.type = "stackedcolumn2dlinedy";
+        myChartConfig.width = 1000;
+        myChartConfig.height = 600;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "stackedcolumn2dlinedy";
+
+        myChart.caption = "Global Robotic Process Automation Market";
+        myChart.subcaption = "2016 - 2021";
+        myChart.yaxisname = "Market Size (in $ Millions)";
+        myChart.syaxisname = "YoY growth in %";
+        myChart.formatnumberscale = "0";
+        myChart.numberprefix = "$";
+        myChart.numbersuffix = "M";
+        myChart.snumbersuffix = "%";
+        myChart.showvalues = "0";
+        myChart.plottooltext = "Market size for $seriesName in $label is <b>$dataValue</b>";
+        myChart.theme = "fusion";
+
+
+        myDataSource.categories = new[]{
+        new
+        {
+            category = new[]
+            {
+                new
+                {
+                    label = "2016"
+                }, new
+                {
+                    label = "2017"
+                }, new
+                {
+                    label = "2018"
+                }, new
+                {
+                    label = "2019"
+                }, new
+                {
+                    label = "2020"
+                }, new
+                {
+                    label = "2021"
+                }
+            }
+        }
+
+    };
+
+        myDataSource.dataset = new[]{
+            new
+            {
+                seriesname = "RPA Software",
+                parentyaxis = "",
+                plottooltext = "",
+                renderas = "",
+                data = new[]{
+                    new {
+                        value = "73"
+                    }, new
+                    {
+                        value = "113"
+                    }, new
+                    {
+                        value = "153"
+                    }, new
+                    {
+                        value = "192"
+                    }, new
+                    {
+                        value = "232"
+                    }, new
+                    {
+                        value = "272"
+                    }
+                }
+            },new
+            {
+                seriesname = "RPA Services",
+                parentyaxis = "",
+                plottooltext = "",
+                renderas = "",
+                data = new[]{
+                    new {
+                        value = "198"
+                    }, new
+                    {
+                        value = "330"
+                    }, new
+                    {
+                        value = "476"
+                    }, new
+                    {
+                        value = "630"
+                    }, new
+                    {
+                        value = "790"
+                    }, new
+                    {
+                        value = "952"
+                    }
+                }
+            },new
+            {
+                seriesname = "YoY Growth",
+                parentyaxis = "S",
+                plottooltext = "$dataValue growth expected in $label",
+                renderas = "line",
+                data = new[]{
+                    new {
+                        value = "73"
+                    }, new
+                    {
+                        value = "63"
+                    }, new
+                    {
+                        value = "42"
+                    }, new
+                    {
+                        value = "31"
+                    }, new
+                    {
+                        value = "24"
+                    }, new
+                    {
+                        value = "20"
+                    }
+                }
+            }
+    };
+
+
+
+
+        myDataSource.chart = myChart;
+
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await demo();
+        }
+        else
+        {
+
+        }
+    }
+
+}

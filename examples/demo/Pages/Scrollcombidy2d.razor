@@ -1,0 +1,421 @@
+﻿@page "/scrollcombidy2d"
+
+@using System.Net.Http;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@inject FusionChartsService fusionChartsService;
+
+<PageTitle>Scroll Combination 2D (Dual Y) chart</PageTitle>
+
+<div>
+    <div id="scrollcombidy2d"></div>
+</div>
+
+@code {
+
+    public async Task demo()
+    {
+        // chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+        //events
+        myEvent.loaded = "function() { console.log('loaded')}";
+        myEvent.renderComplete = "function() { console.log('renderComplete')}";
+        myEvent.initialized = "function() { console.log('initialized')}";
+        myEvent.beforeRender = "function() { console.log('beforeRender')}";
+        myEvent.rendered = "function() { console.log('rendered')}";
+
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+        myEvent.dataplotRollOver = "function() { console.log('dataplotRollOver')}";
+        myEvent.dataplotRollOut = "function() { console.log('dataplotRollOut')}";
+        myEvent.dataLabelClick = "function() { console.log('dataLabelClick')}";
+        myEvent.dataLabelRollOver = "function() { console.log('dataLabelRollOver')}";
+        myEvent.dataLabelRollOut = "function() { console.log('dataLabelRollOut')}";
+
+        myEvent.legendItemClicked = "function() { console.log('legendItemClicked')}";
+        myEvent.legendItemRollOver = "function() { console.log('legendItemRollOver')}";
+        myEvent.legendItemRollOut = "function() { console.log('legendItemRollOut')}";
+
+        myEvent.chartClick = "function() { console.log('chartClick')}";
+        myEvent.chartRollOver = "function() { console.log('chartRollOver')}";
+        myEvent.chartRollOut = "function() { console.log('chartRollOut')}";
+
+        myChartConfig.type = "scrollcombidy2d";
+        myChartConfig.width = 1000;
+        myChartConfig.height = 600;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "scrollcombidy2d";
+
+        myChart.caption = "Revenues and Profits";
+        myChart.subCaption = "(FY 2012 to FY 2013)";
+        myChart.xAxisname = "Month";
+        myChart.pYAxisName = "Amount (In USD)";
+        myChart.sYAxisName = "Profit %";
+        myChart.numberPrefix = "$";
+        myChart.sNumberSuffix = "%";
+        myChart.sYAxisMaxValue = "50";
+        myChart.showValues = "1";
+        myChart.numVisiblePlot = "12";
+        myChart.flatScrollBars = "1";
+        myChart.scrollheight = "10";
+        myChart.theme = "fusion";
+
+        myDataSource.categories = new[]{
+            new
+            {
+                category = new[]
+                {
+                    new
+                    {
+                        label = "Jan 2012"
+                    }, new
+                    {
+                        label = "Feb 2012"
+                    }, new
+                    {
+                        label = "Mar 2012"
+                    }, new
+                    {
+                        label = "Apr 2012"
+                    }, new
+                    {
+                        label = "May 2012"
+                    }, new
+                    {
+                        label = "Jun 2012"
+                    }, new
+                    {
+                        label = "Jul 2012"
+                    }, new
+                    {
+                        label = "Aug 2012"
+                    }, new
+                    {
+                        label = "Sep 2012"
+                    }, new
+                    {
+                        label = "Oct 2012"
+                    }, new
+                    {
+                        label = "Nov 2012"
+                    }, new
+                    {
+                        label = "Dec 2012"
+                    }, new
+                    {
+                        label = "Jan 2013"
+                    }, new
+                    {
+                        label = "Feb 2013"
+                    }, new
+                    {
+                        label = "Mar 2013"
+                    }, new
+                    {
+                        label = "Apr 2013"
+                    }, new
+                    {
+                        label = "May 2013"
+                    }, new
+                    {
+                        label = "Jun 2013"
+                    }, new
+                    {
+                        label = "Jul 2013"
+                    }, new
+                    {
+                        label = "Aug 2013"
+                    }, new
+                    {
+                        label = "Sep 2013"
+                    }, new
+                    {
+                        label = "Oct 2013"
+                    }, new
+                    {
+                        label = "Nov 2013"
+                    }, new
+                    {
+                        label = "Dec 2013"
+                    }
+                }
+            }
+    };
+
+        myDataSource.dataset = new[]{
+                new
+                {
+                    seriesname = "Revenues",
+                    renderAs = "",
+                    showValues = "",
+                    parentYAxis = "",
+                    data = new[]
+                    {
+                        new
+                        {
+                            value = "16000"
+                        }, new
+                        {
+                            value = "20000"
+                        }, new
+                        {
+                            value = "18000"
+                        }, new
+                        {
+                            value = "19000"
+                        }, new
+                        {
+                            value = "15000"
+                        }, new
+                        {
+                            value = "21000"
+                        }, new
+                        {
+                            value = "16000"
+                        }, new
+                        {
+                            value = "20000"
+                        }, new
+                        {
+                            value = "17000"
+                        }, new
+                        {
+                            value = "22000"
+                        }, new
+                        {
+                            value = "19000"
+                        }, new
+                        {
+                            value = "23000"
+                        }, new
+                        {
+                            value = "24000"
+                        }, new
+                        {
+                            value = "25000"
+                        }, new
+                        {
+                            value = "26000"
+                        }, new
+                        {
+                            value = "24000"
+                        }, new
+                        {
+                            value = "19000"
+                        }, new
+                        {
+                            value = "22000"
+                        }, new
+                        {
+                            value = "18000"
+                        }, new
+                        {
+                            value = "19000"
+                        }, new
+                        {
+                            value = "22000"
+                        }, new
+                        {
+                            value = "21000"
+                        }, new
+                        {
+                            value = "23000"
+                        }, new
+                        {
+                            value = "24000"
+                        }
+                    }
+                }, new
+                {
+                    seriesname = "Profits",
+                    renderAs = "area",
+                    showValues = "0",
+                    parentYAxis = "",
+                    data = new[]
+                    {
+                        new
+                        {
+                            value = "4000"
+                        }, new
+                        {
+                            value = "5000"
+                        }, new
+                        {
+                            value = "3000"
+                        }, new
+                        {
+                            value = "4000"
+                        }, new
+                        {
+                            value = "1000"
+                        }, new
+                        {
+                            value = "7000"
+                        }, new
+                        {
+                            value = "1000"
+                        }, new
+                        {
+                            value = "4000"
+                        }, new
+                        {
+                            value = "1000"
+                        }, new
+                        {
+                            value = "8000"
+                        }, new
+                        {
+                            value = "2000"
+                        }, new
+                        {
+                            value = "7000"
+                        }, new
+                        {
+                            value = "6000"
+                        }, new
+                        {
+                            value = "7000"
+                        }, new
+                        {
+                            value = "4000"
+                        }, new
+                        {
+                            value = "5000"
+                        }, new
+                        {
+                            value = "3000"
+                        }, new
+                        {
+                            value = "9000"
+                        }, new
+                        {
+                            value = "2000"
+                        }, new
+                        {
+                            value = "6000"
+                        }, new
+                        {
+                            value = "2000"
+                        }, new
+                        {
+                            value = "7000"
+                        }, new
+                        {
+                            value = "4000"
+                        }, new
+                        {
+                            value = "6000"
+                        }
+                    }
+                }, new
+                {
+                    seriesname = "Profit %",
+                    renderAs = "line",
+                    showValues = "0",
+                    parentYAxis = "S",
+                    data = new[]
+                    {
+                        new
+                        {
+                            value = "25"
+                        }, new
+                        {
+                            value = "25"
+                        }, new
+                        {
+                            value = "16.66"
+                        }, new
+                        {
+                            value = "21.05"
+                        }, new
+                        {
+                            value = "6.66"
+                        }, new
+                        {
+                            value = "33.33"
+                        }, new
+                        {
+                            value = "6.25"
+                        }, new
+                        {
+                            value = "25"
+                        }, new
+                        {
+                            value = "5.88"
+                        }, new
+                        {
+                            value = "36.36"
+                        }, new
+                        {
+                            value = "10.52"
+                        }, new
+                        {
+                            value = "30.43"
+                        }, new
+                        {
+                            value = "25"
+                        }, new
+                        {
+                            value = "28"
+                        }, new
+                        {
+                            value = "15.38"
+                        }, new
+                        {
+                            value = "20.83"
+                        }, new
+                        {
+                            value = "15.79"
+                        }, new
+                        {
+                            value = "40.91"
+                        }, new
+                        {
+                            value = "11.11"
+                        }, new
+                        {
+                            value = "31.58"
+                        }, new
+                        {
+                            value = "9.09"
+                        }, new
+                        {
+                            value = "33.33"
+                        }, new
+                        {
+                            value = "17.39"
+                        }, new
+                        {
+                            value = "25"
+                        }
+                    }
+                }
+        };
+
+
+
+        myDataSource.chart = myChart;
+
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await demo();
+        }
+        else
+        {
+
+        }
+    }
+
+}
