@@ -4,7 +4,7 @@
 <div id="chart-container1"></div>
 
 @code {
-    public async void stackedBarsChart3D()
+    public async Task stackedBarsChart3D()
     {
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
         dynamic myDataSource = new System.Dynamic.ExpandoObject();
@@ -237,7 +237,7 @@
     {
         if (firstRender)
         {
-            stackedBarsChart3D();
+            await stackedBarsChart3D();
         }
         else
         {

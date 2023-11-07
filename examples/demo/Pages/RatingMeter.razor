@@ -10,7 +10,7 @@
 <div id="demoID4"></div>
 
 @code {
-    public async void renderRatingMeter()
+    public async Task renderRatingMeter()
     {
         // chart code
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
@@ -85,7 +85,7 @@
         if (firstRender)
         {
 
-            renderRatingMeter();
+            await renderRatingMeter();
 
         }
         else

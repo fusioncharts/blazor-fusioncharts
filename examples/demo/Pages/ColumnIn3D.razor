@@ -9,7 +9,7 @@
 
 @code {
 
-    public async void ColumnIn3DChart()
+    public async Task ColumnIn3DChart()
     {
         //chart code
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
@@ -57,7 +57,7 @@
     {
         if (firstRender)
         {
-            ColumnIn3DChart();
+            await ColumnIn3DChart();
         }
         else
         {

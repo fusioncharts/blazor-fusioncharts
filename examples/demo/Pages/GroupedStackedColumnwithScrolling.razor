@@ -4,7 +4,7 @@
 <div id="chart-container1"></div>
 
 @code {
-    public async void groupStackwithScroll()
+    public async Task groupStackwithScroll()
     {
         // chart code
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
@@ -152,7 +152,7 @@
     {
         if (firstRender)
         {
-            groupStackwithScroll();
+            await groupStackwithScroll();
         }
         else
         {

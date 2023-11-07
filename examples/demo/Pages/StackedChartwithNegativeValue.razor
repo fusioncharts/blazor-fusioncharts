@@ -4,7 +4,7 @@
 <div id="chart-container1"></div>
 
 @code {
-    public async void stackedColumnNegativeaVal()
+    public async Task stackedColumnNegativeaVal()
     {
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
         dynamic myDataSource = new System.Dynamic.ExpandoObject();
@@ -384,7 +384,7 @@
     {
         if (firstRender)
         {
-            stackedColumnNegativeaVal();
+            await stackedColumnNegativeaVal();
         }
         else
         {

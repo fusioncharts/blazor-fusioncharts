@@ -10,7 +10,7 @@
 <div id="demoID3"></div>
 
 @code {
-    public async void renderPareto3D()
+    public async Task renderPareto3D()
     {
         // chart code
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
@@ -57,7 +57,7 @@
         if (firstRender)
         {
 
-            renderPareto3D();
+            await renderPareto3D();
 
         }
         else

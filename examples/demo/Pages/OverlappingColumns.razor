@@ -9,7 +9,7 @@
 
 @code {
 
-    public async void OverlappingColumnsChart()
+    public async Task OverlappingColumnsChart()
     {
         //chart code
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
@@ -139,7 +139,7 @@
     {
         if (firstRender)
         {
-            OverlappingColumnsChart();
+            await OverlappingColumnsChart();
         }
         else
         {

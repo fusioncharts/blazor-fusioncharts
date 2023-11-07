@@ -8,7 +8,7 @@
 @inject FusionChartsService fusionChartsService;
 
 @code {
-    public async void RealTimeLineChart()
+    public async Task RealTimeLineChart()
     {
 
 
@@ -69,7 +69,7 @@
     {
         if (firstRender)
         {
-            RealTimeLineChart();
+            await RealTimeLineChart();
         }
         else
         {

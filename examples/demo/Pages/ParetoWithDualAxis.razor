@@ -7,7 +7,7 @@
 <h3>PARITO WITH DUAL AXIS</h3>
 <div id="demoID2"></div>
 @code {
-    public async void renderParetoDualAxis()
+    public async Task renderParetoDualAxis()
     {
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
         //(UNCOMMENT TO TEST DATA LOAD ERROR)
@@ -99,7 +99,7 @@
     {
         if (firstRender)
         {
-            renderParetoDualAxis();
+            await renderParetoDualAxis();
         }
         else
         {

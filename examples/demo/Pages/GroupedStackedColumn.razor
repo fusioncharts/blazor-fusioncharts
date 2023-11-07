@@ -4,7 +4,7 @@
 <div id="chart-container1"></div>
 
 @code {
-    public async void GroupedStackedchart()
+    public async Task GroupedStackedchart()
     {
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
         dynamic myDataSource = new System.Dynamic.ExpandoObject();
@@ -115,7 +115,7 @@
     {
         if (firstRender)
         {
-            GroupedStackedchart();
+            await GroupedStackedchart();
         }
         else
         {

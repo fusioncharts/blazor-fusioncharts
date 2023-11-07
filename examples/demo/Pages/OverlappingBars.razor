@@ -8,7 +8,7 @@
 @inject FusionChartsService fusionChartsService;
 
 @code {
-    public async void OverlappingBarsChart()
+    public async Task OverlappingBarsChart()
     {
         //chart code
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
@@ -181,7 +181,7 @@
     {
         if (firstRender)
         {
-            OverlappingBarsChart();
+            await OverlappingBarsChart();
         }
         else
         {

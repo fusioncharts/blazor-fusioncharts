@@ -8,7 +8,7 @@
 @inject FusionChartsService fusionChartsService;
 
 @code {
-    public async void GroupedColumnIn3DWithMultipleSeriesChart()
+    public async Task GroupedColumnIn3DWithMultipleSeriesChart()
     {
         //chart code
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
@@ -162,7 +162,7 @@
     {
         if (firstRender)
         {
-            GroupedColumnIn3DWithMultipleSeriesChart();
+           await GroupedColumnIn3DWithMultipleSeriesChart();
 
         }
         else

@@ -1,29 +1,19 @@
-
-
-
-    @page "/maprelatedevents"
-
-    @inject FusionChartsService xyz;
-    @using System.Net.Http.Headers;
-    @using System.Net.Http
-    @inject HttpClient httpClient
-    @using Microsoft.JSInterop;
-    @inject IJSRuntime JSRuntime;
-
-    @inject NavigationManager navigationManager;
-    @inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
-
-
-    <h3>MapRelatedEvents</h3>
-
-    <div id="pyramid"></div>
-    <div id="demo"></div>
-    <div id="demo1"></div>
-
-
+@page "/maprelatedevents"
+@inject FusionChartsService xyz;
+@using System.Net.Http.Headers;
+@using System.Net.Http
+@inject HttpClient httpClient
+@using Microsoft.JSInterop;
+@inject IJSRuntime JSRuntime;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+<h3>MapRelatedEvents</h3>
+<div id="pyramid"></div>
+<div id="demo"></div>
+<div id="demo1"></div>
 @code {
-    public static MapCharts _instance;
-    public  MapCharts()
+    public static MapCharts? _instance;
+    public MapCharts()
     {
         _instance = this;
     }
@@ -34,33 +24,32 @@
         var FilePath = "usa.json";
         var Url = NavigationManager.ToAbsoluteUri(FilePath).ToString();
         await xyz.CallFusionChartsFunction("setJSONUrl", "Cid001", Url);
-       
-        
-              
-        
+
+
+
+
     }
     // this is static method which we have added in the event using dotnet
     [JSInvokable("ChangeData")]
     public static async Task ChangeData()
     {
         // Call the non-static method from the instance
-        await _instance.NonStaticMethod();
+        if (_instance != null)
+            await _instance.NonStaticMethod();
     }
-    
 
     public async void clickme()
     {
-        
+
         await xyz.CallFusionChartsFunction("addEventListener", "CHART_ID1", "callback", "markerRollOver", "function() {console.log('bla bla bla')}");
         await xyz.CallFusionChartsFunction("addEventListener", "CHART_ID1", "callback", "markerRollOut", "function() {console.log('la la la')}");
     }
-    public async void MapEvents()
+    public async Task MapEvents()
     {
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
         dynamic myDataSource = new System.Dynamic.ExpandoObject();
         dynamic myEvent = new System.Dynamic.ExpandoObject();
         dynamic myChart = new System.Dynamic.ExpandoObject();
-
         myChartConfig.type = "maps/usa";
         myChartConfig.width = 800;
         myChartConfig.height = 500;
@@ -68,14 +57,12 @@
         myChartConfig.renderAt = "pyramid";
         myChartConfig.caption = "caption";
         myChartConfig.id = "Cid001";
-
         myChart.caption = "Monthly Sales";
         myChart.subCaption = "Last year";
         myChart.loadMessage = "message";
         myEvent.renderComplete = "function() { console.log('render complete for Simple Parito Chart')}";
         //ATTACHING ALL THE METHOD CALL TO "LOADED EVENT" SO THAT METHODS ARE CALLED ONLY AFTER CHART IS LOADED
         myEvent.loaded = "function() { DotNet.invokeMethodAsync('BlazorApp2TestQA2','ChangeData')}";
-
         myEvent.dataPlotClick = " function() { console.log('dataPlotClick event triggered');   }";
         myEvent.entityRollOut = " function() { console.log('entityRollOut  event triggered');   }";
         myEvent.entityRollOver = " function() { console.log('entityRollOver  event triggered');   }";
@@ -86,38 +73,24 @@
         myEvent.connectorRollOver = " function() { console.log('connectorRollOver  event triggered');   }";
         myEvent.connectorRollOut = " function() { console.log('connectorRollOut  event triggered');   }";
         myEvent.connectorClick = " function() { console.log('connectorClick  event triggered');   }";
-
         myDataSource.chart = myChart;
         myChartConfig.events = myEvent;
         myChartConfig.dataSource = myDataSource;
-
         myChartConfig.renderAt = "demo";
-       
+
         String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
         await xyz.renderChart(chartConfig);
-                
+
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await MapEvents();
+        }
+        else
+        {
+        }
     }
 
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
-            if (firstRender)
-            {
-                MapEvents();
-
-
-            }
-            else
-            {
-
-            }
-        }
-   
-
-
 }
-
-
-
-
-
-

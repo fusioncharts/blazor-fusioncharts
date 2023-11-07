@@ -8,31 +8,32 @@
 <h3>SELECT SCATTER</h3>
 <div id="demoID5"></div>
 @code {
-    public static ScatterChart _instance;
+    public static ScatterChart? _instance;
     public ScatterChart()
     {
-        _instance = this;
+        if (_instance != null)
+            _instance = this;
     }
     // calling this method from static method using instance of ScatterChart
     public async Task NonStaticMethod()
     {
-
         var FilePath = "ScatterChart.json";
         string jsonUrl = navigationManager.ToAbsoluteUri(FilePath).ToString();
         // RIGHT WAY TO CALL METHODS (ESPECIALLY FOR THOSE HAVING RELOAD ISSUES)
-    await xyz.CallFusionChartsFunction("setChartDataUrl", "demo_id5", jsonUrl, "json");
-	await xyz.CallFusionChartsFunction("getCSVData", "demo_id5");
-	await xyz.CallFusionChartsFunction("getDataAsCSV", "demo_id5");
-	await xyz.CallFusionChartsFunction("getSVGString", "demo_id5");
+        await xyz.CallFusionChartsFunction("setChartDataUrl", "demo_id5", jsonUrl, "json");
+        await xyz.CallFusionChartsFunction("getCSVData", "demo_id5");
+        await xyz.CallFusionChartsFunction("getDataAsCSV", "demo_id5");
+        await xyz.CallFusionChartsFunction("getSVGString", "demo_id5");
     }
     // this is static method which we have added in the event using dotnet
     [JSInvokable("Change")]
     public static async Task Change()
     {
         // Call the non-static method from the instance
-        await _instance.NonStaticMethod();
+        if (_instance != null)
+            await _instance.NonStaticMethod();
     }
-    public async void renderSelectScatterChart()
+    public async Task renderSelectScatterChart()
     {
         // chart code
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
@@ -40,7 +41,7 @@
         dynamic myChart = new System.Dynamic.ExpandoObject();
         dynamic myEvent = new System.Dynamic.ExpandoObject();
         myEvent.renderComplete = "function() { console.log('render complete for Simple Parito Chart')}";
-	//ATTACHING ALL THE METHOD CALL TO "LOADED EVENT" SO THAT METHODS ARE CALLED ONLY AFTER CHART IS LOADED
+        //ATTACHING ALL THE METHOD CALL TO "LOADED EVENT" SO THAT METHODS ARE CALLED ONLY AFTER CHART IS LOADED
         myEvent.loaded = "function() { DotNet.invokeMethodAsync('demo','Change')}";
         myChartConfig.type = "selectscatter";
         myChartConfig.width = 500;
@@ -53,9 +54,9 @@
         myChartConfig.dataSource = myDataSource;
         String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
         await xyz.renderChart(chartConfig);
-	//WRONG WAY OF CALLING METHODS
-	//await xyz.CallFusionChartsFunction("setChartDataUrl", "demo_id5", jsonUrl, "json");
-	//await xyz.CallFusionChartsFunction("getCSVData", "demo_id1");
+        //WRONG WAY OF CALLING METHODS
+        //await xyz.CallFusionChartsFunction("setChartDataUrl", "demo_id5", jsonUrl, "json");
+        //await xyz.CallFusionChartsFunction("getCSVData", "demo_id1");
         //await xyz.CallFusionChartsFunction("getDataAsCSV", "demo_id1");
         //await xyz.CallFusionChartsFunction("getSVGString", "demo_id1");
     }
@@ -63,7 +64,7 @@
     {
         if (firstRender)
         {
-            renderSelectScatterChart();
+            await renderSelectScatterChart();
         }
         else
         {

@@ -15,7 +15,7 @@
 
 <div id="chart-container6"></div>
 @code {
-    public async void demo()
+    public async Task demo()
     {
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
         dynamic myDataSource = new System.Dynamic.ExpandoObject();
@@ -97,7 +97,7 @@
     {
         if (firstRender)
         {
-            demo();
+            await demo();
         }
         else
         {

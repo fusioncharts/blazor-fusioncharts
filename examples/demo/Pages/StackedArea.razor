@@ -4,7 +4,7 @@
 <div id="chart-container1"></div>
 
 @code {
-    public async void stackAreaChart()
+    public async Task stackAreaChart()
     {
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
         dynamic myDataSource = new System.Dynamic.ExpandoObject();
@@ -211,7 +211,7 @@
     {
         if (firstRender)
         {
-            stackAreaChart();
+            await stackAreaChart();
         }
         else
         {

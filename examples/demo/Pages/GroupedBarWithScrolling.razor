@@ -9,7 +9,7 @@
 
 @code {
 
-    public async void GroupedBarWithScrollingChart()
+    public async Task GroupedBarWithScrollingChart()
     {
         //chart code
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
@@ -220,7 +220,7 @@
     {
         if (firstRender)
         {
-            GroupedBarWithScrollingChart();
+            await GroupedBarWithScrollingChart();
         }
         else
         {
