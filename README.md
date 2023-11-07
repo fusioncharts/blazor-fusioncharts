@@ -62,11 +62,19 @@ For MacOS or Linux users, run the 'dotnet watch' command from your project direc
 
 ## Quick Start
 The application's operational flow can be described as follows:
-1. It initiates from the entry point of the application, "_Hosts.cshtml" and "Index.razor".
-2. Within "Index.razor", the coding resides to facilitate chart rendering.
-3. From here it progresses to "FusionChartsService.cs," which serves as the interface between the end-user's Blazor application and the minified FusionCharts library.
-4. The flow then extends towards "blazor-fusionCharts.js." This file exposes specific functions for "FusionChartsService.cs" and establishes bindings with Fusioncharts.
-5. Ultimately, the sequence culminates in connecting to "fusioncharts.js," which represents the minified Fusioncharts library file.
+1. Create a new blazor application.
+2. Check if there is an existing fusioncharts package in the local, if so delete the package.
+3. Install the latest package from myGet.
+4. Upon successful installation, we need to manually add the blazor-fusionCharts.js file from 
+   “C:\Users\XYZ\.nuget\packages\blazorfusioncharts\1.0.0\staticwebassets” to wwwroot folder.
+5. In Hosts.cshtml file the below 2 script tags has to be added:
+   <script type=”text/javascript” src=”https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js”></script>
+   <script src=”~/blazor-fusionCharts.js”></script>
+6. In _Imports.razor file, add the FusionChartsInterop: 
+   @using FusionCharts.FusionChartsInterop
+7. In Program.cs file, add the FusionCharts service:
+   builder.Services.AddScoped<FusionCharts.FusionChartsInterop.FusionChartsService>();
+
 
 ## Working with APIs
 
