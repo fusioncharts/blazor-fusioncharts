@@ -63,20 +63,23 @@ For MacOS or Linux users, run the 'dotnet watch' command from your project direc
 ## Quick Start
 The application's operational flow can be described as follows:
 1. Create a new blazor application.
-2. Check if there is an existing fusioncharts package in the local at this location "C:\Users\XXX\.nuget\packages", if so delete the package.
-3. Install the latest package from Nuget.org.
-4. Upon successful installation, we need to manually add the blazor-fusionCharts.js file from 
+2. Verify the existence of the FusionCharts package at the below loctions, if the package exists, remove it.
+   - For Windows: C:\Users\XXX\.nuget\packages
+   - For macOS and Linux: ~/.nuget/packages
+3. Check if there is an existing fusioncharts package in the local at this location "C:\Users\XXX\.nuget\packages" for Windows and for mac and linux the location is “~/.nuget/packages”. If so delete the package.
+4. Install the latest package from Nuget.org.
+5. Upon successful installation, we need to manually add the blazor-fusionCharts.js file from 
    “C:\Users\XXX\.nuget\packages\blazorfusioncharts\1.0.0\staticwebassets” to wwwroot folder.
-5. In Hosts.cshtml file the below 2 script tags has to be added:
+6. In Hosts.cshtml file the below 2 script tags has to be added:
    ```
    <script type=”text/javascript” src=”https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js”></script>
    <script src=”~/blazor-fusionCharts.js”></script>
    ```
-6. In _Imports.razor file, add the FusionChartsInterop:
+7. In _Imports.razor file, add the FusionChartsInterop:
    ```
    @using FusionCharts.FusionChartsInterop
    ```
-7. In Program.cs file, add the FusionCharts service:
+8. In Program.cs file, add the FusionCharts service:
     ```
    builder.Services.AddScoped<FusionCharts.FusionChartsInterop.FusionChartsService>();
    ```
