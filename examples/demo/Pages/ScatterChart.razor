@@ -1,0 +1,72 @@
+@page "/SelectScatter"
+@inject FusionChartsService xyz;
+@using System.Net.Http
+@using Microsoft.JSInterop;
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+<PageTitle>SelectScatter</PageTitle>
+<h3>SELECT SCATTER</h3>
+<div id="demoID5"></div>
+@code {
+    public static ScatterChart _instance;
+    public ScatterChart()
+    {
+        _instance = this;
+    }
+    // calling this method from static method using instance of ScatterChart
+    public async Task NonStaticMethod()
+    {
+
+        var FilePath = "ScatterChart.json";
+        string jsonUrl = navigationManager.ToAbsoluteUri(FilePath).ToString();
+        // RIGHT WAY TO CALL METHODS (ESPECIALLY FOR THOSE HAVING RELOAD ISSUES)
+    await xyz.CallFusionChartsFunction("setChartDataUrl", "demo_id5", jsonUrl, "json");
+	await xyz.CallFusionChartsFunction("getCSVData", "demo_id5");
+	await xyz.CallFusionChartsFunction("getDataAsCSV", "demo_id5");
+	await xyz.CallFusionChartsFunction("getSVGString", "demo_id5");
+    }
+    // this is static method which we have added in the event using dotnet
+    [JSInvokable("Change")]
+    public static async Task Change()
+    {
+        // Call the non-static method from the instance
+        await _instance.NonStaticMethod();
+    }
+    public async void renderSelectScatterChart()
+    {
+        // chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        myEvent.renderComplete = "function() { console.log('render complete for Simple Parito Chart')}";
+	//ATTACHING ALL THE METHOD CALL TO "LOADED EVENT" SO THAT METHODS ARE CALLED ONLY AFTER CHART IS LOADED
+        myEvent.loaded = "function() { DotNet.invokeMethodAsync('demo','Change')}";
+        myChartConfig.type = "selectscatter";
+        myChartConfig.width = 500;
+        myChartConfig.height = 300;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "demoID5";
+        myChartConfig.id = "demo_id5";
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await xyz.renderChart(chartConfig);
+	//WRONG WAY OF CALLING METHODS
+	//await xyz.CallFusionChartsFunction("setChartDataUrl", "demo_id5", jsonUrl, "json");
+	//await xyz.CallFusionChartsFunction("getCSVData", "demo_id1");
+        //await xyz.CallFusionChartsFunction("getDataAsCSV", "demo_id1");
+        //await xyz.CallFusionChartsFunction("getSVGString", "demo_id1");
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            renderSelectScatterChart();
+        }
+        else
+        {
+        }
+    }
+}

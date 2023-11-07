@@ -1,0 +1,105 @@
+@page "/simplegantt"
+@using Microsoft.JSInterop;
+@using System.Text.Json;
+@inject IJSRuntime JSInterop;
+@inject FusionChartsService fusionChartsService;
+@using System.Net.Http;
+@inject HttpClient httpClient;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@using System.Text.Json.Serialization;
+<center>
+    <h3>
+        <b>Gantt Chart</b>
+    </h3>
+</center>
+
+<div id="ganttID"></div>
+
+@code {
+
+    public static SimpleGantt _instance;
+    public SimpleGantt()
+    {
+        _instance = this;
+    }
+    
+    public async Task NonStaticMethod()
+    {
+
+        string Url = navigationManager.ToAbsoluteUri("data-SimpleGantt.xml").ToString();
+        //Chart Rendering Through setXMLUrl
+        await fusionChartsService.CallFusionChartsFunction("setXMLUrl", "ganId", Url);
+        //getChartType
+        await fusionChartsService.CallFusionChartsFunction("chartType", "ganId");
+        //getJSONData
+        await fusionChartsService.CallFusionChartsFunction("getJSONData", "ganId", 1);
+        //getChartAttribute
+        await fusionChartsService.CallFusionChartsFunction("getChartAttribute", "ganId");
+        //showChartMessage
+        await fusionChartsService.CallFusionChartsFunction("showChartMessage", "ganId", "Hi This is Gantt", "true", "true");
+        //setChartAtribute
+        await fusionChartsService.CallFusionChartsFunction("setChartAttribute", "ganId", "caption" , "NEW");
+        //getXMLData
+        await fusionChartsService.CallFusionChartsFunction("getXMLData", "ganId");
+    }
+
+    [JSInvokable("ChangeGanttData")]
+    public static async Task ChangeGanttData()
+    {
+        // Call the non-static method from the instance
+        await _instance.NonStaticMethod();
+    }
+
+    public async Task renderGanttChart()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        
+        //-------------------------------EVENTS----------------------------------
+        myEvent.renderComplete = "function(){console.log('Gantt Chart Render Completed ')}";
+        myEvent.loaded = "function() { DotNet.invokeMethodAsync('demo','ChangeGanttData')}";
+        myEvent.processClick = "function() { console.log('processClick')}";
+        myEvent.processRollOver = "function() { console.log('processRollOver ')}";
+        myEvent.processRollOut = "function() { console.log('processRollOut')}";
+        myEvent.categoryClick = "function() { console.log('categoryClick')}";
+        myEvent.categoryRollOver = "function() { console.log('categoryRollOver')}";
+        myEvent.categoryRollOut = "function() { console.log('categoryRollOut')}";
+        myEvent.milestoneClick = "function() { console.log('milestoneClick')}";
+        myEvent.milestoneRollOver = "function() { console.log('milestoneRollOver')}";
+        myEvent.milestoneRollOut = "function() { console.log('milestoneRollOut')}";
+        myEvent.connectorClick = "function() { console.log('connectorClick')}";
+        myEvent.connectorRollOver = "function() { console.log('connectorRollOver')}";
+        myEvent.connectorRollOut = "function() { console.log('milestoneRollOut')}";
+        //----------------------------------------------------------------------------
+
+        myChartConfig.type = "gantt";
+        myChartConfig.renderAt = "ganttID";
+        myChartConfig.width = "1000";
+        myChartConfig.height = "400";
+        myChartConfig.dataFormat = "xml";
+        myChartConfig.id = "ganId";
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+        
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await renderGanttChart();
+        }
+        else
+        {
+        }
+    }
+
+}

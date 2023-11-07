@@ -1,0 +1,32 @@
+{
+    "data":
+[
+  {
+    "label": "PHYSICS",
+    "value": "32647479"
+  },
+  {
+    "label": "MATHS",
+    "value": "22100932"
+  },
+  {
+    "label": "CHEMISTRY",
+    "value": "1437689"
+  },
+  {
+    "label": "ENGLISH",
+    "value": "18674221"
+  }
+
+],
+"chart":
+  {
+    "caption": "Caption by SetJsonURL method",
+    "theme": "candy",
+    "exportenabled": "1",
+    "defaultCenterLabel": "subjects",
+    "showlegend": "1",
+     "legendposition": "bottom"
+    
+}
+}

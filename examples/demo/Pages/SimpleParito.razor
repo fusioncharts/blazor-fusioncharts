@@ -1,0 +1,124 @@
+@page "/SimpleParito"
+@inject FusionChartsService xyz;
+@using System.Net.Http
+@inject HttpClient httpClient
+@using Microsoft.JSInterop;
+@inject IJSRuntime JSRuntime
+@inject NavigationManager navigationManager
+
+<PageTitle>Simple Parito</PageTitle>
+
+<h3>SIMPLE PARITO</h3>
+<div id="demoID"></div>
+
+@code {
+
+    public async void renderSimplePareto()
+    {
+        // chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+        //myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+        //myEvent.loaded = "function() { console.log('loaded Simple Parito Chart')}";
+        //myEvent.rendered = "function() { console.log('rendered Simple Parito Chart')}";
+        //myEvent.renderComplete = "function() { console.log('render complete for Simple Parito Chart')}";
+        //myEvent.chartClick = "function() { console.log('clicked on Simple Parito Chart')}";
+        //myEvent.chartMouseMove = "function() { console.log('Mouse move on Simple Parito Chart')}";
+        //myEvent.chartRollOver = "function() { console.log('Rolled over on Simple Parito Chart')}";
+
+
+        //Data load events
+        //myEvent.preventDefault();
+        //myEvent.beforeDataUpdate = "function() {DotNet.invokeMethodAsync('Test_latest_Pareto_Rating_meter', 'ChangeData')}";
+        myEvent.beforeDataUpdate = "function() {console.log('before data update on Simple Parito Chart');}";
+        myEvent.dataUpdated = "function() {console.log('data updated on Simple Parito Chart')}";
+        myEvent.dataLoaded = "function() { console.log('data loaded on Simple Parito Chart')}";
+        //myEvent.dataUpdateCancelled = "function() { console.log('Data update cancelled on Simple Parito Chart');}";
+        //myEvent.dataInvalid = "function() { console.log('Data Invalid on Simple Parito Chart')}";
+        myEvent.noDataToDisplay = "function() { console.log('no data to display event triggered on Simple Parito Chart')}";
+
+
+        myChart.enableChartMouseMoveEvent = "1";
+        myChartConfig.type = "pareto2d";
+        myChartConfig.width = 500;
+        myChartConfig.height = 300;
+        myChartConfig.dataFormat = "json";
+        // TO TEST EVENT DATA INVALID
+        //myChartConfig.dataFormat = "xml";
+
+
+        myChartConfig.renderAt = "demoID";
+        myChartConfig.id = "demo_id1";
+        //myChartConfig.id = "simpleParito";
+
+        myChart.caption = "Late arrivals by reported cause";
+        myChart.subCaption = "Last month";
+        myChart.pyaxisname = "No. of Occurrence";
+        myChart.showsecondarylimits = "0";
+        myChart.theme = "candy";
+        myChart.plottooltext = "Due to $label, late arrivals count is : <b>$dataValue</b> of the total <b>$sum</b> employees";
+
+
+        //COMMENT THIS TO TEST NO DATA TO DISPLAY EVENT
+        myDataSource.data = new[] {
+            new { label = "Traffic", value = "5680" },
+            new { label = "Family Engagement", value = "1036" },
+            new { label = "Public Transport", value = "950" },
+            new { label = "Weather", value = "500" },
+            new { label = "Emergency", value = "140" },
+            new { label = "Others", value = "68" },
+
+    };
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await xyz.renderChart(chartConfig);
+        await xyz.CallFusionChartsFunction("getJSONData", "demo_id1");
+        //        await xyz.CallFusionChartsFunction("setXMLData", "demo_id1", @"
+        //{
+        //    ""chart"": {
+        //        ""caption"": ""Late arrivals by reported cause"",
+        //        ""subcaption"": ""Last month"",
+        //        ""pyaxisname"": ""No. of Occurrence"",
+        //        ""theme"": ""candy"",
+        //        ""showsecondarylimits"": ""0"",
+
+        //        ""plottooltext"": ""Due to $label, late arrivals count is : <b>$dataValue</b> of the total <b>$sum</b> employees"",
+
+        //    },
+        //    ""data"": [
+        //        { ""label"": ""Traffic"", ""value"": ""5680"" },
+        //        { ""label"": ""Family Engagement"", ""value"": ""1036"" },
+        //        { ""label"": ""Public Transport"", ""value"": ""950"" },
+        //        { ""label"": ""Weather"", ""value"": ""500"" },
+        //        { ""label"": ""Emergency"", ""value"": ""140"" },
+        //        { ""label"": ""Others"", ""value"": ""68"" }
+        //    ]
+        //}");
+
+
+    }
+
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            renderSimplePareto();
+
+        }
+        else
+        {
+
+        }
+    }
+
+}
+
+

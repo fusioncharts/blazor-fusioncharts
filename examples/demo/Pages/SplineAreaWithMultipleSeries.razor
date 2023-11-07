@@ -1,0 +1,175 @@
+@page "/mssplinearea"
+
+@inject FusionChartsService fusionChartsService
+@using System.Net.Http;
+@using Microsoft.JSInterop;
+@inject IJSRuntime JSRuntime
+@inject HttpClient httpClient;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+
+<PageTitle>Spline-area with multiple series</PageTitle>
+
+<h1>Spline-area with multiple series</h1>
+
+
+<div id="chart-container8"></div>
+@code {
+    public async void demo()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+        myChartConfig.width = "100%";
+        myChartConfig.height = "60%";
+
+        myChartConfig.type = "mssplinearea";
+        myChartConfig.width = "100%";
+        myChartConfig.height = "60%";
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "chart-container8";
+
+        myChart.caption = "Twitter Mentions";
+        myChart.yaxisname = "Number of mentions";
+        myChart.numbersuffix = "M";
+        myChart.subcaption = "(iPhone Vs Samsung)";
+        myChart.yaxismaxvalue = "2";
+        myChart.plottooltext =
+        "$seriesName was mentioned <b>$dataValue</b> times on Twitter in $label";
+        myChart.theme = "candy";
+
+
+        myDataSource.categories = new[]
+        {
+           new{
+           category=new[]
+           {
+           new{
+           label= "2007"
+           },
+           new{
+           label= "2008"
+           },
+           new{
+           label= "2009"
+           },
+           new{
+           label= "2010"
+           },
+           new{
+           label= "2011"
+           },
+           new{
+           label= "2012"
+           },
+           new{
+           label= "2013"
+           },
+           new{
+           label= "2014"
+           },
+           new{
+           label= "2015"
+           }
+           }
+           }
+       };
+
+
+        myDataSource.dataset = new[]
+        {
+           new{
+           seriesname= "iPhone",
+           data=new[]
+           {
+           new{
+           value= "1.90"
+           },
+           new{
+           value= "1.94"
+           },
+           new{
+           value= "1.69"
+           },
+           new{
+           value= "1.66"
+           },
+           new{
+           value= "1.43"
+           },
+           new{
+           value= "1.97"
+           },
+           new{
+           value= "1.78"
+           },
+           new{
+           value= "1.58"
+           },
+           new{
+           value= "1.55"
+           }
+           }
+           },
+           new{
+           seriesname= "Samsung",
+           data=new[]
+           {
+           new{
+           value= "0.68"
+           },
+           new{
+           value= "0.74"
+           },
+           new{
+           value= "0.25"
+           },
+           new{
+           value= "0.64"
+           },
+           new{
+           value= "0.22"
+           },
+           new{
+           value= "0.74"
+           },
+           new{
+           value= "0.58"
+           },
+           new{
+           value= "0.15"
+           },
+           new{
+           value= "0.26"
+           }
+           }
+           }
+       };
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        String chartConfig8 = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig8);
+
+    }
+
+
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            demo();
+        }
+        else
+        {
+
+        }
+    }
+}
+<SurveyPrompt Title="How is Blazor working for you?" />

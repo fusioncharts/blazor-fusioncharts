@@ -1,0 +1,131 @@
+@page "/dragablecharts"
+@inject FusionChartsService xyz;
+@using Microsoft.JSInterop;
+@inject IJSRuntime JSRuntime
+
+
+<h3>DragableCharts</h3>
+<div id="chart1"></div>
+<div id="chart2"></div>
+<div id="chart3"></div>
+
+
+@code {
+    public async Task dragableCharts()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick event triggered')}";
+        myEvent.dataplotDragStart = "function(){console.log('dataplotDragStart  event triggered')}";
+        myEvent.dataplotDragEnd = "function(){console.log('dataplotDragEnd  event triggered')}";
+
+        myChartConfig.type = "dragcolumn2d";
+        myChartConfig.width = 500;
+        myChartConfig.height = 300;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "chart1";
+        // myChartConfig.id = "CHART_ID";
+
+        myChart.caption = "Monthly Sales";
+        myChart.subCaption = "Last year";
+        myChart.xAxisName = "Month";
+        myChart.yAxisName = "Sales (in USD)";
+        myChart.theme = "fusion";
+
+        myDataSource.categories = new List<dynamic>
+        {
+            new
+            {
+                category = new List<dynamic>
+                {
+                    new { label = "Mon" },
+                    new { label = "Tue" },
+                    new { label = "Wed" },
+                    new
+                    {
+                        vline = "true",
+                        lineposition = "0",
+                        color = "#F2726F",
+                        labelHAlign = "right",
+                        labelPosition = "0",
+                        label = "National holiday"
+                    },
+                    new { label = "Thu" },
+                    new { label = "Fri" },
+                    new { label = "Sat" },
+                    new { label = "Sun" }
+                }
+            }
+        };
+
+        myDataSource.dataset = new List<dynamic>
+        {
+            new
+            {
+                seriesname = "Garden Groove harbour",
+                data = new List<dynamic>
+                {
+                    new { value = "15123" },
+                    new { value = "14233" },
+                    new { value = "21507" },
+                    new { value = "9110" },
+                    new { value = "14829" },
+                    new { value = "17503" },
+                    new { value = "20202" },
+                    new { value = "45676"},
+                    new { value = "87776"},
+
+                }
+            },
+            new
+            {
+                seriesname = "Crompton-Rancho Dom",
+                data = new List<dynamic>
+                {
+                    new { value = "11400" },
+                    new { value = "12800" },
+                    new { value = "17800" },
+                    new { value = "10400" },
+                    new { value = "11800" },
+                    new { value = "13100" },
+                    new { value = "20800" }
+                }
+            }
+        };
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        //Chart 1
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await xyz.renderChart(chartConfig);
+
+        //Chart 2
+        myChartConfig.renderAt = "chart2";
+        myChartConfig.type = "dragline";
+        String chartConfig2 = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await xyz.renderChart(chartConfig2);
+
+        //Chart 3
+        myChartConfig.renderAt = "chart3";
+        myChartConfig.type = "dragarea";
+        String chartConfig3 = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await xyz.renderChart(chartConfig3);
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+
+            await dragableCharts();
+
+        }
+        else
+        {
+
+        }
+    }
+}

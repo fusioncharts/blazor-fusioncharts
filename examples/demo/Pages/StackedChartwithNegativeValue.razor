@@ -1,0 +1,394 @@
+﻿@page "/StackedColumnswithNegativeValues"
+@inject FusionChartsService fusionChartsService;
+<h3>Stacked Columns Charts with negative values</h3>
+<div id="chart-container1"></div>
+
+@code {
+    public async void stackedColumnNegativeaVal()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+
+        myChartConfig.type = "stackedcolumn2d";
+        myChartConfig.width = "100%";
+        myChartConfig.height = "100%";
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "chart-container1";
+
+        myChartConfig.id = "id1";
+        myChart.caption = "Monthly recurring revenue";
+        myChart.subCaption = "(On GAAP basis)";
+        myChart.numberprefix = "$";
+        myChart.plottooltext = "<b>$dataValue</b> people died because of $seriesName in $label";
+        myChart.theme = "candy";
+        myChart.yaxisname = "Revenue";
+        myChart.yaxisminvalue = "-2000";
+        myChart.showsum = "1";
+        myChart.decimals = "1";
+
+        myDataSource.categories = new[]
+        {
+                new
+                {
+                    category = new[]
+                    {
+                         new{
+          label= "Dec-17"
+        },
+        new{
+          label= "Jan-18"
+        },
+        new{
+          label= "Feb-18"
+        },
+        new{
+          label= "Mar-18"
+        },
+        new{
+          label= "Apr-18"
+        },
+        new{
+          label= "May-18"
+        },
+        new{
+          label= "Jun-18"
+        },
+        new{
+          label= "Jul-18"
+        },
+        new{
+          label= "Aug-18"
+        },
+        new{
+          label= "Sep-18"
+        },
+        new{
+          label= "Oct-18"
+        },
+        new{
+          label= "Nov-18"
+        },
+        new{
+          label= "Dec-18"
+        }
+                    }
+                }
+
+
+
+
+       };
+
+
+
+        myDataSource.dataset = new[]
+        {
+                new
+                {
+                    seriesname= "MRR",
+                    data = new[]
+                    {
+                        new{
+          value= "810"
+        },
+        new{
+          value= "930"
+        },
+        new{
+          value= "1110"
+        },
+        new{
+          value= "1300"
+        },
+        new{
+          value= "1890"
+        },
+        new{
+          value= "2350"
+        },
+        new{
+          value= "2740"
+        },
+        new{
+          value= "3050"
+        },
+        new{
+          value= "3570"
+        },
+        new{
+          value= "4390"
+        },
+        new{
+          value= "5610"
+        },
+        new{
+          value= "7160"
+        },
+        new{
+          value= "7750"
+        }
+                    }
+               },
+
+
+                new
+                {
+                    seriesname= "New business",
+                    data = new[]
+                    {
+                        new{
+          value= "380"
+        },
+        new{
+          value= "390"
+        },
+        new{
+          value= "420"
+        },
+        new{
+          value= "490"
+        },
+        new{
+          value= "900"
+        },
+        new{
+          value= "1160"
+        },
+        new{
+          value= "1350"
+        },
+        new{
+          value= "1510"
+        },
+        new{
+          value= "1790"
+        },
+        new{
+          value= "2140"
+        },
+        new{
+          value= "2660"
+        },
+        new{
+          value= "3850"
+        },
+        new{
+          value= "4070"
+        }
+                    }
+                },
+
+
+                new
+                {
+                    seriesname= "Upsell",
+                    data = new[]
+                    {
+                        new{
+          value= "220"
+        },
+        new{
+          value= "240"
+        },
+        new{
+          value= "280"
+        },
+        new{
+          value= "350"
+        },
+        new{
+          value= "580"
+        },
+        new{
+          value= "630"
+        },
+        new{
+          value= "670"
+        },
+        new{
+          value= "740"
+        },
+        new{
+          value= "790"
+        },
+        new{
+          value= "920"
+        },
+        new{
+          value= "1050"
+        },
+        new{
+          value= "1290"
+        },
+        new{
+          value= "1320"
+        }
+                    }
+                },
+                new
+                {
+                    seriesname= "Consulting",
+                    data = new[]
+                    {
+                        new{
+          value= "0"
+        },
+        new{
+          value= "0"
+        },
+        new{
+          value= "0"
+        },
+        new{
+          value= "20"
+        },
+        new{
+          value= "50"
+        },
+        new{
+          value= "50"
+        },
+        new{
+          value= "60"
+        },
+        new{
+          value= "60"
+        },
+        new{
+          value= "60"
+        },
+        new{
+          value= "80"
+        },
+        new{
+          value= "130"
+        },
+        new{
+          value= "170"
+        },
+        new{
+          value= "170"
+        }
+                    }
+                },
+                new
+                {
+                    seriesname= "Churn",
+                    data = new[]
+                    {
+                        new{
+          value= "-50"
+        },
+        new{
+          value= "-50"
+        },
+        new{
+          value= "-70"
+        },
+        new{
+          value= "-90"
+        },
+        new{
+          value= "-100"
+        },
+        new{
+          value= "-110"
+        },
+        new{
+          value= "-150"
+        },
+        new{
+          value= "-260"
+        },
+        new{
+          value= "-320"
+        },
+        new{
+          value= "-350"
+        },
+        new{
+          value= "-500"
+        },
+        new{
+          value= "-630"
+        },
+        new{
+          value= "-650"
+        }
+                    }
+                },
+
+      new
+            {
+                seriesname= "Downgrades",
+                data = new[]
+                {
+                   new {
+          value= "-180"
+        },
+        new{
+          value= "-210"
+        },
+        new{
+          value= "-260"
+        },
+        new{
+          value= "-320"
+        },
+        new{
+          value= "-580"
+        },
+        new{
+          value= "-680"
+        },
+        new{
+          value= "-780"
+        },
+        new{
+          value= "-900"
+        },
+        new{
+          value= "-1060"
+        },
+        new{
+          value= "-1320"
+        },
+        new{
+          value= "-1520"
+        },
+        new{
+          value= "-1650"
+        },
+        new{
+          value= "-1660"
+        }
+                }
+            }
+       };
+
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+        await fusionChartsService.CallFusionChartsFunction("setChartAttribute", "id1", "caption", "multilevelpie");
+
+
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            stackedColumnNegativeaVal();
+        }
+        else
+        {
+
+        }
+    }
+}

@@ -1,0 +1,173 @@
+﻿@page "/GroupedColumnWithMultipleseries"
+
+
+<h1>Grouped column with multiple series</h1>
+<div id="Grouped column with multiple series"></div>
+
+@inject FusionChartsService fusionChartsService;
+
+@code {
+    public async void GroupedColumnWithMultipleseriesChart()
+    {
+        //chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+
+
+        myChartConfig.type = "mscolumn2d";
+        myChartConfig.width = 600;
+        myChartConfig.height = 300;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "Grouped column with multiple series";
+
+
+        myChart.caption = "App Publishing Trend";
+        myChart.subCaption = "2012-2016";
+        myChart.xAxisName = "Years";
+        myChart.yAxisName = "Total number of apps in store";
+        myChart.formatnumberscale = "1";
+        myChart.plottooltext = "<b>$dataValue</b> apps were available on <b>$seriesName</b> in $label";
+        myChart.theme = "candy";
+        myChart.drawcrossline = "1";
+
+
+        myDataSource.categories = new[]{
+        new
+        {
+        category=new []
+        {
+            new
+            {
+                label= "2012"
+            },
+            new
+            {
+                label= "2013"
+            }
+            ,
+            new
+            {
+                label= "2014"
+            }
+            ,
+            new
+            {
+                label= "2015"
+            },
+            new
+            {
+                label= "2016"
+            }
+
+        }
+        }
+
+    };
+
+
+        myDataSource.dataset = new[]{
+            new{ seriesname = "iOS App Store",
+                data = new[]
+                {
+                    new
+                    {
+                        value= "125000"
+
+                    },new
+                    {
+                        value= "300000"
+
+                    },new
+                    {
+                        value= "480000"
+
+                    },new
+                    {
+                        value= "800000"
+
+                    },new
+                    {
+                        value= "1100000"
+                    }
+                 }
+        },new{ seriesname = "Google Play Store",
+                data = new[]
+                {
+                    new
+                    {
+                        value= "70000"
+
+                    },new
+                    {
+                        value= "150000"
+
+                    },new
+                    {
+                        value= "350000"
+
+                    },new
+                    {
+                        value= "600000"
+
+                    },new
+                    {
+                        value= "1400000"
+                    }
+                 }
+        },new{ seriesname = "Amazon AppStore",
+                data = new[]
+                {
+                    new
+                    {
+                        value= "10000"
+
+                    },new
+                    {
+                        value= "100000"
+
+                    },new
+                    {
+                        value= "300000"
+
+                    },new
+                    {
+                        value= "600000"
+
+                    },new
+                    {
+                        value= "900000"
+                    }
+                 }
+
+
+        }
+
+    };
+
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            GroupedColumnWithMultipleseriesChart();
+        }
+        else
+        {
+
+        }
+    }
+
+
+
+}

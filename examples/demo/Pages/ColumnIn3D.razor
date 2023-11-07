@@ -1,0 +1,70 @@
+﻿@page "/ColumnIn3D"
+
+<h1>Column in 3D</h1>
+
+
+<div id="Column in 3D"></div>
+
+@inject FusionChartsService fusionChartsService;
+
+@code {
+
+    public async void ColumnIn3DChart()
+    {
+        //chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+
+
+        myChartConfig.type = "column3d";
+        myChartConfig.width = 600;
+        myChartConfig.height = 300;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "Column in 3D";
+
+        myChart.caption = "Countries with Highest Deforestation Rate";
+        myChart.subCaption = "For the year 2017";
+        myChart.yAxisName = "Deforested Area{br}(in Hectares)";
+        myChart.decimals = "1";
+        myChart.theme = "fusion";
+
+        myDataSource.data = new[] {
+            new { label = "Brazil", value = "1466000" },
+            new { label = "Indonesia", value = "1147800" },
+            new { label = "Russian Federation", value = "532200" },
+            new { label = "Mexico", value = "395000" },
+            new { label = "Papua New Guinea", value = "250200" },
+            new { label = "Peru", value = "224600" },
+            new { label = "U.S.A", value = "215200" },
+            new { label = "Bolivia", value = "135200" },
+            new { label = "Sudan", value = "117807" },
+            new { label = "Nigeria", value = "82000" }
+    };
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            ColumnIn3DChart();
+        }
+        else
+        {
+
+        }
+    }
+
+
+
+}
