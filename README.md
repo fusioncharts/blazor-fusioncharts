@@ -63,10 +63,10 @@ For MacOS or Linux users, run the 'dotnet watch' command from your project direc
 ## Quick Start
 The application's operational flow can be described as follows:
 1. Create a new blazor application.
-2. Check if there is an existing fusioncharts package in the local, if so delete the package.
+2. Check if there is an existing fusioncharts package in the local at this location "C:\Users\XXX\.nuget\packages", if so delete the package.
 3. Install the latest package from myGet.
 4. Upon successful installation, we need to manually add the blazor-fusionCharts.js file from 
-   “C:\Users\XYZ\.nuget\packages\blazorfusioncharts\1.0.0\staticwebassets” to wwwroot folder.
+   “C:\Users\XXX\.nuget\packages\blazorfusioncharts\1.0.0\staticwebassets” to wwwroot folder.
 5. In Hosts.cshtml file the below 2 script tags has to be added:
    <script type=”text/javascript” src=”https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js”></script>
    <script src=”~/blazor-fusionCharts.js”></script>
