@@ -82,6 +82,7 @@ The application's operational flow can be described as follows:
 8. In Program.cs file, add the FusionCharts service:
     ```
    builder.Services.AddScoped<FusionCharts.FusionChartsInterop.FusionChartsService>();
+   builder.Services.AddHttpClient();
    ```
 
 ## Working with APIs
