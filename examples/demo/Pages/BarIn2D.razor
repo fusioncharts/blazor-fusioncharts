@@ -9,7 +9,7 @@
 
 @code {
 
-    public async void BarIn2DChart()
+    public async Task BarIn2DChart()
     {
         //chart code
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
@@ -70,7 +70,7 @@
     {
         if (firstRender)
         {
-            BarIn2DChart();
+            await BarIn2DChart();
         }
         else
         {

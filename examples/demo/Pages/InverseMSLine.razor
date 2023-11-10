@@ -8,7 +8,7 @@
 @inject FusionChartsService fusionChartsService;
 
 @code {
-    public async void demo()
+    public async Task demo()
     {
         //chart code
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
@@ -100,7 +100,7 @@
     {
         if (firstRender)
         {
-            demo();
+            await demo();
         }
         else
         {
