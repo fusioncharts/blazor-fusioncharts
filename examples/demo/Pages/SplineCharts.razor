@@ -148,16 +148,16 @@
 
     private async Task methodCall()
     {
-        await xyz.CallFusionChartsFunction("setChartAttribute", "CHART_ID", "caption", "new caption");
-        await xyz.CallFusionChartsFunction("getChartAttribute", "CHART_ID");
-        await xyz.CallFusionChartsFunction("chartType", "CHART_ID");
-        await xyz.CallFusionChartsFunction("chartType", "CHART_ID", "pyramid");
+        await xyz.CallFusionChartsFunction("setChartAttribute", "CHART_ID2", "caption", "new caption");
+        await xyz.CallFusionChartsFunction("getChartAttribute", "CHART_ID1");
+        await xyz.CallFusionChartsFunction("chartType", "CHART_ID1");
+        await xyz.CallFusionChartsFunction("chartType", "CHART_ID1", "pyramid");
 
-        await xyz.CallFusionChartsFunction("getXMLData", "CHART_ID");
+        await xyz.CallFusionChartsFunction("getXMLData", "CHART_ID1");
         //string s = "<chart caption=\"new caption\" subcaption=\"Last year\" animation=\"0\"><set label=\"X0\" value=\"380000\" cleanvalue=\"380000\" cleanvalue=\"380000\" /><set label=\"X1\" value=\"340000\" cleanvalue=\"340000\" cleanvalue=\"340000\" /><set label=\"X2\" value=\"740000\" cleanvalue=\"740000\" cleanvalue=\"740000\" /><set label=\"X3\" value=\"800000\" cleanvalue=\"800000\" cleanvalue=\"800000\" /><set label=\"X4\" value=\"400000\" cleanvalue=\"400000\" cleanvalue=\"400000\" /><set label=\"X5\" value=\"620000\" cleanvalue=\"620000\" cleanvalue=\"620000\" /></chart>";
         //await xyz.CallFusionChartsFunction("setXMLData", "CHART_ID",s,"xml");
-        await xyz.CallFusionChartsFunction("getChartData", "CHART_ID");
-        await xyz.CallFusionChartsFunction("showChartMessage", "CHART_ID");
+        await xyz.CallFusionChartsFunction("getChartData", "CHART_ID1");
+        await xyz.CallFusionChartsFunction("showChartMessage", "CHART_ID1");
 
 
         //await xyz.CallFusionChartsFunction("getJsonData", "CHART_ID");
