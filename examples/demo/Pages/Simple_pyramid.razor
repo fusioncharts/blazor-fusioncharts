@@ -12,7 +12,7 @@
 
 @code {
    
-    public async void pyramid()
+    public async Task pyramid()
     {
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
         dynamic myDataSource = new System.Dynamic.ExpandoObject();
@@ -96,7 +96,7 @@
     {
         if (firstRender)
         {
-            pyramid();
+            await pyramid();
            
             
         }

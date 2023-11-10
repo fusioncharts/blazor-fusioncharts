@@ -1,25 +1,19 @@
-﻿@page "/StackedColumnsin3D_100"
+@page "/StackedColumnsin3D_100"
 @inject FusionChartsService fusionChartsService;
 <h3>100% Stacked Column in 3D</h3>
 <div id="chart-container1"></div>
-
 @code {
-    public async void stackedColumnin3D()
+    public async Task stackedColumnin3D()
     {
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
         dynamic myDataSource = new System.Dynamic.ExpandoObject();
         dynamic myChart = new System.Dynamic.ExpandoObject();
         dynamic myEvent = new System.Dynamic.ExpandoObject();
-
-
-
         myChartConfig.type = "scrollstackedcolumn2d";
         myChartConfig.width = "100%";
         myChartConfig.height = "100%";
         myChartConfig.dataFormat = "json";
         myChartConfig.renderAt = "chart-container1";
-
-
         myChart.caption = "Total Sales by Products";
         myChart.subCaption = "ACME Inc.";
         myChart.numberprefix = "$";
@@ -30,9 +24,6 @@
         myChart.stack100percent= "1";
         myChart.plottooltext = "Type: $label{br}<b>Location: $seriesName</b>{br}Sales: $dataValue</div>";
         myChart.theme = "candy";
-
-
-
         myDataSource.categories = new[]
         {
             new
@@ -51,7 +42,6 @@
                 }
             }
     };
-
         myDataSource.dataset = new[]
         {
             new
@@ -86,7 +76,6 @@
         }
                 }
             },
-
             new
             {
                 seriesname= "East",
@@ -103,25 +92,21 @@
         }
                 }
             }
-
        };
         myDataSource.chart = myChart;
         myChartConfig.events = myEvent;
         myChartConfig.dataSource = myDataSource;
-
         String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
         await fusionChartsService.renderChart(chartConfig);
-
     }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            stackedColumnin3D();
+            await stackedColumnin3D();
         }
         else
         {
-
         }
     }
 }

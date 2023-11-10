@@ -4,7 +4,7 @@
 <div id="chart-container1"></div>
 
 @code {
-    public async void stackedColumnwithScroll()
+    public async Task stackedColumnwithScroll()
     {
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
         dynamic myDataSource = new System.Dynamic.ExpandoObject();
@@ -318,7 +318,7 @@
     {
         if (firstRender)
         {
-            stackedColumnwithScroll();
+            await stackedColumnwithScroll();
         }
         else
         {

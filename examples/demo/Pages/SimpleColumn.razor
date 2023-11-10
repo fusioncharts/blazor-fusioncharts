@@ -9,7 +9,7 @@
 
 @code {
 
-    public async void SimpleColumnChart()
+    public async Task SimpleColumnChart()
     {
         //chart code
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
@@ -59,7 +59,7 @@
     {
         if (firstRender)
         {
-            SimpleColumnChart();
+            await SimpleColumnChart();
         }
         else
         {

@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+	<TargetFramework>net7.0</TargetFramework>
+		<PackageId>BlazorFusionCharts</PackageId>
+		<PackageVersion>1.0.0</PackageVersion>
+		<Authors>FusionChartsOfficial</Authors>
+		<Company>FusionCharts by Idera</Company>
+		<Product>FusionCharts</Product>
+		<NeutralLanguage>en</NeutralLanguage>
+		<Description>Description here</Description>
+		<Copyright>Copyright</Copyright>
+		<PackageLicenseUrl>License URL</PackageLicenseUrl>
+		<PackageProjectUrl>https://www.fusioncharts.com/</PackageProjectUrl>
+		<PackageIconUrl>Icon URL</PackageIconUrl>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/fusioncharts/blazor-fusioncharts</RepositoryUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageTags>FusionCharts</PackageTags>
+		<PackageReleaseNotes>Official FusionCharts Integration for Blazor</PackageReleaseNotes>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<isPackable>true</isPackable>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
+	<PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
+
+	<ItemGroup>
+		<Folder Include="Data\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="coverlet.collector" Version="6.0.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="xunit" Version="2.5.0" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="2.5.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<None Include="README.md" Pack="true" PackagePath="\"/>
+	</ItemGroup>
+
+</Project>

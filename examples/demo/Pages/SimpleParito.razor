@@ -13,7 +13,7 @@
 
 @code {
 
-    public async void renderSimplePareto()
+    public async Task renderSimplePareto()
     {
         // chart code
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
@@ -110,7 +110,7 @@
     {
         if (firstRender)
         {
-            renderSimplePareto();
+            await renderSimplePareto();
 
         }
         else

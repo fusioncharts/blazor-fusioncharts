@@ -4,7 +4,7 @@
 <div id="chart-container1"></div>
 
 @code {
-    public async void stackedBarsChrtScroll()
+    public async Task stackedBarsChrtScroll()
     {
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
         dynamic myDataSource = new System.Dynamic.ExpandoObject();
@@ -458,7 +458,7 @@
     {
         if (firstRender)
         {
-            stackedBarsChrtScroll();
+            await stackedBarsChrtScroll();
         }
         else
         {

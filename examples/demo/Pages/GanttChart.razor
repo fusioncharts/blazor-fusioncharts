@@ -10,7 +10,7 @@
 @code {
 
 
-    public async void GanttCharts()
+    public async Task GanttCharts()
     {
         //chart code
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
@@ -294,7 +294,7 @@
     {
         if (firstRender)
         {
-            GanttCharts();
+            await GanttCharts();
         }
         else
         {

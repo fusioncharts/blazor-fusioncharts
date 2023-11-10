@@ -9,7 +9,7 @@
 
 @code {
 
-    public async void GroupedColumnWithScrollingChart()
+    public async Task GroupedColumnWithScrollingChart()
     {
         //chart code
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
@@ -286,7 +286,7 @@
     {
         if (firstRender)
         {
-            GroupedColumnWithScrollingChart();
+            await GroupedColumnWithScrollingChart();
         }
         else
         {

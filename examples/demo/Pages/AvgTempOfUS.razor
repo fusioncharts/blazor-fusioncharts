@@ -1,0 +1,86 @@
+@page "/avgTempOfUS"
+@using Microsoft.JSInterop;
+@inject IJSRuntime JSInterop;
+@inject FusionChartsService fusionChartsService;
+<PageTitle>Index</PageTitle>
+<h1>Hello, World!</h1>
+<h2>1. Demo Chart </h2>
+<div id="chartContainer1"></div>
+Welcome.
+@code {
+    protected override async Task OnAfterRenderAsync(bool
+    firstRender)
+    {
+        if (firstRender)
+        {
+            await demo();
+        }
+        else
+        {
+        }
+    }
+    private async Task demo()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        dynamic myColorRange = new System.Dynamic.ExpandoObject();
+
+        myChart.caption = "Average Temperature of US States";
+        myChart.subcaption = "1979 - 2000";
+        myChart.entityfillhovercolor = "#F8F8E9";
+        myChart.numbersuffix = "°F";
+        myChart.showlabels = "1";
+        myChart.borderthickness = "0.4";
+        myChart.theme = "candy";
+        myChart.entitytooltext = "<b>$lname</b> has an average temperature of <b>$datavalue</b>";
+
+
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "chartContainer1";
+        myChartConfig.type = "maps/usa";
+        myChartConfig.width = "100%";
+        myChartConfig.height = "100%";
+
+        myColorRange.minvalue = "20";
+        myColorRange.code = "#00A971";
+        myColorRange.gradient = "1";
+        myColorRange.color = new[]{
+      new {
+        minvalue = "20",
+    maxvalue = "40",
+    code = "#EFD951"
+      },
+      new {
+        minvalue = "40",
+    maxvalue = "60",
+    code = "#FD8963"
+      },
+      new {
+        minvalue = "60",
+    maxvalue = "80",
+    code = "#D60100"
+      }
+    };
+
+
+
+        myDataSource.data = new[] {
+new { id = "HI", value = "70.0" },
+new { id = "DC" , value = "52.3" },
+new { id = "MD", value = "54.2" },
+new { id = "DE", value = "55.3" },
+new { id = "RI", value = "50.1"}
+
+};
+
+        myDataSource.chart = myChart;
+        myDataSource.events = myEvent;
+        myDataSource.colorRange = myColorRange;
+        myChartConfig.dataSource = myDataSource;
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+    }
+}
+<SurveyPrompt Title="How is Blazor working for you?" />
