@@ -23,7 +23,7 @@
 
 @code {
 
-    private License license;
+    private License? license;
     private async Task ActivateLicense()
     {
         // Initialize the license object as needed
@@ -31,7 +31,7 @@
         // Call the FusionChartsService method to activate the license
         await license.ActivateLicense("9fE1jieC7E2B4B2B2C2D2B2B1B1F4D5D3zuH-7B6A6rtzdA-7G2B1hxiB1A4B4E2A15A16A5C9B3B3C5B1E1D3H4A9C-22cC-13E3D4A2uA1C3A4hkE-11G2F4H1xC-22sC8B4E6hppC3A5C6E2C6B1F5F1H3F1B5wE-13yC2A3LC1J-7yhC1C3C1ycG4B2B11bqB5ZD4C3ooxC5C3E4E5A4D4A3C1C10B8D2C4E4H2f==");
     }
-    public static Sunburst _instance;
+    public static Sunburst? _instance;
     public Sunburst()
     {
         _instance = this;
