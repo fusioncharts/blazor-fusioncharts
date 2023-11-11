@@ -50,7 +50,9 @@
         public static async Task ChangeSankeyData()
         {
             // Call the non-static method from the instance
-            await _instance.NonStaticMethod();
+						if(_instance != null) {
+            	await _instance.NonStaticMethod();
+						}
         }
     
         public async Task renderSankeyDiagram()

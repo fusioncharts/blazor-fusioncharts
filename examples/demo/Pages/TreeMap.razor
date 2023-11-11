@@ -52,7 +52,9 @@
     [JSInvokable("ChangeTreeMapData")]
     public static async Task ChangeTreeMapData()
     {
+				if(_instance != null) {
         await _instance.NonStaticMethod();
+				}
     }
 
     public async Task renderTreeMap()

@@ -19,7 +19,9 @@
     public static Chord? _instance;
     public Chord()
     {
+			if (_instance != null){
         _instance = this;
+			}
     }
     
     public async Task NonStaticMethod()
@@ -47,8 +49,9 @@
     [JSInvokable("ChangeChordData")]
     public static async Task ChangeChordData()
     {
-    
-        await _instance.NonStaticMethod();
+				if (_instance != null) {
+         await _instance.NonStaticMethod();
+				}
     }
     public async Task renderChord()
     {

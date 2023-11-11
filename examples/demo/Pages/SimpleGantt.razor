@@ -47,8 +47,9 @@
     [JSInvokable("ChangeGanttData")]
     public static async Task ChangeGanttData()
     {
-        // Call the non-static method from the instance
+			if(_instance != null) {
         await _instance.NonStaticMethod();
+			}
     }
 
     public async Task renderGanttChart()

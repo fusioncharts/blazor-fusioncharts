@@ -62,7 +62,9 @@
     [JSInvokable("ChangeRadarData")]
     public static async Task ChangeRadarData()
     {
-        await _instance.NonStaticMethod();
+				if(_instance != null) {
+        	await _instance.NonStaticMethod();
+				}
     }
     public async Task renderRadar()
     {

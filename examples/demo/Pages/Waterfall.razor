@@ -35,7 +35,9 @@
     [JSInvokable("ChangeWaterfallData")]
     public static async Task ChangeWaterfallData()
     {
+			if (_instance != null) {
         await _instance.NonStaticMethod();
+			}
     }
     public async Task waterfall()
     {
