@@ -1,0 +1,167 @@
+﻿@page "/stackedcolumn2dline"
+
+@using System.Net.Http;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@inject FusionChartsService fusionChartsService;
+
+<PageTitle>Stacked 2D Column + Line Single Y-axis chart</PageTitle>
+
+<div>
+    <div id="stackedcolumn2dline"></div>
+</div>
+
+@code {
+
+    public async Task demo()
+    {
+        // chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+        //events
+        myEvent.loaded = "function() { console.log('loaded')}";
+        myEvent.renderComplete = "function() { console.log('renderComplete')}";
+        myEvent.initialized = "function() { console.log('initialized')}";
+        myEvent.beforeRender = "function() { console.log('beforeRender')}";
+        myEvent.rendered = "function() { console.log('rendered')}";
+
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+        myEvent.dataplotRollOver = "function() { console.log('dataplotRollOver')}";
+        myEvent.dataplotRollOut = "function() { console.log('dataplotRollOut')}";
+        myEvent.dataLabelClick = "function() { console.log('dataLabelClick')}";
+        myEvent.dataLabelRollOver = "function() { console.log('dataLabelRollOver')}";
+        myEvent.dataLabelRollOut = "function() { console.log('dataLabelRollOut')}";
+
+        myEvent.legendItemClicked = "function() { console.log('legendItemClicked')}";
+        myEvent.legendItemRollOver = "function() { console.log('legendItemRollOver')}";
+        myEvent.legendItemRollOut = "function() { console.log('legendItemRollOut')}";
+
+        myEvent.chartClick = "function() { console.log('chartClick')}";
+        myEvent.chartRollOver = "function() { console.log('chartRollOver')}";
+        myEvent.chartRollOut = "function() { console.log('chartRollOut')}";
+
+        myChartConfig.type = "stackedcolumn2dline";
+        myChartConfig.width = 1000;
+        myChartConfig.height = 600;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "stackedcolumn2dline";
+
+        myChart.caption = "Product-wise quarterly revenue Vs profit in last year";
+        myChart.subCaption = "Harry's SuperMart";
+        myChart.xAxisname = "Quarter";
+        myChart.yAxisName = "Revenue (In USD)";
+        myChart.numberPrefix = "$";
+        myChart.theme = "fusion";
+
+
+        myDataSource.categories = new[]{
+        new
+        {
+            category = new[]
+            {
+                new
+                {
+                    label = "Q1"
+                }, new
+                {
+                    label = "Q2"
+                }, new
+                {
+                    label = "Q3"
+                }, new
+                {
+                    label = "Q4"
+                }
+            }
+        }
+
+    };
+        myDataSource.dataset = new[]{
+            new
+            {
+                seriesname = "Food Products",
+                renderAs = "",
+                showValues=  "1",
+                data = new[]{
+                    new {
+                        value = "110000"
+                    }, new
+                    {
+                        value = "150000"
+                    }, new
+                    {
+                        value = "135000"
+                    }, new
+                    {
+                        value = "150000"
+                    }
+                }
+            }, new
+            {
+                seriesname = "Non-Food Products",
+                renderAs = "",
+                showValues=  "1",
+                data = new[]{
+                    new {
+                        value = "114000"
+                    }, new
+                    {
+                        value = "148000"
+                    }, new
+                    {
+                        value = "83000"
+                    }, new
+                    {
+                        value = "118000"
+                    }
+                }
+            }, new
+            {
+                seriesname = "Profit",
+                renderAs = "line",
+                showValues=  "0",
+                data = new[]{
+                    new {
+                        value = "24000"
+                    }, new
+                    {
+                        value = "45000"
+                    }, new
+                    {
+                        value = "23000"
+                    }, new
+                    {
+                        value = "38000"
+                    }
+                }
+            }
+     };
+
+
+
+
+        myDataSource.chart = myChart;
+
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await demo();
+        }
+        else
+        {
+
+        }
+    }
+
+}

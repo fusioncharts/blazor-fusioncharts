@@ -1,4 +1,6 @@
 using demo.Data;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using FusionCharts.FusionChartsInterop;
 
 var builder = WebApplication.CreateBuilder(args);

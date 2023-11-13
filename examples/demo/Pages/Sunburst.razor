@@ -68,7 +68,9 @@
     [JSInvokable("ChangeSunburstData")]
     public static async Task ChangeSunburstData()
     {
-        await _instance.NonStaticMethod();
+				if(_instance != null) {
+        	await _instance.NonStaticMethod();
+				}
     }
 
     private async Task renderSunburst()

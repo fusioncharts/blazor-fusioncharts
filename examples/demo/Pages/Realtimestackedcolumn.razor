@@ -1,0 +1,127 @@
+﻿@page "/realtimestackedcolumn"
+
+@using System.Net.Http;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@inject FusionChartsService fusionChartsService;
+
+<PageTitle>Real-time Line (Dual Y) chart</PageTitle>
+
+<div>
+    <div id="realtimestackedcolumn"></div>
+</div>
+
+@code {
+
+    public async Task demo()
+    {
+        // chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+        //events
+        myEvent.loaded = "function() { console.log('loaded')}";
+        myEvent.renderComplete = "function() { console.log('renderComplete')}";
+        myEvent.initialized = "function() { console.log('initialized')}";
+        myEvent.beforeRender = "function() { console.log('beforeRender')}";
+        myEvent.rendered = "function() { console.log('rendered')}";
+
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+        myEvent.dataplotRollOver = "function() { console.log('dataplotRollOver')}";
+        myEvent.dataplotRollOut = "function() { console.log('dataplotRollOut')}";
+        myEvent.dataLabelClick = "function() { console.log('dataLabelClick')}";
+        myEvent.dataLabelRollOver = "function() { console.log('dataLabelRollOver')}";
+        myEvent.dataLabelRollOut = "function() { console.log('dataLabelRollOut')}";
+
+        myEvent.legendItemClicked = "function() { console.log('legendItemClicked')}";
+        myEvent.legendItemRollOver = "function() { console.log('legendItemRollOver')}";
+        myEvent.legendItemRollOut = "function() { console.log('legendItemRollOut')}";
+
+        myEvent.chartClick = "function() { console.log('chartClick')}";
+        myEvent.chartRollOver = "function() { console.log('chartRollOver')}";
+        myEvent.chartRollOut = "function() { console.log('chartRollOut')}";
+
+        myChartConfig.type = "realtimestackedcolumn";
+        myChartConfig.width = 1000;
+        myChartConfig.height = 600;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "realtimestackedcolumn";
+
+        myChart.caption = "Live Visitors on Site";
+        myChart.subCaption = "Every 5 seconds";
+        myChart.xAxisName = "Time";
+        myChart.yAxisName = "No. of visitors";
+        myChart.refreshinterval = "5";
+        myChart.numberSuffix = "s";
+        myChart.yaxisminvalue = "0";
+        myChart.yaxismaxvalue = "60";
+        myChart.numdisplaysets = "10";
+        myChart.labeldisplay = "rotate";
+        myChart.showValues = "1";
+        myChart.showRealTimeValue = "0";
+        myChart.placeValuesInside = "1";
+        myChart.theme = "fusion";
+
+        myDataSource.categories = new[]{
+            new
+            {
+                category = new[]
+                {
+                    new
+                    {
+                        label = "Day Start",
+                    }
+                }
+            }
+
+    };
+        myDataSource.dataset = new[]{
+            new
+            {
+                seriesname = "clothing.hsm.com",
+                data = new[]
+                {
+                    new
+                    {
+                        value = "12"
+                    }
+                }
+            }, new
+            {
+                seriesname = "food.hsm.com",
+                data = new[]
+                {
+                    new
+                    {
+                        value = "20"
+                    }
+                }
+            }
+
+    };
+
+
+        myDataSource.chart = myChart;
+
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await demo();
+        }
+        else
+        {
+
+        }
+    }
+
+}

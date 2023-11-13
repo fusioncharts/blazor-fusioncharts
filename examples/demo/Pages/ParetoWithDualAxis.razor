@@ -12,10 +12,10 @@
         dynamic myChartConfig = new System.Dynamic.ExpandoObject();
         //(UNCOMMENT TO TEST DATA LOAD ERROR)
         //string DataLoadErrorUrl = "~demo2.json";
-        string jsonUrl = navigationManager.ToAbsoluteUri("PD2.json").ToString();
-        string jsonUrl_1 = navigationManager.ToAbsoluteUri("PD.json").ToString();
+        // string jsonUrl = navigationManager.ToAbsoluteUri("PD2.json").ToString();
+        // string jsonUrl_1 = navigationManager.ToAbsoluteUri("PD.json").ToString();
         //string xmlUrl = navigationManager.ToAbsoluteUri("demo2_2.xml").ToString();
-        dynamic myDataSource = jsonUrl;
+        // dynamic myDataSource = jsonUrl;
         //(UNCOMMENT TO TEST DATA LOAD ERROR)
         //dynamic myDataSource = DataLoadErrorUrl;
         //dynamic myDataSource = new System.Dynamic.ExpandoObject();
@@ -52,7 +52,7 @@
         //};
         //myDataSource.chart = myChart;
         myChartConfig.events = myEvent;
-        myChartConfig.dataSource = myDataSource;
+        // myChartConfig.dataSource = myDataSource;
         String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
         await xyz.renderChart(chartConfig);
         //await xyz.CallFusionChartsFunction("setChartDataUrl", "demo_id2", jsonUrl_1, "json");

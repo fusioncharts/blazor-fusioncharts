@@ -1,8 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-	<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net7.0</TargetFramework>
 		<PackageId>BlazorFusionCharts</PackageId>
+		<AssemblyName>BlazorFusionCharts</AssemblyName>
 		<PackageVersion>1.0.0</PackageVersion>
 		<Authors>FusionChartsOfficial</Authors>
 		<Company>FusionCharts by Idera</Company>
