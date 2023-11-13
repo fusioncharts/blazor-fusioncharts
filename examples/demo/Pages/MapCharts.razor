@@ -62,7 +62,7 @@
         myChart.loadMessage = "message";
         myEvent.renderComplete = "function() { console.log('render complete for Simple Parito Chart')}";
         //ATTACHING ALL THE METHOD CALL TO "LOADED EVENT" SO THAT METHODS ARE CALLED ONLY AFTER CHART IS LOADED
-        myEvent.loaded = "function() { DotNet.invokeMethodAsync('BlazorApp2TestQA2','ChangeData')}";
+        myEvent.loaded = "function() { DotNet.invokeMethodAsync('demo','ChangeData')}";
         myEvent.dataPlotClick = " function() { console.log('dataPlotClick event triggered');   }";
         myEvent.entityRollOut = " function() { console.log('entityRollOut  event triggered');   }";
         myEvent.entityRollOver = " function() { console.log('entityRollOver  event triggered');   }";
