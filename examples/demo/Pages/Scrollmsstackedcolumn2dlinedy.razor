@@ -1,0 +1,430 @@
+﻿@page "/scrollmsstackedcolumn2dlinedy"
+
+@using System.Net.Http;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@inject FusionChartsService fusionChartsService;
+
+<PageTitle>Scroll Multi-series Stacked Column 2D + Line (Dual Y) chart</PageTitle>
+
+<div>
+    <div id="scrollmsstackedcolumn2dlinedy"></div>
+</div>
+
+@code {
+
+    public async Task demo()
+    {
+        // chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+        //events
+        myEvent.loaded = "function() { console.log('loaded')}";
+        myEvent.renderComplete = "function() { console.log('renderComplete')}";
+        myEvent.initialized = "function() { console.log('initialized')}";
+        myEvent.beforeRender = "function() { console.log('beforeRender')}";
+        myEvent.rendered = "function() { console.log('rendered')}";
+
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+        myEvent.dataplotRollOver = "function() { console.log('dataplotRollOver')}";
+        myEvent.dataplotRollOut = "function() { console.log('dataplotRollOut')}";
+        myEvent.dataLabelClick = "function() { console.log('dataLabelClick')}";
+        myEvent.dataLabelRollOver = "function() { console.log('dataLabelRollOver')}";
+        myEvent.dataLabelRollOut = "function() { console.log('dataLabelRollOut')}";
+
+        myEvent.legendItemClicked = "function() { console.log('legendItemClicked')}";
+        myEvent.legendItemRollOver = "function() { console.log('legendItemRollOver')}";
+        myEvent.legendItemRollOut = "function() { console.log('legendItemRollOut')}";
+
+        myEvent.chartClick = "function() { console.log('chartClick')}";
+        myEvent.chartRollOver = "function() { console.log('chartRollOver')}";
+        myEvent.chartRollOut = "function() { console.log('chartRollOut')}";
+
+        myChartConfig.type = "scrollmsstackedcolumn2dlinedy";
+        myChartConfig.width = 1000;
+        myChartConfig.height = 600;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "scrollmsstackedcolumn2dlinedy";
+
+        myChart.caption = "Market Share of Korean Automobile Manufacturers in US";
+        myChart.subcaption = "2005 - 2019";
+        myChart.pyaxisname = "Units Sold";
+        myChart.syaxisname = "% of total market share";
+        myChart.snumbersuffix = "%";
+        myChart.syaxismaxvalue = "25";
+        myChart.theme = "fusion";
+        myChart.showvalues = "0";
+        myChart.drawcrossline = "1";
+        myChart.divlinealpha = "20";
+
+        myDataSource.categories = new[]{
+            new
+            {
+                category = new[]
+                {
+                    new
+                    {
+                        label = "2005"
+                    }, new
+                    {
+                        label = "2006"
+                    }, new
+                    {
+                        label = "2007"
+                    }, new
+                    {
+                        label = "2008"
+                    }, new
+                    {
+                        label = "2009"
+                    }, new
+                    {
+                        label = "2010"
+                    }, new
+                    {
+                        label = "2011"
+                    }, new
+                    {
+                        label = "2012"
+                    }, new
+                    {
+                        label = "2013"
+                    }, new
+                    {
+                        label = "2014"
+                    }, new
+                    {
+                        label = "2015"
+                    }, new
+                    {
+                        label = "2016"
+                    }, new
+                    {
+                        label = "2017"
+                    }, new
+                    {
+                        label = "2018"
+                    }, new
+                    {
+                        label = "2019"
+                    }
+                }
+            }
+    };
+
+        myDataSource.dataset = new[]
+        {
+        new
+            {
+                dataset = new[]
+                {
+                    new
+                    {
+                        seriesname = "Honda City",
+                        data = new[]
+                        {
+                            new
+                            {
+                                value = "997281"
+                            }, new
+                            {
+                                value = "1063599"
+                            }, new
+                            {
+                                value = "1063964"
+                            }, new
+                            {
+                                value = "1152123"
+                            }, new
+                            {
+                                value = "1289128"
+                            }, new
+                            {
+                                value = "1394972"
+                            }, new
+                            {
+                                value = "1331194"
+                            }, new
+                            {
+                                value = "1047958"
+                            }, new
+                            {
+                                value = "974751"
+                            }, new
+                            {
+                                value = "983243"
+                            }, new
+                            {
+                                value = "1294208"
+                            }, new
+                            {
+                                value = "1435345"
+                            }, new
+                            {
+                                value = "1217785"
+                            }, new
+                            {
+                                value = "1163621"
+                            }, new
+                            {
+                                value = "1161561"
+                            }
+                        }
+                    }, new
+                    {
+                        seriesname = "Honda Civic",
+                        data = new[]
+                        {
+                            new
+                            {
+                                value = "196354"
+                            }, new
+                            {
+                                value = "259493"
+                            }, new
+                            {
+                                value = "234755"
+                            }, new
+                            {
+                                value = "205717"
+                            }, new
+                            {
+                                value = "205081"
+                            }, new
+                            {
+                                value = "224978"
+                            }, new
+                            {
+                                value = "1277225"
+                            }, new
+                            {
+                                value = "1132872"
+                            }, new
+                            {
+                                value = "852656"
+                            }, new
+                            {
+                                value = "1234768"
+                            }, new
+                            {
+                                value = "205081"
+                            }, new
+                            {
+                                value = "1027759"
+                            }, new
+                            {
+                                value = "1141363"
+                            }, new
+                            {
+                                value = "1277225"
+                            }, new
+                            {
+                                value = "1285716"
+                            }
+                        }
+                    }
+                }
+            }, new
+                {
+                    dataset = new[]{
+                         new
+                            {
+                            seriesname = "Hyundai Verna",
+                            // renderAs = "line",
+                            // showValues = "0",
+                            // parentYAxis = "S",
+                            data = new[]
+                            {
+                                new
+                                {
+                                    value = "373709"
+                                }, new
+                                {
+                                    value = "391276"
+                                }, new
+                                {
+                                    value = "380002"
+                                }, new
+                                {
+                                    value = "411456"
+                                }, new
+                                {
+                                    value = "476001"
+                                }, new
+                                {
+                                    value = "500537"
+                                }, new
+                                {
+                                    value = "413815"
+                                }, new
+                                {
+                                    value = "496356"
+                                }, new
+                                {
+                                    value = "514865"
+                                }, new
+                                {
+                                    value = "697118"
+                                }, new
+                                {
+                                    value = "567824"
+                                }, new
+                                {
+                                    value = "525457"
+                                }, new
+                                {
+                                    value = "576222"
+                                }, new
+                                {
+                                    value = "484427"
+                                }, new
+                                {
+                                    value = "491488"
+                                }
+                            }
+                        }, new
+                        {
+                            seriesname = "Hyundai Sonata",
+                            // renderAs = "line",
+                            // showValues = "0",
+                            // parentYAxis = "S",
+                            data = new[]
+                            {
+                                new
+                                {
+                                    value = "47548"
+                                }, new
+                                {
+                                    value = "73130"
+                                }, new
+                                {
+                                    value = "107659"
+                                }, new
+                                {
+                                    value = "179783"
+                                }, new
+                                {
+                                    value = "202390"
+                                }, new
+                                {
+                                    value = "156107"
+                                }, new
+                                {
+                                    value = "88315"
+                                }, new
+                                {
+                                    value = "103964"
+                                }, new
+                                {
+                                    value = "191982"
+                                }, new
+                                {
+                                    value = "120271"
+                                }, new
+                                {
+                                    value = "125909"
+                                }, new
+                                {
+                                    value = "138739"
+                                }, new
+                                {
+                                    value = "179152"
+                                }, new
+                                {
+                                    value = "131125"
+                                }, new
+                                {
+                                    value = "181549"
+                                }
+                            }
+                        }
+                    }
+                }
+    };
+
+        myDataSource.lineset = new[]
+        {
+            new
+            {
+                seriesname = "Market Share %",
+                plottooltext = "Total market share of Korean cars in $label is <b>$dataValue</b> in US",
+                showvalues = "0",
+                data = new[]
+                {
+                    new
+                    {
+                        value = "17.74"
+                    }, new
+                    {
+                        value = "19.23"
+                    }, new
+                    {
+                        value = "15.43"
+                    }, new
+                    {
+                        value = "12.34"
+                    }, new
+                    {
+                        value = "15.34"
+                    }, new
+                    {
+                        value = "21.17"
+                    }, new
+                    {
+                        value = "13.14"
+                    }, new
+                    {
+                        value = "18.13"
+                    }, new
+                    {
+                        value = "13.13"
+                    }, new
+                    {
+                        value = "15.34"
+                    }, new
+                    {
+                        value = "14.74"
+                    }, new
+                    {
+                        value = "18.17"
+                    }, new
+                    {
+                        value = "19.22"
+                    }, new
+                    {
+                        value = "17.74"
+                    }, new
+                    {
+                        value = "20.17"
+                    }
+                }
+            }
+    };
+
+
+
+        myDataSource.chart = myChart;
+
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await demo();
+        }
+        else
+        {
+
+        }
+    }
+
+}

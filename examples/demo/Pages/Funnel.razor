@@ -1,0 +1,127 @@
+@page "/funnel"
+@inject FusionChartsService fusionChartsService;
+@using Microsoft.JSInterop;
+@inject IJSRuntime JSRuntime
+<center>
+    <h3>
+        <b>Funnel Chart</b>
+    </h3>
+</center>
+<div id="funnelID"></div>
+@code {
+
+    public static Funnel? _instance;
+    public Funnel()
+    {
+        _instance = this;
+    }
+
+    public async Task NonStaticMethod()
+    {
+        await fusionChartsService.CallFusionChartsFunction("chartType", "funId");
+        //getJSONData
+        await fusionChartsService.CallFusionChartsFunction("getJSONData", "funId", 1);
+        //getChartAttribute
+        await fusionChartsService.CallFusionChartsFunction("getChartAttribute", "funId");
+        //showChartMessage
+        await fusionChartsService.CallFusionChartsFunction("showChartMessage", "funId", "Hi This is Funnel Map", "true", "true");
+        //setChartAttribute
+        await fusionChartsService.CallFusionChartsFunction("setChartAttribute", "funId", "caption", "NEW");
+        //getXMLData
+        //await fusionChartsService.CallFusionChartsFunction("getXMLData", "funId");
+        //getChartData
+        //await fusionChartsService.CallFusionChartsFunction("getChartData", "funId");
+        //hasRendered
+        // await fusionChartsService.CallFusionChartsFunction("hasRendered","funId","True");
+        //print
+        //await fusionChartsService.CallFusionChartsFunction("print", "funId", 1);
+        //getSVGString
+        //await fusionChartsService.CallFusionChartsFunction("getSVGString", "funId", "true");
+        //getCSVData
+        await fusionChartsService.CallFusionChartsFunction("getCSVData", "funId", 1);
+        //dispose
+        //await fusionChartsService.CallFusionChartsFunction("dispose", "radId", 0);
+    }
+
+    [JSInvokable("ChangeFunnelData")]
+    public static async Task ChangeFunnelData()
+    {
+        await _instance.NonStaticMethod();
+    }
+    public async Task renderFunnelChart()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+        // ----------------------EVENTS-----------------------------------
+        myEvent.renderComplete = "function() { console.log('render complete for Funnel Chart')}";
+        myEvent.loaded = "function() { DotNet.invokeMethodAsync('demo','ChangeFunnelData')}";
+        myEvent.chartClick = "function(){console.log(' chartClick')}";
+        myEvent.beforeDataUpdate = "function(){console.log(' beforeDataUpdate')}";
+        myEvent.dataLoaded = "function(){console.log(' dataLoaded')}";
+        myEvent.beforeRender = "function(){console.log(' beforeRender')}";
+        myEvent.renderCancelled = "function(){console.log('Render Cancelled ')}";
+        myEvent.beforeInitialize = "function(){console.log('beforeInitialize')}";
+        myEvent.initialized = "function(){console.log('initialized')}";
+        myEvent.rendered = "function(){console.log('Rendered ')}";       
+        myEvent.dataplotRollOver = "function(){console.log(' dataplotRollOver')}";
+        myEvent.dataplotRollOut = "function(){console.log(' dataplotRollOut')}";
+        myEvent.dataplotClick = "function(){console.log(' dataplotClick')}";
+        myEvent.drawComplete = "function(){console.log(' drawComplete')}";
+        myEvent.chartRollOver = "function(){console.log(' chartRollOver')}";
+        myEvent.chartRollOut = "function(){console.log(' chartRollOut')}";
+        //---------------------------------------------------------------------
+
+        myChartConfig.type = "funnel";
+        myChartConfig.width = 1000;
+        myChartConfig.height = 400;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "funnelID";
+        myChartConfig.id = "funId";
+        myChart.caption = "Website - Harry's SuperMart";
+        myChart.subcaption = "Visit to purchase - Conversion analysis for last year";
+        myChart.decimals = 1;
+        myChart.isHollow = 1;
+        myChart.labelDistance = 15;
+        myChart.isSliced = 1;
+        myChart.isHollow = 1;
+        myChart.useSameSlantAngle = 1;
+        myChart.plotTooltext = "Success: $percentOfPrevValue";
+        myChart.showPercentValues = 1;
+        myChart.theme = "fusion";
+
+        myDataSource.data = new[] {
+                new { label = "Unique Website Visits", value = "1460000" },
+                new { label = "Programme Details Section Visits", value = "930000" },
+                new { label = "Attempts to Register", value = "540000" },
+                new { label = "Successful Registrations", value = "210000" },
+                new { label = "Logged In", value = "190000" },
+                new { label = "Purchased on Introductory Offers", value = "120000" },
+                new { label = "X6", value = "870000" },
+                new { label = "X7", value = "60000" },
+                new { label = "X8", value = "720000" },
+    };
+        myDataSource.chart = myChart;
+        myChartConfig.dataSource = myDataSource;
+        myChartConfig.events = myEvent;
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+
+        
+    
+
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await renderFunnelChart();
+        }
+        else
+        {
+        }
+    }
+}

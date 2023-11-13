@@ -1,0 +1,82 @@
+﻿@page "/RealTimeLine"
+
+<h1>Real time line</h1>
+
+
+<div id="Real time line"></div>
+
+@inject FusionChartsService fusionChartsService;
+
+@code {
+    public async Task RealTimeLineChart()
+    {
+
+
+        //chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        myEvent.initialized = "function(){ randomValues()}";
+
+        myEvent.realTimeUpdateComplete = "function(){console.log('realTimeUpdateComplete')}";
+
+        myChartConfig.id = "RealTimeCharts";
+        myChartConfig.type = "realtimeline";
+        myChartConfig.width = 600;
+        myChartConfig.height = 300;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "Real time line";
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+        await fusionChartsService.CallFusionChartsFunction(
+                 "setChartData", "RealTimeCharts", @"
+{
+     ""chart"": {
+          ""caption"": ""Real-time stock price monitor"",
+          ""subCaption"": ""Harry's SuperMart"",
+          ""xAxisName"": ""Time"",
+          ""yAxisName"": ""Stock Price"",
+          ""numberPrefix"": ""$"",
+          ""refreshinterval"": ""5"",
+          ""yaxisminvalue"": ""35"",
+          ""yaxismaxvalue"": ""36"",
+          ""numdisplaysets"": ""10"",
+          ""labeldisplay"": ""rotate"",
+          ""showRealTimeValue"": ""0"",
+          ""theme"": ""fusion""
+        },
+        ""categories"": [{
+          ""category"": [{
+            ""label"": ""Day Start""
+          }]
+        }],
+        ""dataset"": [{
+          ""data"": [{
+            ""value"": ""35.27""
+          }]
+        }]
+}", "json");
+
+
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await RealTimeLineChart();
+        }
+        else
+        {
+
+        }
+    }
+
+
+
+}

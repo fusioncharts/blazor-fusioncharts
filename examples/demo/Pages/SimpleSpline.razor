@@ -1,0 +1,121 @@
+﻿@page "/spline"
+
+
+@inject FusionChartsService fusionChartsService
+@using System.Net.Http;
+@using Microsoft.JSInterop;
+@inject IJSRuntime JSRuntime
+@inject HttpClient httpClient;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+
+<PageTitle>Simple Spline</PageTitle>
+
+<h1>Simple Spline</h1>
+
+
+<div id="chart-container4"></div>
+@code {
+    public async Task demo()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+        myChartConfig.width = "100%";
+        myChartConfig.height = "60%";
+
+        myChartConfig.type = "spline";
+        myChartConfig.width = "100%";
+        myChartConfig.height = "60%";
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "chart-container4";
+
+        myChart.caption = "Average Monthly Temperature in Texas";
+        myChart.yaxisname = "Average Monthly Temperature";
+        myChart.anchorradius = "5";
+        myChart.plottooltext = "Average temperature in $label is <b>$dataValue</b>";
+        myChart.showhovereffect = "1";
+        myChart.showvalues = "0";
+        myChart.numbersuffix = "°C";
+        myChart.theme = "candy";
+        myChart.anchorbgcolor = "#72D7B2";
+        myChart.palettecolors = "#72D7B2";
+
+        myDataSource.data = new[]
+        {
+        new{
+        label= "Jan",
+        value= "1"
+        },
+        new{
+        label= "Feb",
+        value= "5"
+        },
+        new{
+        label= "Mar",
+        value= "10"
+        },
+        new{
+        label= "Apr",
+        value= "12"
+        },
+        new{
+        label= "May",
+        value= "14"
+        },
+        new{
+        label= "Jun",
+        value= "16"
+        },
+        new{
+        label= "Jul",
+        value= "20"
+        },
+        new{
+        label= "Aug",
+        value= "22"
+        },
+        new{
+        label= "Sep",
+        value= "20"
+        },
+        new{
+        label= "Oct",
+        value= "16"
+        },
+        new{
+        label= "Nov",
+        value= "7"
+        },
+        new{
+        label= "Dec",
+        value= "2"
+        }
+    };
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        String chartConfig4 = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig4);
+
+    }
+
+
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await demo();
+        }
+        else
+        {
+
+        }
+    }
+}

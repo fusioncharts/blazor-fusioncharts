@@ -1,0 +1,186 @@
+@page "/msline"
+
+
+@inject FusionChartsService fusionChartsService
+@using System.Net.Http;
+@using Microsoft.JSInterop;
+@inject IJSRuntime JSRuntime
+@inject HttpClient httpClient;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+
+<PageTitle>Line with Multiple Series</PageTitle>
+
+<h1>Line with Multiple Series</h1>
+
+
+<div id="chart-container4"></div>
+@code {
+    public async Task demo()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+       
+
+
+        myChartConfig.width = "100%";
+        myChartConfig.height = "60%";
+
+        myChartConfig.type = "msline";
+        myChartConfig.width = "100%";
+        myChartConfig.height = "60%";
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "chart-container4";
+
+        myChart.caption = "Reach of Social Media Platforms amoung youth";
+        myChart.yaxisname = "% of youth on this platform";
+        myChart.subcaption = "2012-2016";
+        myChart.showhovereffect = "1";
+        myChart.numbersuffix = "%";
+        myChart.drawcrossline = "1";
+        myChart.plottooltext = "<b>$dataValue</b> of youth were on $seriesName";
+        myChart.theme = "candy";
+
+        myDataSource.categories = new[]
+        {
+           new
+           {
+           category = new[]
+           {
+           new{
+           label= "2012"
+           },
+           new{
+           label= "2013"
+           },
+           new{
+           label= "2014"
+           },
+           new{
+           label= "2015"
+           },
+           new{
+           label= "2016"
+           },
+           }
+           }
+       };
+
+        myDataSource.dataset = new[]
+       {
+          new{
+          seriesname= "Facebook",
+          data=new[] {
+           new{
+           value= "62"
+           },
+           new{
+           value= "64"
+           },
+           new{
+           value= "64"
+           },
+           new{
+           value= "66",
+           },
+           new{
+           value= "78",
+           }
+           }
+           },
+           new{
+           seriesname= "Instagram",
+           data=new[]{
+
+           new{
+           value= "16"
+           },
+           new{
+           value= "28"
+           },
+           new{
+           value= "34"
+           },
+           new{
+           value= "42"
+           },
+           new{
+           value= "54"
+           }
+           }
+           },
+           new{
+           seriesname= "LinkedIn",
+           data=new[]{
+
+           new{
+           value= "20"
+           },
+           new{
+           value= "22"
+           },
+           new{
+           value= "27"
+           },
+           new{
+           value= "22"
+           },
+           new{
+           value= "29"
+           }
+           }
+           },
+           new{
+           seriesname= "Twitter",
+           data=new[]
+           {
+           new{
+           value= "18"
+           },
+           new{
+           value= "19"
+           },
+           new{
+           value= "21"
+           },
+           new{
+           value= "21"
+           },
+           new{
+           value= "24"
+           }
+           }
+           }
+       };
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        String chartConfig4 = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig4);
+
+
+
+
+
+    }
+
+
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await demo();
+        }
+        else
+        {
+
+        }
+    }
+}
+<SurveyPrompt Title="How is Blazor working for you?" />

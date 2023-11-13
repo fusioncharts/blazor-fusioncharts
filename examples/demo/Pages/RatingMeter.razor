@@ -1,0 +1,96 @@
+@page "/RatingMeter"
+@inject FusionChartsService xyz;
+@using System.Net.Http
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+
+<PageTitle>RatingMeter</PageTitle>
+
+<h3>RATING METER</h3>
+<div id="demoID4"></div>
+
+@code {
+    public async Task renderRatingMeter()
+    {
+        // chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+
+        myChartConfig.type = "angulargauge";
+        myChartConfig.width = 333;
+        myChartConfig.height = 200;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "demoID4";
+        myChartConfig.id = "demo_id4";
+        myChart.caption = "Nordstorm's Customer Satisfaction Score for 2017";
+        myChart.lowerlimit = "0";
+        myChart.upperlimit = "100";
+        myChart.showvalue = "1";
+        myChart.theme = "candy";
+        myChart.numbersuffix = "%";
+        myChart.showtooltip = "0";
+        myChart.exportEnabled = "1";
+
+        myDataSource.colorrange = new
+        {
+            color = new[]{
+                new { minvalue = "0",maxvalue="50", code = "#F2726F" },
+                new { minvalue = "50",maxvalue="75", code = "#FFC533" },
+                new { minvalue = "75",maxvalue="100", code = "#62B58F" },
+    }
+
+        };
+
+        myDataSource.dials = new
+        {
+            dial = new[]
+            {
+                new{value= "81"}
+    }
+        };
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await xyz.renderChart(chartConfig);
+        //await xyz.CallFusionChartsFunction("resizeTo", "demo_id4", "350", "400");
+
+        //await xyz.CallFusionChartsFunction("exportChart", "demo_id4", "pdf", "1", "true");
+
+        await xyz.CallFusionChartsFunction("getCSVData", "demo_id4");
+        await xyz.CallFusionChartsFunction("getDataAsCSV", "demo_id4");
+
+        await xyz.CallFusionChartsFunction("showChartMessage", "demo_id4", "message", "true", "false");
+
+        //await xyz.CallFusionChartsFunction("print", "1", "true");
+        //await xyz.CallFusionChartsFunction("setChartAttribute", "demo_id4", "caption", "new caption");
+        //await xyz.CallFusionChartsFunction("getChartAttribute", "demo_id4", "caption");
+        await xyz.CallFusionChartsFunction("chartType", "demo_id4");
+        await xyz.CallFusionChartsFunction("getXMLData", "demo_id4");
+        //await xyz.CallFusionChartsFunction("getSVGString", "demo_id4");
+        await xyz.CallFusionChartsFunction("getChartData", "demo_id4");
+
+        //await xyz.CallFusionChartsFunction("dispose", "demo_id4");
+
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+
+            await renderRatingMeter();
+
+        }
+        else
+        {
+
+        }
+    }
+}

@@ -1,0 +1,153 @@
+@page "/msstepline"
+
+@inject FusionChartsService fusionChartsService
+@using System.Net.Http;
+@using Microsoft.JSInterop;
+@inject IJSRuntime JSRuntime
+@inject HttpClient httpClient;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+
+<PageTitle>Step-line</PageTitle>
+
+<h1>Step-line</h1>
+
+
+<div id="chart-container9"></div>
+@code {
+    public async Task demo()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+        myChartConfig.width = "100%";
+        myChartConfig.height = "60%";
+
+        myChartConfig.type = "msstepline";
+        myChartConfig.width = "100%";
+        myChartConfig.height = "60%";
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "chart-container9";
+
+        myChart.caption = "Postal Rates for First Class Stamp";
+        myChart.subcaption = "United States";
+        myChart.showhovereffect = "1";
+        myChart.drawverticaljoints = "1";
+        myChart.useforwardsteps = "0";
+        myChart.numberprefix = "$";
+        myChart.canvaspadding = "5";
+        myChart.plottooltext = "Stamp rate in $label was <b>$datavalue</b>";
+        myChart.theme = "candy";
+
+        myDataSource.categories = new[]
+        {
+           new{
+           category=new[]
+           {
+           new{
+           label= "1975"
+           },
+           new{
+           label= "1980"
+           },
+           new{
+           label= "1985"
+           },
+           new
+           {
+           label= "1990"
+           },
+           new
+           {
+           label= "1995"
+           },
+           new
+           {
+           label= "2000"
+           },
+           new
+           {
+       label= "2005"
+           },
+           new
+           {
+           label= "2010"
+           },
+           new
+           {
+           label= "2015"
+           }
+           }
+           }
+       };
+
+        myDataSource.dataset = new[]
+        {
+           new{
+           linethickness= "3",
+           data=new[]
+           {
+           new{
+           value= ".10"
+           },
+           new{
+           value= ".12"
+           },
+           new{
+           value= ".18"
+           },
+           new
+           {
+           value= ".20"
+           },
+           new
+           {
+           value= ".28"
+           },
+           new
+           {
+           value= ".36"
+           },
+           new
+           {
+           value= ".42"
+           },
+           new
+           {
+           value= ".46"
+           },
+           new
+           {
+           value= ".49"
+           }
+           }
+           }
+       };
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        String chartConfig9 = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig9);
+
+    }
+
+
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await demo();
+        }
+        else
+        {
+
+        }
+    }
+}
+<SurveyPrompt Title="How is Blazor working for you?" />

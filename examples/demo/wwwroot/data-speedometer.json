@@ -1,0 +1,45 @@
+{
+  "chart": {
+    "caption": "Fly Ash Generation Rate",
+    "subCaption": "Belews Creek Power Station<br>In Metric Tonnes",
+    "theme": "candy",
+    "showValue": "1"
+  },
+  "colorRange": {
+    "color": [
+      {
+        "minValue": "0",
+        "maxValue": "10",
+        "code": "#62B58F"
+      },
+      {
+        "minValue": "10",
+        "maxValue": "20",
+        "code": "#FFC533"
+      },
+      {
+        "minValue": "20",
+        "maxValue": "30",
+        "code": "#F2726F"
+      }
+    ]
+  },
+  "dials": {
+    "dial": [
+      {
+        "value": "9.8",
+        "toolText": "<b>$dataValue metric tonnes</b>"
+      }
+    ]
+  },
+  "alerts": {
+            "alert": [
+                {
+                    "minvalue": "80",
+                    "maxvalue":"100",
+                    "action": "callJS",
+                    "param": "alert('alert complete - values are in between 80 and 100');"
+                }
+            ]
+        }
+}

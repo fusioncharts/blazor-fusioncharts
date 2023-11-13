@@ -1,0 +1,184 @@
+@page "/splineCharts";
+@inject FusionChartsService xyz;
+<h2>Fusioncharts</h2>
+<h4>Spline Charts</h4>
+<button @onclick="methodCall">Clicke me to triger event</button>
+<div id="demoID"></div>
+<div id="demoID2"></div>
+<div id="demoID3"></div>
+<div id="demoID4"></div>
+
+@code {
+    public async Task demo()//spline charts
+    {
+        // chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource1 = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        myEvent.dataPlotClick = " function() { console.log('dataPlotClick');   }";
+        //myEvent.dataPlotClick = "function() { randomF();}";
+
+
+        myChartConfig.type = "spline";
+        myChartConfig.width = 600;
+        myChartConfig.height = 300;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "demoID";
+        myChartConfig.id = "CHART_ID1";
+
+        myChart.caption = "Monthly Sales";
+        myChart.subCaption = "Last year";
+        myChart.xAxisName = "Month";
+        myChart.yAxisName = "Sales (in USD)";
+        myChart.theme = "fusion";
+
+        myDataSource.data = new[] {
+
+            new { label = "X0", value = "380000" },
+            new { label = "X1", value = "340000" },
+            new { label = "X2", value = "740000" },
+            new { label = "X3", value = "800000" },
+            new { label = "X4", value = "400000" },
+            new { label = "X5", value = "620000" },
+            new { label = "X6", value = "870000" },
+            new { label = "X7", value = "60000" },
+            new { label = "X8", value = "720000" },
+            new { label = "X9", value = "10000" },
+            new { label = "X10", value = "40000" }
+    };
+
+        myDataSource1.categories = new List<dynamic>
+        {
+            new
+            {
+                category = new List<dynamic>
+                {
+                    new { label = "Mon" },
+                    new { label = "Tue" },
+                    new { label = "Wed" },
+                    new
+                    {
+                        vline = "true",
+                        lineposition = "0",
+                        color = "#F2726F",
+                        labelHAlign = "right",
+                        labelPosition = "0",
+                        label = "National holiday"
+                    },
+                    new { label = "Thu" },
+                    new { label = "Fri" },
+                    new { label = "Sat" },
+                    new { label = "Sun" }
+                }
+            }
+        };
+
+        myDataSource1.dataset = new List<dynamic>
+        {
+            new
+            {
+                seriesname = "Garden Groove harbour",
+                data = new List<dynamic>
+                {
+                    new { value = "15123" },
+                    new { value = "14233" },
+                    new { value = "21507" },
+                    new { value = "9110" },
+                    new { value = "14829" },
+                    new { value = "17503" },
+                    new { value = "20202" },
+                    new { value = "45676"},
+                    new { value = "87776"},
+
+                }
+            },
+            new
+            {
+                seriesname = "Crompton-Rancho Dom",
+                data = new List<dynamic>
+                {
+                    new { value = "11400" },
+                    new { value = "12800" },
+                    new { value = "17800" },
+                    new { value = "10400" },
+                    new { value = "11800" },
+                    new { value = "13100" },
+                    new { value = "20800" }
+                }
+            }
+        };
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+        // xyz.CallFusionChartsFunction("setChartAttribute")
+
+        //Chart 1
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await xyz.renderChart(chartConfig);
+
+        //Chart 2
+        myChartConfig.dataSource = myDataSource1;
+        myChartConfig.type = "msspline";
+        myChartConfig.renderAt = "demoID2";
+        myChartConfig.id = "CHART_ID2";
+
+        String chanrtConfig2 = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await xyz.renderChart(chanrtConfig2);
+
+        //Chart 3
+        myChartConfig.dataSource = myDataSource1;
+        myChartConfig.type = "mssplinearea";
+        myChartConfig.renderAt = "demoID3";
+        myChartConfig.id = "CHART_ID3";
+
+        String chanrtConfig3 = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await xyz.renderChart(chanrtConfig3);
+
+        //Chart 4
+        myChartConfig.dataSource = myDataSource;
+        myChartConfig.type = "splinearea";
+        myChartConfig.renderAt = "demoID4";
+        myChartConfig.id = "CHART_ID4";
+
+        String chanrtConfig4 = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await xyz.renderChart(chanrtConfig4);
+    }
+
+    private async Task methodCall()
+    {
+        await xyz.CallFusionChartsFunction("setChartAttribute", "CHART_ID2", "caption", "new caption");
+        await xyz.CallFusionChartsFunction("getChartAttribute", "CHART_ID1");
+        await xyz.CallFusionChartsFunction("chartType", "CHART_ID1");
+        await xyz.CallFusionChartsFunction("chartType", "CHART_ID1", "pyramid");
+
+        await xyz.CallFusionChartsFunction("getXMLData", "CHART_ID1");
+        //string s = "<chart caption=\"new caption\" subcaption=\"Last year\" animation=\"0\"><set label=\"X0\" value=\"380000\" cleanvalue=\"380000\" cleanvalue=\"380000\" /><set label=\"X1\" value=\"340000\" cleanvalue=\"340000\" cleanvalue=\"340000\" /><set label=\"X2\" value=\"740000\" cleanvalue=\"740000\" cleanvalue=\"740000\" /><set label=\"X3\" value=\"800000\" cleanvalue=\"800000\" cleanvalue=\"800000\" /><set label=\"X4\" value=\"400000\" cleanvalue=\"400000\" cleanvalue=\"400000\" /><set label=\"X5\" value=\"620000\" cleanvalue=\"620000\" cleanvalue=\"620000\" /></chart>";
+        //await xyz.CallFusionChartsFunction("setXMLData", "CHART_ID",s,"xml");
+        await xyz.CallFusionChartsFunction("getChartData", "CHART_ID1");
+        await xyz.CallFusionChartsFunction("showChartMessage", "CHART_ID1");
+
+
+        //await xyz.CallFusionChartsFunction("getJsonData", "CHART_ID");
+
+
+        //await xyz.CallFusionChartsFunction("getViewEndIndex ", "CHART_ID");
+        //await xyz.CallFusionChartsFunction("getSVGString", "CHART_ID");
+        //await xyz.CallFusionChartsFunction("setXMLData", "CHART_ID",s,"xml");
+        // await xyz.CallFusionChartsFunction("dispose", "CHART_ID");
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+
+            await demo();
+
+        }
+        else
+        {
+
+        }
+    }
+}

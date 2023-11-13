@@ -1,0 +1,229 @@
+﻿@page "/StackedColumn"
+@inject FusionChartsService fusionChartsService;
+<h3>Stacked Column chart</h3>
+<div id="chart-container1"></div>
+
+@code {
+    public async Task StackedColumnsChart()
+    {
+        // chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        //myEvent.chartClick = "function(){console.log('dataPlotClick')}";
+        ////myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+        //myEvent.chartClick = "function() { console.log('clicked on Stacked Column Chart')}";
+        //myEvent.chartMouseMove = "function() { console.log('Mouse move on Stacked Column Chart')}";
+        //myEvent.chartRollOver = "function() { console.log('Rolled over on Stacked Column Chart')}";
+        //myChart.enableChartMouseMoveEvent = "1";
+        //myEvent.beforeDispose = "function() { console.log('before dispose')}";
+        //myEvent.disposed = "function() { console.log('dispose')}";
+        //myEvent.dataLabelRollOver = "function() { console.log('Data Label Roll Over')}";
+        //myEvent.dataLabelRollOut = "function() { console.log('Data Label Roll out')}";
+        //myEvent.dataLabelClick = "function() { console.log('Data Label Click')}";
+        //myEvent.beforeExport = "function() { console.log('before export')}";
+        //myEvent.exported = "function() { console.log('exported')}";
+        //myEvent.logoRollover = "function() { console.log('Rolled Over Logo')}";
+        //myEvent.logoRollout = "function() { console.log('rolled out of logo')}";
+        //myEvent.logoClick = "function() { console.log('clicked on a logo')}";
+        //myEvent.logoLoaded = "function() { console.log('logo is loaded')}";
+        //myEvent.logoLoadError = "function() { console.log('error on loading logo')}";
+        myChartConfig.type = "stackedcolumn2d";
+        myChartConfig.width = "100%";
+        myChartConfig.height = "100%";
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "chart-container1";
+
+        myChartConfig.id = "id1";
+        myChart.caption = "Yearly Energy Production Rate";
+        myChart.subCaption = " Top 5 Developed Countries";
+        myChart.numberSuffix = " TWh";
+        myChart.showSum = "1";
+        myChart.plottooltext = "$label produces <b>$dataValue</b> of energy from $seriesName";
+        myChart.theme = "candy";
+        myChart.drawCcroosline = "1";
+        myChart.exportEnabled = "1";
+        myChart.logoURL = "https://static.fusioncharts.com/sampledata/images/Logo-HM-72x72.png";
+
+        myDataSource.categories = new[]
+        {
+            new
+            {
+                category = new[]
+                {
+                     new {
+        label="Canada"
+        },
+        new {
+        label= "China"
+        },
+        new {
+        label= "Russia"
+        },
+        new {
+        label= "Australia"
+        },
+        new {
+        label= "United States"
+        },
+        new {
+        label= "France"
+        }
+                }
+            }
+
+    };
+        myDataSource.dataset = new[]
+          {
+                          new {
+                  seriesname="Coal",
+                  data= new[]{
+                    new {
+                    value= "400"
+                },
+                new {
+                    value= "830"
+                },
+                new{
+                    value= "500"
+                },
+                new{
+                    value= "420"
+                },
+                new{
+                    value= "790"
+                },
+                new{
+                    value= "380"
+                }
+                  }
+                },
+                new{
+                  seriesname= "Hydro",
+                  data= new[]{
+                new{
+                  value= "350"
+                },
+                new{
+                  value= "620"
+                },
+                new{
+            value= "410"
+                },
+                new{
+            value= "370"
+                },
+                new{
+            value= "720"
+                },
+                new{
+            value= "310"
+                }
+                  }
+                },
+                new
+                {
+            seriesname= "Nuclear",
+                  data=
+                new[]{
+                new{
+                value= "210"
+                },
+                new
+                {
+                value= "400"
+                },
+                new
+                {
+                value= "450"
+                },
+                new{
+                value= "180"
+                },
+                new {
+                value= "570"
+                },
+                new {
+                value="270"
+                }
+                }
+                },
+                new {
+            seriesname= "Gas",
+                  data=
+                new[]{
+                new{
+                value= "180"
+                },
+                new{
+                value= "330"
+                },
+                new{
+                value= "230"
+                },
+                new{
+                value= "160"
+                },
+                new{
+                value= "440"
+                },
+                new{
+                value= "350"
+                }
+                }
+                },
+                new{
+            seriesname= "Oil",
+                  data=
+                new[]{
+                new {
+                value= "60"
+                },
+                new {
+                value= "200"
+                },
+                new {
+                value= "200"
+                },
+                new {
+                value= "50"
+                },
+                new {
+                value= "230"
+                },
+                new {
+                value= "150"
+                }
+                }
+                }
+
+      };
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+        //await fusionChartsService.CallFusionChartsFunction("dataReady", "id1", "true");
+        //await fusionChartsService.CallFusionChartsFunction("hasRendered", "id1");
+        //await fusionChartsService.CallFusionChartsFunction("getXMLData", "id1");
+        //await fusionChartsService.CallFusionChartsFunction("getCSVData", "id1");
+        //await fusionChartsService.CallFusionChartsFunction("chartType", "id1");
+        //await fusionChartsService.CallFusionChartsFunction("exportChart", "id1", "png", "6", "true");
+        //await fusionChartsService.CallFusionChartsFunction("setChartAttribute", "id1", "caption", "new caption");
+        //await fusionChartsService.CallFusionChartsFunction("getSVGString", "id1");
+        //await fusionChartsService.CallFusionChartsFunction("showChartMessage", "id1", "message", "true", "false");
+        //await fusionChartsService.CallFusionChartsFunction("dispose", "id1");
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+             await StackedColumnsChart();
+        }
+        else
+        {
+
+        }
+    }
+}

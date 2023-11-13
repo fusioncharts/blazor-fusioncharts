@@ -1,0 +1,159 @@
+@page "/msspline"
+
+
+@inject FusionChartsService fusionChartsService
+@using System.Net.Http;
+@using Microsoft.JSInterop;
+@inject IJSRuntime JSRuntime
+@inject HttpClient httpClient;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+
+<PageTitle>Spline with multiple series</PageTitle>
+
+<h1>Spline with multiple series</h1>
+
+
+<div id="chart-container5"></div>
+@code {
+    public async Task demo()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+        myChartConfig.width = "100%";
+        myChartConfig.height = "60%";
+
+        myChartConfig.type = "msspline";
+        myChartConfig.width = "100%";
+        myChartConfig.height = "60%";
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "chart-container5";
+
+        myChart.caption = "Support Tickets : Received vs Resolved";
+        myChart.yaxisname = "# of Tickets";
+        myChart.subcaption = "Last week";
+        myChart.numdivlines = "3";
+        myChart.showvalues = "0";
+        myChart.legenditemfontsize = "15";
+        myChart.legenditemfontbold = "1";
+        myChart.plottooltext = "<b>$dataValue</b> Tickets $seriesName on $label";
+        myChart.theme = "candy";
+
+        myDataSource.categories = new[]
+        {
+        new{
+        category=new[]
+        {
+        new{
+        label= "Jan 1",
+        },
+        new{
+        label= "Jan 2"
+        },
+        new{
+        label= "Jan 3"
+        },
+        new{
+        label= "Jan 4"
+        },
+        new{
+        label= "Jan 5"
+        },
+        new{
+        label= "Jan 6"
+        },
+        new{
+        label= "Jan 7"
+        }
+        }
+        }
+    };
+
+
+        myDataSource.dataset = new[]
+        {
+        new{
+        seriesname="Received",
+        data=new[]
+        {
+        new{
+        value="55"
+        },
+        new{
+        value= "45"
+        },
+        new{
+        value= "52"
+        },
+        new{
+        value= "29"
+        },
+        new{
+        value= "48"
+        },
+        new{
+        value= "28"
+        },
+        new{
+        value="32"
+        }
+        }
+        },
+        new{
+        seriesname= "Resolved",
+        data=
+        new[]{
+        new{
+        value= "50"
+        },
+        new{
+        value= "30"
+        },
+        new{
+        value= "49"
+        },
+        new{
+        value= "22"
+        },
+        new{
+        value= "43"
+        },
+        new{
+        value= "14"
+        },
+        new{
+        value= "31"
+        }
+        }
+        }
+    };
+
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        String chartConfig5 = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig5);
+
+    }
+
+
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await demo();
+        }
+        else
+        {
+
+        }
+    }
+}
+<SurveyPrompt Title="How is Blazor working for you?" />

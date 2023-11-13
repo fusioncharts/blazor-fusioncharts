@@ -1,0 +1,296 @@
+﻿@page "/100%StackedColumnChart"
+@inject FusionChartsService fusionChartsService;
+<h3>100% Stacked Column Chart</h3>
+<div id="chart-container1"></div>
+
+@code {
+   public async Task stackedColumnChart()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        
+
+        myChartConfig.type = "scrollstackedcolumn2d";
+        myChartConfig.width = "100%";
+        myChartConfig.height = "100%";
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "chart-container1";
+
+        myChart.caption = "Distribution of population in South Africa";
+        myChart.subCaption = "By Provinces";
+        myChart.numvisibleplot = "6";
+        myChart.showvalues = "1";
+        myChart.decimals = "1";
+        myChart.stack100percent = "1";
+        myChart.valuefontcolor = "#FFFFFF";
+
+        myChart.plottooltext = "$label has $dataValue (<b>$percentValue</b>) $seriesName population";
+        myChart.theme = "candy";
+
+
+
+        myDataSource.categories = new[]
+        {
+            new
+            {
+                category = new[]
+                {
+                    new{
+          label= "Matzikama"
+        },
+        new{
+          label= "Cederberg"
+        },
+        new{
+          label= "Bergrivier"
+        },
+        new{
+          label= "Saldanha Bay"
+        },
+        new{
+          label= "Swartland"
+        },
+        new{
+          label= "Witzenberg"
+        },
+        new{
+          label= "Drakenstein"
+        },
+        new{
+          label= "Stellenbosch"
+        },
+        new{
+          label= "Breede Valley"
+        },
+        new{
+          label= "Langeberg"
+        },
+        new{
+          label= "Swellendam"
+        },
+        new{
+          label= "Theewaterskloof"
+        },
+        new{
+          label= "Overstrand"
+        },
+        new{
+          label= "Cape Agulhas"
+        },
+        new{
+          label= "Kannaland"
+        },
+        new{
+          label= "Hessequa"
+        },
+        new{
+          label= "Mossel Bay"
+        },
+        new{
+          label= "George"
+        },
+        new{
+          label= "Oudtshoorn"
+        },
+        new{
+          label= "Bitou"
+        },
+        new{
+          label= "Knysna"
+        },
+        new{
+          label= "Laingsburg"
+        },
+        new{
+          label= "Prince Albert"
+        },
+        new{
+          label= "Beaufort West"
+        }
+                }
+            }
+    };
+
+        myDataSource.dataset = new[]
+        {
+            new
+            {
+                seriesname= "Male",
+                data = new[]
+                {
+                    new{
+          value= "35789"
+        },
+         new{
+          value= "26776"
+        },
+         new{
+          value= "32567"
+        },
+         new{
+          value= "55584"
+        },
+         new{
+          value= "66443"
+        },
+         new{
+          value= "67912"
+        },
+         new{
+          value= "138421"
+        },
+         new{
+          value= "85250"
+        },
+         new{
+          value= "85695"
+        },
+         new{
+          value= "52119"
+        },
+         new{
+          value= "20133"
+        },
+         new{
+          value= "59228"
+        },
+         new{
+          value= "46296"
+        },
+         new{
+          value= "17830"
+        },
+         new{
+          value= "11786"
+        },
+         new{
+          value= "26397"
+        },
+         new{
+          value= "45763"
+        },
+         new{
+          value= "102850"
+        },
+         new{
+          value= "46805"
+        },
+         new{
+          value= "29595"
+        },
+         new{
+          value= "36523"
+        },
+         new{
+          value= "4418"
+        },
+         new{
+          value= "6947"
+        },
+         new{
+          value= "24577"
+        }
+                }
+            },
+            new
+            {
+                seriesname= "Female",
+                data = new[]
+                {
+                   new {
+          value= "35256"
+        },
+        new{
+          value= "26173"
+        },
+        new{
+          value= "34906"
+        },
+        new{
+          value= "55588"
+        },
+        new{
+          value= "67319"
+        },
+        new{
+          value= "62635"
+        },
+        new{
+          value= "141774"
+        },
+        new{
+          value= "88170"
+        },
+        new{
+          value= "90883"
+        },
+        new{
+          value= "53364"
+        },
+        new{
+          value= "20078"
+        },
+        new{
+          value= "57882"
+        },
+        new{
+          value= "47169"
+        },
+        new{
+          value= "18170"
+        },
+        new{
+          value= "12382"
+        },
+        new{
+          value= "27839"
+        },
+        new{
+          value= "48372"
+        },
+        new{
+          value= "105387"
+        },
+        new{
+          value= "50703"
+        },
+        new{
+          value= "29563"
+        },
+        new{
+          value= "37312"
+        },
+        new{
+          value= "4477"
+        },
+        new{
+          value= "7325"
+        },
+        new{
+          value= "26503"
+        }
+                }
+            }
+       };
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+                await stackedColumnChart();
+        }
+        else
+        {
+
+        }
+    }
+}

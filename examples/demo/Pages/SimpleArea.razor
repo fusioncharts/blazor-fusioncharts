@@ -1,0 +1,116 @@
+@page "/simplearea2d"
+
+@inject FusionChartsService fusionChartsService
+@using System.Net.Http;
+@using Microsoft.JSInterop;
+@inject IJSRuntime JSRuntime
+@inject HttpClient httpClient;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+
+<PageTitle>Simple Area</PageTitle>
+
+<h1>Simple Area</h1>
+
+
+<div id="chart-container1"></div>
+@code {
+    public async Task demo()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+        myChartConfig.width = "100%";
+        myChartConfig.height = "60%";
+
+        myChartConfig.type = "area2d";
+        myChartConfig.width = "100%";
+        myChartConfig.height = "60%";
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "chart-container1";
+        myChartConfig.id = "id";
+
+
+        myChart.caption = "Yearly sales of iPhone";
+        myChart.yaxisname = "Number of units sold";
+        myChart.subcaption = "2007-2016";
+        myChart.legendposition = "Right";
+        myChart.drawanchors = "0";
+        myChart.showvalues = "0";
+        myChart.plottooltext = "<b>$dataValue</b> iPhones sold in $label";
+        myChart.theme = "candy";
+
+        myChart.exportEnabled = "1";
+
+        myDataSource.data = new[]
+        {
+        new{
+        label= "2007",
+        value= "1380000"
+        },
+        new{
+        label= "2008",
+        value= "1450000"
+        },
+        new{
+        label= "2009",
+        value= "1610000"
+        },
+        new{
+        label= "2010",
+        value= "1540000"
+        },
+        new{
+        label= "2011",
+        value= "1480000"
+        },
+        new{
+        label= "2012",
+        value= "1573000"
+        },
+        new{
+        label= "2013",
+        value= "2232000"
+        },
+        new{
+        label= "2014",
+        value= "2476000"
+        },
+        new{
+        label= "2015",
+        value= "2832000"
+        },
+        new{
+        label= "2016",
+        value= "3808000"
+        }
+    };
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+        await fusionChartsService.CallFusionChartsFunction("getJSONData", "id");
+
+    }
+
+
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await demo();
+        }
+        else
+        {
+
+        }
+    }
+}
+<SurveyPrompt Title="How is Blazor working for you?" />

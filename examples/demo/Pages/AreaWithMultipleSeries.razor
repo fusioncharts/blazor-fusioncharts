@@ -1,0 +1,137 @@
+@page "/msarea"
+
+@inject FusionChartsService fusionChartsService
+@using System.Net.Http;
+@using Microsoft.JSInterop;
+@inject IJSRuntime JSRuntime
+@inject HttpClient httpClient;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+
+<PageTitle>Area with multiple series</PageTitle>
+
+<h1>Area with multiple series</h1>
+
+
+<div id="chart-container2"></div>
+@code {
+    public async Task demo()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+        myChartConfig.width = "100%";
+        myChartConfig.height = "60%";
+
+        myChartConfig.type = "msarea";
+        myChartConfig.width = "100%";
+        myChartConfig.height = "60%";
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "chart-container2";
+
+        myChart.caption = "GDP Growth Rate Comparison";
+        myChart.yaxisname = "Quarterly GDP Growth Rate in %";
+        myChart.subcaption = "India vs China";
+        myChart.drawcrossline = "1";
+        myChart.numbersuffix = "%";
+        myChart.plottooltext = "$seriesName's GDP grew $dataValue in $label";
+        myChart.theme = "candy";
+
+        myDataSource.categories = new[]
+        {
+        new{
+        category=new[]
+        {
+        new{
+        label= "April 2016"
+        },
+        new{
+        label= "July 2016"
+        },
+        new{
+        label= "Oct 2016"
+        },
+        new{
+        label= "Jan 2017"
+        },
+        new{
+        label= "April 2017"
+           }
+           }
+           }
+       };
+
+        myDataSource.dataset = new[]
+        {
+           new{
+           seriesname= "India",
+           data=new[]
+           {
+           new{
+           value= "9.2"
+           },
+        new{
+        value= "7.9"
+        },
+        new{
+        value= "7.5"
+        },
+        new{
+        value= "7"
+        },
+        new{
+        value= "6.1"
+        }
+        }
+        },
+        new{
+        seriesname= "China",
+        data=new[]
+        {
+        new{
+        value= "6.7"
+        },
+        new{
+        value= "6.7"
+        },
+        new{
+        value= "6.7"
+        },
+        new{
+        value= "6.8"
+        },
+        new{
+        value= "6.9"
+        }
+        }
+        }
+
+
+    };
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        String chartConfig2 = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig2);
+
+    }
+
+
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await demo();
+        }
+        else
+        {
+
+        }
+    }
+}
+<SurveyPrompt Title="How is Blazor working for you?" />

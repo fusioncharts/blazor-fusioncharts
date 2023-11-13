@@ -1,0 +1,233 @@
+﻿@page "/GroupedBarWithScrolling"
+
+<h1>Grouped bar with scrolling</h1>
+
+
+<div id="Grouped bar with scrolling"></div>
+
+@inject FusionChartsService fusionChartsService;
+
+@code {
+
+    public async Task GroupedBarWithScrollingChart()
+    {
+        //chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+
+
+        myChartConfig.type = "scrollbar2d";
+        myChartConfig.width = 600;
+        myChartConfig.height = 300;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "Grouped bar with scrolling";
+
+
+        myChart.caption = "Top 25 NPM Packages for Node.js Developers";
+        myChart.subcaption = "March 2019";
+        myChart.plottooltext = "$dataValue Downloads";
+        myChart.yAxisName = "Number of Downloads";
+        myChart.xaxisname = "Packages";
+        myChart.theme = "candy";
+
+
+        myDataSource.categories = new[]{
+        new
+        {
+        category=new []
+        {
+        new {
+          label= "Commander.js"
+        },
+        new {
+          label= "Async.js"
+        },
+        new {
+          label= "Request"
+        },
+        new {
+          label= "Express"
+        },
+        new {
+          label= "WebPack"
+        },
+        new {
+          label= "Underscore"
+        },
+        new {
+          label= "React"
+        },
+        new {
+          label= "JSDom"
+        },
+        new {
+          label= "Cheerio"
+        },
+        new {
+          label= "Mocha"
+        },
+        new {
+          label= "Marked"
+        },
+        new {
+          label= "LESS"
+        },
+        new {
+          label= "Morgan"
+        },
+        new {
+          label= "Karma"
+        },
+        new {
+          label= "MongoDB Driver"
+        },
+        new {
+          label= "Nodemailer"
+        },
+        new {
+          label= "Passport"
+        },
+        new {
+          label= "Browserify"
+        },
+        new {
+          label= "Grunt"
+        },
+        new {
+          label= "JSHint"
+        },
+        new {
+          label= "Angular"
+        },
+        new {
+          label= "Bower"
+        },
+        new {
+          label= "Pug"
+        },
+        new {
+          label= "PM2"
+        },
+        new {
+          label= "Hapi"
+        }
+
+        }
+        }
+
+    };
+
+
+        myDataSource.dataset = new[]{
+            new{
+                data = new[]
+                {
+                    new {
+          value= "97294205"
+        },
+        new {
+          value= "95482197"
+        },
+        new {
+          value= "60224172"
+        },
+        new {
+          value= "33018247"
+        },
+        new {
+          value= "31615028"
+        },
+        new {
+          value= "28984878"
+        },
+        new {
+          value= "25391784"
+        },
+        new {
+          value= "23581733"
+        },
+        new {
+          value= "12321215"
+        },
+        new {
+          value= "10838161"
+        },
+        new {
+          value= "7808888"
+        },
+        new {
+          value= "7127519"
+        },
+        new {
+          value= "6659395"
+        },
+        new {
+          value= "5731933"
+        },
+        new {
+          value= "4843888"
+        },
+        new {
+          value= "3264090"
+        },
+        new {
+          value= "2755188"
+        },
+        new {
+          value= "2661761"
+        },
+        new {
+          value= "2371272"
+        },
+        new {
+          value= "2201511"
+        },
+        new {
+          value= "1821149"
+        },
+        new {
+          value= "1683996"
+        },
+        new {
+          value= "1602832"
+        },
+        new {
+          value= "1267422"
+        },
+        new {
+          value= "1042206"
+        }
+                 }
+            }
+
+    };
+
+
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await GroupedBarWithScrollingChart();
+        }
+        else
+        {
+
+        }
+    }
+
+
+
+}

@@ -1,0 +1,112 @@
+﻿@page "/hbullet"
+
+<h1>Horizontal Bullet Graph chart</h1>
+
+<div id="hbullet"></div>
+
+
+@inject FusionChartsService fusionChartsService;
+
+@code {
+    public async Task demo()
+    {
+        //chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        dynamic categories = new System.Dynamic.ExpandoObject();
+        myEvent.rendered = "function() { console.log('rendered successful')}";
+
+        myChartConfig.type = "hbullet";
+        myChartConfig.width = 600;
+        myChartConfig.height = 300;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "hbullet";
+
+        myChart.lowerLimit = "0";
+        myChart.upperLimit = "100";
+        myChart.caption = "Monthly Revenue";
+        myChart.subcaption = "Actual vs Target<br>Bakersfield Central";
+        myChart.numberPrefix = "$";
+        myChart.numberSuffix = "K";
+        myChart.targetColor = "#8e0000";
+        myChart.showHoverEffect = "1";
+        myChart.colorRangeFillMix = "{light+0}";
+        myChart.valuePadding = "7";
+        myChart.theme = "fusion";
+
+        myDataSource.colorrange = new[]{
+            new{
+                color = new[]
+                {
+                    new {
+                        minValue = "0",
+                        maxValue = "50",
+                        code = "#e44a00",
+                        alpha = "70"
+                    }, new
+                    {
+                        minValue = "50",
+                        maxValue = "75",
+                        code = "#f2c500",
+                        alpha = "70"
+                    }, new
+                    {
+                        minValue = "75",
+                        maxValue = "120",
+                        code = "#1aaf5d",
+                        alpha = "70"
+                    }
+                }
+            }
+    };
+
+        myDataSource.value = "82";
+        myDataSource.target = "90";
+
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+        myEvent.initialized = "function() { console.log('initialized')}";
+        myEvent.beforeRender = "function() { console.log('beforeRender')}";
+        myEvent.rendered = "function() { console.log('rendered')}";
+
+        myEvent.dataplotRollOver = "function() { console.log('dataplotRollOver')}";
+        myEvent.dataplotRollOut = "function() { console.log('dataplotRollOut')}";
+        myEvent.dataLabelClick = "function() { console.log('dataLabelClick')}";
+        myEvent.dataLabelRollOver = "function() { console.log('dataLabelRollOver')}";
+
+        myEvent.dataLabelRollOut = "function() { console.log('dataLabelRollOut')}";
+        myEvent.legendItemClicked = "function() { console.log('legendItemClicked')}";
+        myEvent.legendItemRollOver = "function() { console.log('legendItemRollOver')}";
+        myEvent.legendItemRollOut = "function() { console.log('legendItemRollOut')}";
+
+        myEvent.chartClick = "function() { console.log('chartClick')}";
+        myEvent.chartRollOver = "function() { console.log('chartRollOver')}";
+        myEvent.chartRollOut = "function() { console.log('chartRollOut')}";
+        myEvent.keyPressed = "function() { console.log('keyPressed')}";
+        myEvent.dataplotDragStart = "function() { console.log('dataplotDragStart')}";
+        myEvent.dataplotDragEnd = "function() { console.log('dataplotDragEnd')}";
+
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await demo();
+        }
+        else
+        {
+
+        }
+    }
+
+}

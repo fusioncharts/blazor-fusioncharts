@@ -1,0 +1,206 @@
+﻿@page "/StackedBars"
+@inject FusionChartsService fusionChartsService;
+<h3>Stacked Bars</h3>
+<div id="chart-container1"></div>
+
+@code {
+    public async Task stackedBarsChart()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        myEvent.chartClick = "function(){console.log('dataPlotClick')}";
+        myChart.enableChartMouseMoveEvent = "1";
+
+        myChartConfig.id = "id4";
+        myChartConfig.type = "stackedbar2d";
+        myChartConfig.width = "100%";
+        myChartConfig.height = "100%";
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "chart-container1";
+
+
+        myChart.caption = "Split of visitors by Channels & Gender";
+        myChart.placevaluesinside = "1";
+        myChart.showvalues = "0";
+        myChart.plottooltext = "<b>$dataValue</b>  $seriesName visitors";
+        myChart.theme = "candy";
+
+
+        myDataSource.categories = new[]
+        {
+            new
+            {
+                category = new[]
+                {
+                     new {
+          label= "Organic"
+        },
+        new{
+          label= "Offline Stores"
+        },
+        new{
+          label= "Email Campaigns"
+        },
+        new{
+          label= "Social Events"
+        },
+        new{
+          label= "Paid Channels"
+        }
+                }
+            }
+
+     };
+        myDataSource.dataset = new[]
+          {
+                          new {
+                  seriesname="Male",
+                  data= new[]{
+                    new {
+          value= "17000"
+        },
+        new{
+          value= "19500"
+        },
+        new{
+          value= "12500"
+        },
+        new{
+          value= "14500"
+        },
+        new{
+          value= "17500"
+        }
+                  }
+                },
+                new{
+                  seriesname= "Female",
+                  data= new[]{
+                new{
+          value= "25400"
+        },
+        new{
+          value= "29800"
+        },
+        new{
+          value= "21800"
+        },
+        new{
+          value= "19500"
+        },
+        new{
+          value= "21200"
+        }
+                  }
+                },
+
+
+      };
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+        //await fusionChartsService.CallFusionChartsFunction("setChartAttribute", "id4", "caption", "new");
+        await fusionChartsService.CallFusionChartsFunction("setChartData", "id4", @"
+{
+  ""chart"": {
+    ""caption"": ""Split of visitors by Channels & Gender updated"",
+    ""placevaluesinside"": ""1"",
+    ""showvalues"": ""0"",
+    ""plottooltext"": ""<b>$dataValue</b>  $seriesName visitors"",
+    ""theme"": ""candy""
+  },
+  ""categories"": [
+    {
+      ""category"": [
+        {
+          ""label"": ""Organic""
+        },
+        {
+          ""label"": ""Offline Stores""
+        },
+        {
+          ""label"": ""Email Campaigns""
+        },
+        {
+          ""label"": ""Social Events""
+        },
+        {
+          ""label"": ""Paid Channels""
+        }
+      ]
+    }
+  ],
+  ""dataset"": [
+    {
+      ""seriesname"": ""Male"",
+      ""data"": [
+        {
+          ""value"": ""17000""
+        },
+        {
+          ""value"": ""19500""
+        },
+        {
+          ""value"": ""12500""
+        },
+        {
+          ""value"": ""14500""
+        },
+        {
+          ""value"": ""17500""
+        }
+      ]
+    },
+    {
+      ""seriesname"": ""Female"",
+      ""data"": [
+        {
+          ""value"": ""25400""
+        },
+        {
+          ""value"": ""29800""
+        },
+        {
+          ""value"": ""21800""
+        },
+        {
+          ""value"": ""19500""
+        },
+        {
+          ""value"": ""21200""
+        }
+      ]
+    }
+  ]
+}"
+    , "json");
+        //await fusionChartsService.CallFusionChartsFunction("getChartAttribute", "id4", "caption");
+        //await fusionChartsService.CallFusionChartsFunction("chartType", "id4");
+        //await fusionChartsService.CallFusionChartsFunction("getXMLData", "id4");
+        //await fusionChartsService.CallFusionChartsFunction("getCSVData", "id1");
+        //await fusionChartsService.CallFusionChartsFunction("getDataAsCSV", "id1");
+        ////await fusionChartsService.CallFusionChartsFunction("getSVGString", "id1");
+        //await fusionChartsService.CallFusionChartsFunction("showChartMessage", "id1");
+
+        //await fusionChartsService.CallFusionChartsFunction(
+        //"", "json");
+        await fusionChartsService.CallFusionChartsFunction("chartType", "id4");
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await stackedBarsChart();
+        }
+        else
+        {
+
+        }
+    }
+}

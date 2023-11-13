@@ -1,0 +1,183 @@
+﻿@page "/sparkline"
+
+@using System.Net.Http;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@inject FusionChartsService fusionChartsService;
+
+<PageTitle>Spark Line chart</PageTitle>
+
+<div>
+    <div id="sparkline"></div>
+</div>
+
+@code {
+
+    public async Task demo()
+    {
+        // chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+        //events
+        myEvent.loaded = "function() { console.log('loaded')}";
+        myEvent.renderComplete = "function() { console.log('renderComplete')}";
+        myEvent.initialized = "function() { console.log('initialized')}";
+        myEvent.beforeRender = "function() { console.log('beforeRender')}";
+        myEvent.rendered = "function() { console.log('rendered')}";
+
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+        myEvent.dataplotRollOver = "function() { console.log('dataplotRollOver')}";
+        myEvent.dataplotRollOut = "function() { console.log('dataplotRollOut')}";
+        myEvent.dataLabelClick = "function() { console.log('dataLabelClick')}";
+        myEvent.dataLabelRollOver = "function() { console.log('dataLabelRollOver')}";
+        myEvent.dataLabelRollOut = "function() { console.log('dataLabelRollOut')}";
+
+        myEvent.legendItemClicked = "function() { console.log('legendItemClicked')}";
+        myEvent.legendItemRollOver = "function() { console.log('legendItemRollOver')}";
+        myEvent.legendItemRollOut = "function() { console.log('legendItemRollOut')}";
+
+        myEvent.chartClick = "function() { console.log('chartClick')}";
+        myEvent.chartRollOver = "function() { console.log('chartRollOver')}";
+        myEvent.chartRollOut = "function() { console.log('chartRollOut')}";
+
+        myChartConfig.type = "sparkline";
+        myChartConfig.width = 1000;
+        myChartConfig.height = 600;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "sparkline";
+
+        myChart.caption = "Stock Price";
+        myChart.subcaption = "Last month";
+        myChart.numberPrefix = "$";
+        myChart.canvasleftmargin = "145";
+        myChart.chartTopMargin = "10";
+        myChart.chartRightMargin = "10";
+        myChart.theme = "fusion";
+
+        myDataSource.dataset = new[]{
+            new
+            {
+                data = new[]{
+                    new
+                    {
+                        value = "38.42"
+                    }, new
+                    {
+                        value = "41.43"
+                    }, new
+                    {
+                        value = "34.78"
+                    }, new
+                    {
+                        value = "40.67"
+                    }, new
+                    {
+                        value = "44.12"
+                    }, new
+                    {
+                        value = "38.45"
+                    }, new
+                    {
+                        value = "40.71"
+                    }, new
+                    {
+                        value = "49.90"
+                    }, new
+                    {
+                        value = "40.12"
+                    }, new
+                    {
+                        value = "34.91"
+                    }, new
+                    {
+                        value = "42.02"
+                    }, new
+                    {
+                        value = "35.21"
+                    }, new
+                    {
+                        value = "43.31"
+                    }, new
+                    {
+                        value = "40.21"
+                    }, new
+                    {
+                        value = "40.54"
+                    }, new
+                    {
+                        value = "40.90"
+                    }, new
+                    {
+                        value = "54.21"
+                    }, new
+                    {
+                        value = "41.90"
+                    }, new
+                    {
+                        value = "33.43"
+                    }, new
+                    {
+                        value = "46.73"
+                    }, new
+                    {
+                        value = "50.42"
+                    }, new
+                    {
+                        value = "40.74"
+                    }, new
+                    {
+                        value = "42.31"
+                    }, new
+                    {
+                        value = "50.39"
+                    }, new
+                    {
+                        value = "51.10"
+                    }, new
+                    {
+                        value = "44.84"
+                    }, new
+                    {
+                        value = "51.64"
+                    }, new
+                    {
+                        value = "47.62"
+                    }, new
+                    {
+                        value = "39.61"
+                    }, new
+                    {
+                        value = "35.13"
+                    }
+                }
+            }
+    };
+
+
+
+
+        myDataSource.chart = myChart;
+
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await demo();
+        }
+        else
+        {
+
+        }
+    }
+
+}

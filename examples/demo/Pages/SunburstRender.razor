@@ -1,0 +1,315 @@
+@page "/sunburstrender"
+@inject FusionChartsService fusionChartsService;
+@using Microsoft.JSInterop;
+@inject IJSRuntime JSRuntime
+
+<head>
+    <center>
+        <h3>
+            <b>Sunburst Chart</b>
+        </h3>
+    </center>
+</head>
+
+<div> id="sunburstID"</div>
+
+@code
+{
+ private async Task renderSunburst()
+    {
+
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+        myChartConfig.type = "sunburst";
+        myChartConfig.width = 1000;
+        myChartConfig.height = 400;
+        //myChartConfig.width = 600;
+        //myChartConfig.height = 400;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "sunburstID";
+        myChartConfig.id = "Chart_Id";
+
+        myChart.theme = "fusion";
+        myChart.caption = "Flare Data Store Segregation";
+        myChart.subcaption = "Click on the segments to Drill-down";
+        myChart.showPlotBorder = 1;
+        myChart.animation = 1;
+        myChart.paletteColors = "#D7D8E7, #A88CCC, #77ECC8, #97FAA4, #CFF69D, #EED482, #FFAE91, #FE93B5, #D98ACF, #7BCDE8, #94A8E9";
+        myChart.animationDuration = 2;
+        myChart.centerAngle = "360";
+
+
+        myDataSource.data = new[]
+        {
+            new{id = "Flare", parent = "", label = "Flare", value = ""},
+            new{id = "Analytics", parent = "Flare", label = "Analytics", value = ""},
+            new{id = "Cluster", parent = "Analytics", label = "Cluster", value = "1"},
+            new{id = "AgglomerativeCluster", parent = "Cluster", label = "AgglomerativeCluster", value = "3938"},
+            new{id = "CommunityStructure", parent = "Cluster", label = "CommunityStructure", value = "3812"},
+            new{id = "HierarchicalCluster", parent = "Cluster", label = "HierarchicalCluster", value = "6714"},
+            new{id = "MergeEdge", parent = "Cluster", label = "MergeEdge", value = "743"},
+            new{id = "Graph", parent = "Analytics", label = "Graph", value = "1"},
+            new{id = "BetweennessCentrality", parent = "Graph", label = "BetweennessCentrality", value = "3534"},
+            new{id = "LinkDistance", parent = "Graph", label = "LinkDistance", value = "5731"},
+            new{id = "MaxFlowMinCut", parent = "Graph", label = "MaxFlowMinCut", value = "7840"},
+            new{id = "ShortestPaths", parent = "Graph", label = "ShortestPaths", value = "5914"},
+            new{id = "SpanningTree", parent = "Graph", label = "SpanningTree", value = "3416"},
+            new{id = "Optimization", parent = "Analytics", label = "Optimization", value = "1"},
+            new{id = "AspectRatioBanker", parent = "Optimization", label = "AspectRatioBanker", value = "7074"},
+            new{id = "Animate", parent = "Flare", label = "Animate", value = "1"},
+            new{id = "Easing", parent = "Animate", label = "Easing", value = "17010"},
+            new{id = "FunctionSequence", parent = "Animate", label = "FunctionSequence", value = "5842"},
+            new{id = "interpolate", parent = "Animate", label = "interpolate", value = "1"},
+            new{id = "ArrayInterpolator", parent = "interpolate", label = "ArrayInterpolator", value = "1983"},
+            new{id = "ColorInterpolator", parent = "interpolate", label = "ColorInterpolator", value = "2047"},
+            new{id = "DateInterpolator", parent = "interpolate", label = "DateInterpolator", value = "1375"},
+            new{id = "Interpolator", parent = "interpolate", label = "Interpolator", value = "8746"},
+            new{id = "MatrixInterpolator", parent = "interpolate", label = "MatrixInterpolator", value = "2202"},
+            new{id = "NumberInterpolator", parent = "interpolate", label = "NumberInterpolator", value = "1382"},
+            new{id = "ObjectInterpolator", parent = "interpolate", label = "ObjectInterpolator", value = "1629"},
+            new{id = "PointInterpolator", parent = "interpolate", label = "PointInterpolator", value = "1675"},
+            new{id = "RectangleInterpolator", parent = "interpolate", label = "RectangleInterpolator", value = "2042"},
+            new{id = "ISchedulable", parent = "Animate", label = "ISchedulable", value = "1041"},
+            new{id = "Parallel", parent = "Animate", label = "Parallel", value = "5176"},
+            new{id = "Pause", parent = "Animate", label = "Pause", value = "449"},
+            new{id = "Scheduler", parent = "Animate", label = "Scheduler", value = "5593"},
+            new{id = "Sequence", parent = "Animate", label = "Sequence", value = "5534"},
+            new{id = "Transition", parent = "Animate", label = "Transition", value = "9201"},
+            new{id = "Transitioner", parent = "Animate", label = "Transitioner", value = "19975"},
+            new{id = "TransitionEvent", parent = "Animate", label = "TransitionEvent", value = "1116"},
+            new{id = "Tween", parent = "Animate", label = "Tween", value = "6006"},
+            new{id = "Data", parent = "Flare", label = "Data", value = "1"},
+            new{id = "Converters", parent = "Data", label = "Converters", value = "1"},
+            new{id = "Converters", parent = "Converters", label = "Converters", value = "721"},
+            new{id = "DelimitedTextConverter", parent = "Converters", label = "DelimitedTextConverter", value = "4294"},
+            new{id = "GraphMLConverter", parent = "Converters", label = "GraphMLConverter", value = "9800"},
+            new{id = "IDataConverter", parent = "Converters", label = "IDataConverter", value = "1314"},
+            new{id = "JSONConverter", parent = "Converters", label = "JSONConverter", value = "2220"},
+            new{id = "DataField", parent = "Data", label = "DataField", value = "1759"},
+            new{id = "DataSchema", parent = "Data", label = "DataSchema", value = "2165"},
+            new{id = "DataSet", parent = "Data", label = "DataSet", value = "586"},
+            new{id = "DataSource", parent = "Data", label = "DataSource", value = "3331"},
+            new{id = "DataTable", parent = "Data", label = "DataTable", value = "772"},
+            new{id = "DataUtil", parent = "Data", label = "DataUtil", value = "3322"},
+            new{id = "Display", parent = "Flare", label = "Display", value = "1"},
+            new{id = "DirtySprite", parent = "Display", label = "DirtySprite", value = "8833"},
+            new{id = "LineSprite", parent = "Display", label = "LineSprite", value = "1732"},
+            new{id = "RectSprite", parent = "Display", label = "RectSprite", value = "3623"},
+            new{id = "TextSprite", parent = "Display", label = "TextSprite", value = "10066"},
+            new{id = "Flex", parent = "Flare", label = "Flex", value = "1"},
+            new{id = "FlareVis", parent = "Flex", label = "FlareVis", value = "4116"},
+            new{id = "Physics", parent = "Flare", label = "Physics", value = "1"},
+            new{id = "DragForce", parent = "Physics", label = "DragForce", value = "1082"},
+            new{id = "GravityForce", parent = "Physics", label = "GravityForce", value = "1336"},
+            new{id = "IForce", parent = "Physics", label = "IForce", value = "319"},
+            new{id = "NBodyForce", parent = "Physics", label = "NBodyForce", value = "10498"},
+            new{id = "Particle", parent = "Physics", label = "Particle", value = "2822"},
+            new{id = "Simulation", parent = "Physics", label = "Simulation", value = "9983"},
+            new{id = "Spring", parent = "Physics", label = "Spring", value = "2213"},
+            new{id = "SpringForce", parent = "Physics", label = "SpringForce", value = "1681"},
+            new{id = "Query", parent = "Flare", label = "Query", value = "1"},
+            new{id = "AggregateExpression", parent = "Query", label = "AggregateExpression", value = "1616"},
+            new{id = "And", parent = "Query", label = "And", value = "1027"},
+            new{id = "Arithmetic", parent = "Query", label = "Arithmetic", value = "3891"},
+            new{id = "Average", parent = "Query", label = "Average", value = "891"},
+            new{id = "BinaryExpression", parent = "Query", label = "BinaryExpression", value = "2893"},
+            new{id = "Comparison", parent = "Query", label = "Comparison", value = "5103"},
+            new{id = "CompositeExpression", parent = "Query", label = "CompositeExpression", value = "3677"},
+            new{id = "Count", parent = "Query", label = "Count", value = "781"},
+            new{id = "DateUtil", parent = "Query", label = "DateUtil", value = "4141"},
+            new{id = "Distinct", parent = "Query", label = "Distinct", value = "933"},
+            new{id = "Expression", parent = "Query", label = "Expression", value = "5130"},
+            new{id = "ExpressionIterator", parent = "Query", label = "ExpressionIterator", value = "3617"},
+            new{id = "Fn", parent = "Query", label = "Fn", value = "3240"},
+            new{id = "If", parent = "Query", label = "If", value = "2732"},
+            new{id = "IsA", parent = "Query", label = "IsA", value = "2039"},
+            new{id = "Literal", parent = "Query", label = "Literal", value = "1214"},
+            new{id = "Match", parent = "Query", label = "Match", value = "3748"},
+            new{id = "Maximum", parent = "Query", label = "Maximum", value = "843"},
+            new{id = "Minimum", parent = "Query", label = "Minimum", value = "843"},
+            new{id = "Not", parent = "Query", label = "Not", value = "1554"},
+            new{id = "Or", parent = "Query", label = "Or", value = "970"},
+            new{id = "Query1", parent = "Query", label = "Query", value = "13896"},
+            new{id = "Range", parent = "Query", label = "Range", value = "1594"},
+            new{id = "StringUtil", parent = "Query", label = "StringUtil", value = "4130"},
+            new{id = "Sum", parent = "Query", label = "Sum", value = "791"},
+            new{id = "Variable", parent = "Query", label = "Variable", value = "1124"},
+            new{id = "Variance", parent = "Query", label = "Variance", value = "1876"},
+            new{id = "Zor", parent = "Query", label = "Zor", value = "1101"},
+            new{id = "methods", parent = "Query", label = "methods", value = "1876"},
+            new{id = "add", parent = "methods", label = "add", value = "593"},
+            new{id = "and", parent = "methods", label = "and", value = "330"},
+            new{id = "average", parent = "methods", label = "average", value = "287"},
+            new{id = "count", parent = "methods", label = "count", value = "277"},
+            new{id = "distinct", parent = "methods", label = "distinct", value = "292"},
+            new{id = "div", parent = "methods", label = "div", value = "595"},
+            new{id = "eq", parent = "methods", label = "eq", value = "594"},
+            new{id = "fn", parent = "methods", label = "fn", value = "460"},
+            new{id = "gt", parent = "methods", label = "gt", value = "603"},
+            new{id = "gte", parent = "methods", label = "gte", value = "625"},
+            new{id = "iff", parent = "methods", label = "iff", value = "748"},
+            new{id = "isa", parent = "methods", label = "isa", value = "461"},
+            new{id = "lt", parent = "methods", label = "lt", value = "597"},
+            new{id = "lte", parent = "methods", label = "lte", value = "619"},
+            new{id = "max", parent = "methods", label = "max", value = "283"},
+            new{id = "min", parent = "methods", label = "min", value = "283"},
+            new{id = "mod", parent = "methods", label = "mod", value = "591"},
+            new{id = "mul", parent = "methods", label = "mul", value = "603"},
+            new{id = "neq", parent = "methods", label = "neq", value = "599"},
+            new{id = "not", parent = "methods", label = "not", value = "386"},
+            new{id = "or", parent = "methods", label = "or", value = "323"},
+            new{id = "orderby", parent = "methods", label = "orderby", value = "307"},
+            new{id = "range", parent = "methods", label = "range", value = "772"},
+            new{id = "select", parent = "methods", label = "select", value = "296"},
+            new{id = "stddev", parent = "methods", label = "stddev", value = "363"},
+            new{id = "sub", parent = "methods", label = "sub", value = "600"},
+            new{id = "sum", parent = "methods", label = "sum", value = "280"},
+            new{id = "update", parent = "methods", label = "update", value = "307"},
+            new{id = "variance", parent = "methods", label = "variance", value = "335"},
+            new{id = "where", parent = "methods", label = "where", value = "299"},
+            new{id = "xor", parent = "methods", label = "xor", value = "354"},
+            new{id = "_", parent = "methods", label = "_", value = "264"},
+            new{id = "Scale", parent = "Flare", label = "Scale", value = "1"},
+            new{id = "IScaleMap", parent = "Scale", label = "IScaleMap", value = "2105"},
+            new{id = "LinearScale", parent = "Scale", label = "LinearScale", value = "1316"},
+            new{id = "LogScale", parent = "Scale", label = "LogScale", value = "3151"},
+            new{id = "OrdinalScale", parent = "Scale", label = "OrdinalScale", value = "3770"},
+            new{id = "QuantileScale", parent = "Scale", label = "QuantileScale", value = "2435"},
+            new{id = "QuantitativeScale", parent = "Scale", label = "QuantitativeScale", value = "4839"},
+            new{id = "RootScale", parent = "Scale", label = "RootScale", value = "1756"},
+            new{id = "Scale1", parent = "Scale", label = "Scale", value = "4268"},
+            new{id = "ScaleType", parent = "Scale", label = "ScaleType", value = "1821"},
+            new{id = "TimeScale", parent = "Scale", label = "TimeScale", value = "5833"},
+            new{id = "Util", parent = "Flare", label = "Util", value = "1"},
+            new{id = "Arrays", parent = "Util", label = "Arrays", value = "8258"},
+            new{id = "Colors", parent = "Util", label = "Colors", value = "10001"},
+            new{id = "Dates", parent = "Util", label = "Dates", value = "8217"},
+            new{id = "Displays", parent = "Util", label = "Displays", value = "12555"},
+            new{id = "Filter", parent = "Util", label = "Filter", value = "2324"},
+            new{id = "Geometry", parent = "Util", label = "Geometry", value = "10993"},
+            new{id = "Heap", parent = "Util", label = "Heap", value = "1"},
+            new{id = "FibonacciHeap", parent = "Heap", label = "FibonacciHeap", value = "9354"},
+            new{id = "HeapNode", parent = "Heap", label = "HeapNode", value = "1233"},
+            new{id = "IEvaluable", parent = "Util", label = "IEvaluable", value = "335"},
+            new{id = "IPredicate", parent = "Util", label = "IPredicate", value = "383"},
+            new{id = "IValueProxy", parent = "Util", label = "IValueProxy", value = "874"},
+            new{id = "math", parent = "Util", label = "math", value = "1"},
+            new{id = "Maths", parent = "Util", label = "Maths", value = "17705"},
+            new{id = "Orientation", parent = "Util", label = "Orientation", value = "1486"},
+            new{id = "palette", parent = "Util", label = "palette", value = "1"},
+            new{id = "Property", parent = "Util", label = "Property", value = "5559"},
+            new{id = "Shapes", parent = "Util", label = "Shapes", value = "19118"},
+            new{id = "Sort", parent = "Util", label = "Sort", value = "6887"},
+            new{id = "Stats", parent = "Util", label = "Stats", value = "6557"},
+            new{id = "Strings", parent = "Util", label = "Strings", value = "22026"},
+            new{id = "DenseMatrix", parent = "math", label = "DenseMatrix", value = "3165"},
+            new{id = "IMatrix", parent = "math", label = "IMatrix", value = "2815"},
+            new{id = "SparseMatrix", parent = "math", label = "SparseMatrix", value = "3366"},
+            new{id = "ColorPalette", parent = "Palette", label = "ColorPalette", value = "6367"},
+            new{id = "Palette1", parent = "Palette", label = "Palette", value = "1229"},
+            new{id = "ShapePalette", parent = "Palette", label = "ShapePalette", value = "2059"},
+            new{id = "SizePalette", parent = "Palette", label = "SizePalette", value = "2291"},
+            new{id = "Vis", parent = "Flare", label = "Vis", value = "1"},
+            new{id = "Controls", parent = "Vis", label = "Controls", value = "44639"},
+            new{id = "AnchorControl", parent = "Controls", label = "AnchorControl", value = "2138"},
+            new{id = "ClickControl", parent = "Controls", label = "ClickControl", value = "3824"},
+            new{id = "Control1", parent = "Controls", label = "Control", value = "1353"},
+            new{id = "ControlList", parent = "Controls", label = "ControlList", value = "4665"},
+            new{id = "DragControl", parent = "Controls", label = "DragControl", value = "2649"},
+            new{id = "ExpandControl", parent = "Controls", label = "ExpandControl", value = "2832"},
+            new{id = "HoverControl", parent = "Controls", label = "HoverControl", value = "4896"},
+            new{id = "IControl", parent = "Controls", label = "IControl", value = "763"},
+            new{id = "PanZoomControl", parent = "Controls", label = "PanZoomControl", value = "5222"},
+            new{id = "SelectionControl", parent = "Controls", label = "SelectionControl", value = "7862"},
+            new{id = "TooltipControl", parent = "Controls", label = "TooltipControl", value = "8435"},
+            new{id = "data1", parent = "Vis", label = "data", value = "1"},
+            new{id = "Data2", parent = "data", label = "Data", value = "20544"},
+            new{id = "DataList", parent = "data1", label = "DataList", value = "19788"},
+            new{id = "DataSprite", parent = "data1", label = "DataSprite", value = "10349"},
+            new{id = "EdgeSprite", parent = "data1", label = "EdgeSprite", value = "3301"},
+            new{id = "NodeSprite", parent = "data1", label = "NodeSprite", value = "19382"},
+            new{id = "ScaleBinding", parent = "data1", label = "ScaleBinding", value = "11275"},
+            new{id = "Tree", parent = "data1", label = "Tree", value = "7147"},
+            new{id = "TreeBuilder", parent = "data1", label = "TreeBuilder", value = "9930"},
+            new{id = "Render", parent = "data1", label = "Render", value = "1"},
+            new{id = "ArrowType", parent = "Render", label = "ArrowType", value = "698"},
+            new{id = "EdgeRenderer", parent = "Render", label = "EdgeRenderer", value = "5569"},
+            new{id = "IRenderer", parent = "Render", label = "IRenderer", value = "353"},
+            new{id = "ShapeRenderer", parent = "Render", label = "ShapeRenderer", value = "2247"},
+            new{id = "events", parent = "Vis", label = "events", value = "1"},
+            new{id = "DataEvent", parent = "events", label = "DataEvent", value = "2313"},
+            new{id = "SelectionEvent", parent = "events", label = "SelectionEvent", value = "1880"},
+            new{id = "TooltipEvent", parent = "events", label = "TooltipEvent", value = "1701"},
+            new{id = "VisualizationEvent", parent = "events", label = "VisualizationEvent", value = "1117"},
+            new{id = "legend", parent = "Vis", label = "legend", value = "1"},
+            new{id = "Legend1", parent = "legend", label = "Legend", value = "20859"},
+            new{id = "LegendItem", parent = "legend", label = "LegendItem", value = "4614"},
+            new{id = "LegendRange", parent = "legend", label = "LegendRange", value = "10530"},
+            new{id = "Operator", parent = "Vis", label = "Operator", value = "1"},
+            new{id = "Distortion", parent = "Operator", label = "Distortion", value = "1"},
+            new{id = "BifocalDistortion", parent = "Distortion", label = "BifocalDistortion", value = "4461"},
+            new{id = "Distortion1", parent = "Distortion", label = "Distortion", value = "6314"},
+            new{id = "FisheyeDistortion", parent = "Distortion", label = "FisheyeDistortion", value = "3444"},
+            new{id = "Encoder", parent = "Operator", label = "Encoder", value = "1"},
+            new{id = "Encoder1", parent = "Encoder", label = "Encoder", value = "4060"},
+            new{id = "PropertyEncoder", parent = "Encoder", label = "PropertyEncoder", value = "4138"},
+            new{id = "ShapeEncoder", parent = "Encoder", label = "ShapeEncoder", value = "1690"},
+            new{id = "SizeEncoder", parent = "Encoder", label = "SizeEncoder", value = "1830"},
+            new{id = "Filter", parent = "Operator", label = "Filter", value = "1"},
+            new{id = "FisheyeTreeFilter", parent = "Filter", label = "FisheyeTreeFilter", value = "5219"},
+            new{id = "GraphDistanceFilter", parent = "Filter", label = "GraphDistanceFilter", value = "3165"},
+            new{id = "VisibilityFilter", parent = "Filter", label = "VisibilityFilter", value = "3509"},
+            new{id = "IOperator", parent = "Operator", label = "IOperator", value = "1286"},
+            new{id = "Label1", parent = "Operator", label = "label", value = "1"},
+            new{id = "Labeler", parent = "Label1", label = "Labeler", value = "9956"},
+            new{id = "RadialLabeler", parent = "Label1", label = "RadialLabeler", value = "3899"},
+            new{id = "StackedAreaLabeler", parent = "Label1", label = "StackedAreaLabeler", value = "3202"},
+            new{id = "Layout1", parent = "Operator", label = "Layout", value = "1"},
+            new{id = "AxisLayout", parent = "Layout1", label = "AxisLayout", value = "6725"},
+            new{id = "BundledEdgeRouter", parent = "Layout1", label = "BundledEdgeRouter", value = "3727"},
+            new{id = "CircleLayout", parent = "Layout1", label = "CircleLayout", value = "9317"},
+            new{id = "CirclePackingLayout", parent = "Layout1", label = "CirclePackingLayout", value = "12003"},
+            new{id = "DendrogramLayout", parent = "Layout1", label = "DendrogramLayout", value = "4853"},
+            new{id = "ForceDirectedLayout", parent = "Layout1", label = "ForceDirectedLayout", value = "8411"},
+            new{id = "IcicleTreeLayout", parent = "Layout1", label = "IcicleTreeLayout", value = "4864"},
+            new{id = "IndentedTreeLayout", parent = "Layout1", label = "IndentedTreeLayout", value = "3174"},
+            new{id = "Layout", parent = "Layout1", label = "Layout", value = "7881"},
+            new{id = "NodeLinkTreeLayout", parent = "Layout1", label = "NodeLinkTreeLayout", value = "12870"},
+            new{id = "PieLayout", parent = "Layout1", label = "PieLayout", value = "2728"},
+            new{id = "RadialTreeLayout", parent = "Layout1", label = "RadialTreeLayout", value = "12348"},
+            new{id = "RandomLayout", parent = "Layout1", label = "RandomLayout", value = "870"},
+            new{id = "StackedAreaLayout", parent = "Layout1", label = "StackedAreaLayout", value = "9121"},
+            new{id = "TreeMapLayout", parent = "Layout1", label = "TreeMapLayout", value = "9191"},
+            new{id = "Operator1", parent = "Operator", label = "Operator", value = "2490"},
+            new{id = "OperatorList", parent = "Operator", label = "OperatorList", value = "5248"},
+            new{id = "OperatorSequence", parent = "Operator", label = "OperatorSequence", value = "4190"},
+            new{id = "OperatorSwitch", parent = "Operator", label = "OperatorSwitch", value = "2581"},
+            new{id = "SortOperator", parent = "Operator", label = "SortOperator", value = "2023"},
+            new{id = "Visualization", parent = "Vis", label = "Visualization", value = "16540"},
+    };
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+
+        await fusionChartsService.renderChart(chartConfig);
+        //await fusionChartsService.renderChart(chartConfig);
+        //await fusionChartsService.CallFusionChartsFunction("chartType", "sunId");
+        //getJSONData
+        //await fusionChartsService.CallFusionChartsFunction("getJSONData", "sunId", 1);
+        //getChartAttribute
+        //await fusionChartsService.CallFusionChartsFunction("getChartAttribute", "sunId");
+        //showChartMessage
+        //await fusionChartsService.CallFusionChartsFunction("showChartMessage", "sunId", "Hi This is Sunburst", "true", "true");
+        //setChartAtribute
+        //await fusionChartsService.CallFusionChartsFunction("setChartAttribute", "sunId", "caption", "NEW");
+        //getXMLData
+        //await fusionChartsService.CallFusionChartsFunction("getXMLData", "sunId");
+    }
+}

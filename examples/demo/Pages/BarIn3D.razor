@@ -1,0 +1,77 @@
+﻿@page "/BarIn3D"
+
+<h1>Bar in 3D</h1>
+
+<div id="Bar in 3D"></div>
+
+
+@inject FusionChartsService fusionChartsService;
+
+@code {
+
+    public async Task BarIn3DChart()
+    {
+        //chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        myEvent.rendered = "function() { console.log('rendered successful')}";
+
+
+        myChartConfig.type = "bar3d";
+        myChartConfig.width = 600;
+        myChartConfig.height = 300;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "Bar in 3D";
+
+
+        myChart.caption = "Lead sources by industry";
+        myChart.yAxisName = "Number of Leads";
+        myChart.aligncaptionwithcanvas = "0";
+        myChart.plottooltext = "<b>$dataValue</b> leads received";
+        myChart.theme = "candy";
+
+
+        myDataSource.data = new[] {
+                new { label = "Travel & Leisure", value = "41" },
+                new { label = "X1", value = "340000" },
+                new { label = "X2", value = "740000" },
+                new { label = "X3", value = "800000" },
+                new { label = "X4", value = "400000" },
+                new { label = "X5", value = "620000" },
+                new { label = "X6", value = "870000" },
+                new { label = "X7", value = "60000" },
+                new { label = "X8", value = "720000" },
+                new { label = "X9", value = "10000" },
+                new { label = "X10", value = "40000" }
+    };
+
+
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await BarIn3DChart();
+        }
+        else
+        {
+
+        }
+    }
+
+
+
+}

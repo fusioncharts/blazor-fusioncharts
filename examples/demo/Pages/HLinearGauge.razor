@@ -1,0 +1,127 @@
+﻿@page "/HLinearGauge"
+
+@using System.Net.Http;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@inject FusionChartsService fusionChartsService;
+
+<PageTitle>Real-time Cylinder chart</PageTitle>
+
+<div>
+    <div id="HLinearGauge"></div>
+</div>
+
+@code {
+
+    public async Task demo()
+    {
+        // chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+        //events
+        myEvent.loaded = "function() { console.log('loaded')}";
+        myEvent.renderComplete = "function() { console.log('renderComplete')}";
+        myEvent.initialized = "function() { console.log('initialized')}";
+        myEvent.beforeRender = "function() { console.log('beforeRender')}";
+        myEvent.rendered = "function() { console.log('rendered')}";
+
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+        myEvent.dataplotRollOver = "function() { console.log('dataplotRollOver')}";
+        myEvent.dataplotRollOut = "function() { console.log('dataplotRollOut')}";
+        myEvent.dataLabelClick = "function() { console.log('dataLabelClick')}";
+        myEvent.dataLabelRollOver = "function() { console.log('dataLabelRollOver')}";
+        myEvent.dataLabelRollOut = "function() { console.log('dataLabelRollOut')}";
+
+        myEvent.legendItemClicked = "function() { console.log('legendItemClicked')}";
+        myEvent.legendItemRollOver = "function() { console.log('legendItemRollOver')}";
+        myEvent.legendItemRollOut = "function() { console.log('legendItemRollOut')}";
+
+        myEvent.chartClick = "function() { console.log('chartClick')}";
+        myEvent.chartRollOver = "function() { console.log('chartRollOver')}";
+        myEvent.chartRollOut = "function() { console.log('chartRollOut')}";
+
+        myChartConfig.type = "HLinearGauge";
+        myChartConfig.width = 1000;
+        myChartConfig.height = 600;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "HLinearGauge";
+
+        myChart.caption = "Fuel Meter";
+        myChart.subcaption = "Diesel level in generator Bakersfield Central";
+        myChart.subcaptionFontBold = "0";
+        myChart.lowerLimit = "0";
+        myChart.upperLimit = "120";
+        myChart.lowerLimitDisplay = "Empty";
+        myChart.upperLimitDisplay = "Full";
+        myChart.numberSuffix = " ltrs";
+        myChart.showhovereffect = "1";
+        myChart.theme = "fusion";
+
+        myDataSource.colorrange = new[]{
+            new
+            {
+                color = new[]
+                {
+                    new
+                    {
+                        minvalue = "0",
+                        maxvalue = "35",
+                        label = "Low!",
+                        code = "#1aaf5d"
+                    }, new
+                    {
+                        minvalue = "35",
+                        maxvalue = "70",
+                        label = "Moderate",
+                        code = "#f2c500"
+                    }, new
+                    {
+                        minvalue = "70",
+                        maxvalue = "100",
+                        label = "High",
+                        code = "#c02d00"
+                    }
+                }
+            }
+
+    };
+
+        myDataSource.pointers = new[]{
+            new
+            {
+                pointer = new[]
+                {
+                    new
+                    {
+                        value = "72.5"
+                    }
+                }
+            }
+
+    };
+
+        myDataSource.chart = myChart;
+
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await demo();
+        }
+        else
+        {
+
+        }
+    }
+
+}

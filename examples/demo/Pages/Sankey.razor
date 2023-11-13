@@ -1,0 +1,101 @@
+@page "/simplesankey"
+@using Microsoft.JSInterop;
+@using System.Text.Json;
+@inject IJSRuntime JSInterop;
+@inject FusionChartsService fusionChartsService;
+@using System.Net.Http;
+@inject HttpClient httpClient;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@using System.Text.Json.Serialization;
+<center>
+    <h3>
+        <b>Sankey Diagram</b>
+    </h3>
+</center>
+<div id="sankeyID"></div>
+
+@code {
+
+        public static Sankey? _instance;
+        public Sankey()
+        {   
+            _instance = this;
+        }
+    
+        public async Task NonStaticMethod()
+        {
+            string Url = navigationManager.ToAbsoluteUri("data-Sankey.json").ToString();
+            //Chart Rendering Through setJSONUrl
+            await fusionChartsService.CallFusionChartsFunction("setJSONUrl", "Chart_Id", Url);
+            //await fusionChartsService.CallFusionChartsFunction("hasRendered","Chart_Id","status");
+            //await fusionChartsService.CallFusionChartsFunction("configure", "Chart_Id","wait");
+            await fusionChartsService.CallFusionChartsFunction("chartType", "Chart_Id");
+            //await fusionChartsService.CallFusionChartsFunction("dispose", "Chart_Id");
+            //getJSONData
+            await fusionChartsService.CallFusionChartsFunction("getJSONData", "Chart_Id");
+            //getChartAttribute
+            await fusionChartsService.CallFusionChartsFunction("getChartAttribute", "Chart_Id");
+            //showChartMessage
+            // await fusionChartsService.CallFusionChartsFunction("showChartMessage", "Chart_Id", "Hi This is Sankey Diagram", "true", "true");
+            //setChartAttribute
+            await fusionChartsService.CallFusionChartsFunction("setChartAttribute", "Chart_Id", "caption", "NEW");
+            //getXMLData
+            // await fusionChartsService.CallFusionChartsFunction("getXMLData", "Chart_Id");
+            await fusionChartsService.CallFusionChartsFunction("getChartData", "Chart_Id");
+
+        }
+        // this is static method which we have added in the event using dotnet
+        [JSInvokable("ChangeSankeyData")]
+        public static async Task ChangeSankeyData()
+        {
+            // Call the non-static method from the instance
+						if(_instance != null) {
+            	await _instance.NonStaticMethod();
+						}
+        }
+    
+        public async Task renderSankeyDiagram()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        
+        //--------------------------EVENTS----------------------------------------------
+        
+        myEvent.renderComplete = "function(){console.log('Sankey Chart Render Completed ')}";
+        myEvent.loaded = "function() { DotNet.invokeMethodAsync('demo','ChangeSankeyData')}";
+        myEvent.beforeRender = "function(){console.log(' beforeRender')}";
+        myEvent.dataReady = "function(){console.log('Chart is Ready')}";
+        myEvent.dataLoadRequestCompleted = "function(){console.log('JSON data successfully loaded')}";
+        myEvent.animationInvoked = "function(){console.log('animationInvoked')}";
+        
+        //------------------------------------------------------------------------------
+
+        myChartConfig.type = "sankey";
+        myChartConfig.width = 1000;
+        myChartConfig.height = 400;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.id = "Chart_Id";
+        myChartConfig.renderAt = "sankeyID";
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+        
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+        
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await renderSankeyDiagram();
+        }
+        else
+        {
+        }
+    }
+}

@@ -1,0 +1,468 @@
+﻿@page "/StackedBarswithScrolling"
+@inject FusionChartsService fusionChartsService;
+<h3>Stacked Bars with Scrolling</h3>
+<div id="chart-container1"></div>
+
+@code {
+    public async Task stackedBarsChrtScroll()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+
+        myChartConfig.type = "scrollstackedbar2d";
+        myChartConfig.width = "100%";
+        myChartConfig.height = "100%";
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "chart-container1";
+
+
+
+        myChart.caption = "Video Games Sales - 2018";
+        myChart.subCaption = "Across different markets (In Million USD)";
+        myChart.numbersuffix = "M";
+        myChart.numvisibleplot = "5";
+        myChart.plottooltext = "<b>$seriesName</b><hr>$label: <b>$dataValue</b>";
+        myChart.theme = "candy";
+
+
+        myDataSource.categories = new[]
+        {
+            new
+            {
+                category = new[]
+                {
+                    new{
+          label= "Wii Sports"
+        },
+         new{
+          label= "Super Mario Bros"
+        },
+         new{
+          label= "Mario Kart Wii"
+        },
+         new{
+          label= "Wii Sports Resort"
+        },
+         new{
+          label= "Pokemon Red/Blue"
+        },
+         new{
+          label= "Tetris"
+        },
+         new{
+          label= "New Super Mario Bros"
+        },
+         new{
+          label= "Wii Play"
+        },
+         new{
+          label= "New Super Mario Bros. Wii"
+        },
+         new{
+          label= "Duck Hunt"
+        },
+         new{
+          label= "Nintendogs"
+        },
+         new{
+          label= "Mario Kart DS"
+        },
+         new{
+          label= "Pokemon Gold/Silver"
+        },
+         new{
+          label= "Wii Fit"
+        },
+         new{
+          label= "Wii Fit Plus"
+        },
+         new{
+          label= "Kinect Adventures"
+        },
+         new{
+          label= "Grand Theft Auto V"
+        },
+         new{
+          label= "GTA: San Andreas"
+        },
+         new{
+          label= "Super Mario World"
+        },
+         new{
+          label= "Brain Age"
+        },
+         new{
+          label= "Pokemon Diamond/Pearl"
+        },
+         new{
+          label= "Super Mario Land"
+        },
+         new{
+          label= "Super Mario Bros. 3"
+        },
+         new{
+          label= "Grand Theft Auto V"
+        },
+         new{
+          label= "GTA: Vice City"
+        }
+                }
+            }
+    };
+
+        myDataSource.dataset = new[]
+        {
+            new
+            {
+                seriesname=  "North America",
+                data = new[]
+                {
+                     new{
+          value= "41.49"
+        },
+        new{
+          value= "29.08"
+        },
+        new{
+          value= "15.85"
+        },
+        new{
+          value= "15.75"
+        },
+        new{
+          value= "11.27"
+        },
+        new{
+          value= "23.2"
+        },
+        new{
+          value= "11.38"
+        },
+        new{
+          value= "14.03"
+        },
+        new{
+          value= "14.59"
+        },
+        new{
+          value= "26.93"
+        },
+        new{
+          value= "9.07"
+        },
+        new{
+          value= "9.81"
+        },
+        new{
+          value= "9"
+        },
+        new{
+          value= "8.94"
+        },
+        new{
+          value= "9.09"
+        },
+        new{
+          value= "14.97"
+        },
+        new{
+          value= "7.01"
+        },
+        new{
+          value= "9.43"
+        },
+        new{
+          value= "12.78"
+        },
+        new{
+          value= "4.75"
+        },
+        new{
+          value= "6.42"
+        },
+        new{
+          value= "10.83"
+        },
+        new{
+          value= "9.54"
+        },
+        new{
+          value= "9.63"
+        },
+        new{
+          value= "8.41"
+        }
+                }
+            },
+            new
+            {
+                seriesname= "Europe ",
+                data = new[]
+                {
+                   new {
+          value= "29.02"
+        },
+        new{
+          value= "3.58"
+        },
+        new{
+          value= "12.88"
+        },
+        new{
+          value= "11.01"
+        },
+        new{
+          value= "8.89"
+        },
+        new{
+          value= "2.26"
+        },
+        new{
+          value= "9.23"
+        },
+        new{
+          value= "9.2"
+        },
+        new{
+          value= "7.06"
+        },
+        new{
+          value= "0.63"
+        },
+        new{
+          value= "11"
+        },
+        new{
+          value= "7.57"
+        },
+        new{
+          value= "6.18"
+        },
+        new{
+          value= "8.03"
+        },
+        new{
+          value= "8.59"
+        },
+        new{
+          value= "4.94"
+        },
+        new{
+          value= "9.27"
+        },
+        new{
+          value= "0.4"
+        },
+        new{
+          value= "3.75"
+        },
+        new{
+          value= "9.26"
+        },
+        new{
+          value= "4.52"
+        },
+        new{
+          value= "2.71"
+        },
+        new{
+          value= "3.44"
+        },
+        new{
+          value= "5.31"
+        },
+        new{
+          value= "5.49"
+        }
+                }
+            },
+
+            new
+            {
+                seriesname= "Japan",
+                data = new[]
+                {
+                   new {
+          value= "3.77"
+        },
+        new{
+          value= "6.81"
+        },
+        new{
+          value= "3.79"
+        },
+        new{
+          value= "3.28"
+        },
+        new{
+          value= "10.22"
+        },
+        new{
+          value= "4.22"
+        },
+        new{
+          value= "6.5"
+        },
+        new{
+          value= "2.93"
+        },
+        new{
+          value= "4.7"
+        },
+        new{
+          value= "0.28"
+        },
+        new{
+          value= "1.93"
+        },
+        new{
+          value= "4.13"
+        },
+        new{
+          value= "7.2"
+        },
+        new{
+          value= "3.6"
+        },
+        new{
+          value= "2.53"
+        },
+        new{
+          value= "0.24"
+        },
+        new{
+          value= "0.97"
+        },
+        new{
+          value= "0.41"
+        },
+        new{
+          value= "3.54"
+        },
+        new{
+          value= "4.16"
+        },
+        new{
+          value= "6.04"
+        },
+        new{
+          value= "4.18"
+        },
+        new{
+          value= "3.84"
+        },
+        new{
+          value= "0.06"
+        },
+        new{
+          value= "0.47"
+        }
+                }
+            },
+            new
+            {
+                seriesname= " Rest of the world",
+                data = new[]
+                {
+                   new {
+          value= "8.46"
+        },
+        new{
+          value= "0.77"
+        },
+        new{
+          value= "3.31"
+        },
+        new{
+          value= "2.96"
+        },
+        new{
+          value= "1"
+        },
+        new{
+          value= "0.58"
+        },
+        new{
+          value= "2.9"
+        },
+        new{
+          value= "2.85"
+        },
+        new{
+          value= "2.26"
+        },
+        new{
+          value= "0.47"
+        },
+        new{
+          value= "2.75"
+        },
+        new{
+          value= "1.92"
+        },
+        new{
+          value= "0.71"
+        },
+        new{
+          value= "2.15"
+        },
+        new{
+          value= "1.79"
+        },
+        new{
+          value= "1.67"
+        },
+        new{
+          value= "4.14"
+        },
+        new{
+          value= "10.57"
+        },
+        new{
+          value= "0.55"
+        },
+        new{
+          value= "2.05"
+        },
+        new{
+          value= "1.37"
+        },
+        new{
+          value= "0.42"
+        },
+        new{
+          value= "0.46"
+        },
+        new{
+          value= "1.38"
+        },
+        new{
+          value= "1.78"
+        }
+                }
+            }
+
+       };
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await stackedBarsChrtScroll();
+        }
+        else
+        {
+
+        }
+    }
+}

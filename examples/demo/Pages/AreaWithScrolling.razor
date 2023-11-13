@@ -1,0 +1,231 @@
+@page "/scrollarea2d"
+
+
+@inject FusionChartsService fusionChartsService
+@using System.Net.Http;
+@using Microsoft.JSInterop;
+@inject IJSRuntime JSRuntime
+@inject HttpClient httpClient;
+@inject NavigationManager navigationManager;
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+
+<PageTitle>Area with scrolling</PageTitle>
+
+<h1>Area with scrolling</h1>
+
+
+<div id="chart-container3"></div>
+@code {
+    public async Task demo()
+    {
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+
+        myEvent.scrollStart = "function(){console.log('Scroll Startevent is triggered')}";
+        myEvent.scrollEnd = "function(){console.log('Scroll End is triggered')}";
+
+        myChartConfig.width = "100%";
+        myChartConfig.height = "60%";
+        myChartConfig.type = "scrollarea2d";
+        myChartConfig.width = "100%";
+        myChartConfig.height = "60%";
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "chart-container3";
+
+        myChart.caption = "Deaths reported because of mosquito bites in India";
+        myChart.subcaption = "(As per government records)";
+        myChart.showvalues = "0";
+        myChart.flatscrollbars = "0";
+        myChart.scrollheight = "12";
+        myChart.scrollshowbuttons = "1";
+        myChart.numvisibleplot = "12";
+        myChart.theme = "candy";
+
+        myDataSource.categories = new[]
+        {
+        new{
+        category=new[]
+        {
+        new{
+        label= "1994"
+        },
+        new{
+        label= "1995"
+        },
+        new{
+        label= "1996"
+        },
+        new{
+        label= "1997"
+        },
+        new{
+        label= "1998"
+        },
+        new{
+        label= "1999"
+        },
+        new{
+        label= "2000"
+        },
+        new{
+        label= "2001"
+        },
+        new{
+        label= "2002"
+        },
+        new{
+        label= "2003"
+        },
+        new{
+        label= "2004"
+        },
+        new{
+        label= "2005"
+        },
+        new{
+        label= "2006"
+        },
+        new{
+        label= "2007"
+        },
+        new{
+        label= "2008"
+        },
+        new{
+        label= "2009"
+        },
+        new{
+        label= "2010"
+        },
+        new{
+        label= "2011"
+           },
+           new{
+           label= "2012"
+        },
+        new{
+        label= "2013"
+        },
+        new{
+        label= "2014"
+        },
+        new{
+        label= "2015"
+        },
+        new{
+        label= "2016"
+        },
+        new{
+        label= "2017"
+        }
+        }
+        }
+    };
+
+        myDataSource.dataset = new[]
+        {
+        new{
+        data=new[]
+        {
+        new{
+        value= "15622"
+        },
+        new{
+        value= "10612"
+        },
+        new{
+        value= "15820"
+        },
+        new{
+        value= "26723"
+        },
+        new{
+        value= "35415"
+        },
+        new{
+        value= "25555"
+        },
+        new{
+        value= "81803"
+        },
+        new{
+        value= "47950"
+        },
+        new{
+        value= "42396"
+        },
+        new{
+        value= "19435"
+        },
+        new{
+        value= "9780"
+    },
+        new{
+        value= "23243"
+        },
+        new{
+        value= "28619"
+        },
+        new{
+        value= "8477"
+        },
+        new{
+        value= "3503"
+        },
+        new{
+        value= "14278"
+        },
+        new{
+        value= "30522"
+        },
+        new{
+        value= "61518"
+        },
+        new{
+        value= "24819"
+        },
+        new{
+        value= "16437"
+        },
+        new{
+        value= "21171"
+        },
+        new{
+        value= "1690"
+        },
+        new{
+        value= "2418"
+        },
+        new{
+        value= "11253"
+        }
+        }
+        }
+    };
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        String chartConfig3 = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig3);
+
+    }
+
+
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await demo();
+        }
+        else
+        {
+
+        }
+    }
+}
+<SurveyPrompt Title="How is Blazor working for you?" />

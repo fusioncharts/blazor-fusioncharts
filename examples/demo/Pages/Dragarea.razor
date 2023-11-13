@@ -1,0 +1,170 @@
+﻿@page "/dragarea"
+
+<h1>Drag-able Area 2D Chart</h1>
+
+<div id="dragarea"></div>
+
+
+@inject FusionChartsService fusionChartsService;
+
+@code {
+    public async Task demo()
+    {
+        //chart code
+        dynamic myChartConfig = new System.Dynamic.ExpandoObject();
+        dynamic myDataSource = new System.Dynamic.ExpandoObject();
+        dynamic myChart = new System.Dynamic.ExpandoObject();
+        dynamic myEvent = new System.Dynamic.ExpandoObject();
+        dynamic categories = new System.Dynamic.ExpandoObject();
+        myEvent.rendered = "function() { console.log('rendered successful')}";
+
+        myChartConfig.type = "dragarea";
+        myChartConfig.width = 600;
+        myChartConfig.height = 300;
+        myChartConfig.dataFormat = "json";
+        myChartConfig.renderAt = "dragarea";
+
+        myChart.caption = "Quarterly Sales Projections";
+        myChart.subCaption = "iPhone vs Samsung Galaxy";
+        myChart.xAxisName = "Quarter";
+        myChart.yAxisName = "No. of Units";
+        myChart.theme = "fusion";
+
+        myDataSource.categories = new[]{
+            new
+                {
+                category=new []
+                    {
+                    new {
+                        label = "Q1"
+                    }, new
+                    {
+                        label = "Q2"
+                    }, new
+                    {
+                        label = "Q3(E)"
+                    }, new
+                    {
+                        label = "Q4(E)"
+                    }
+                }
+            }
+    };
+
+        myDataSource.dataset = new[]{
+            new{
+                seriesname = "Apple",
+                allowDrag = "0",
+                valuePosition = "ABOVE",
+
+                data = new[]
+                {
+                    new
+                    {
+                        value = "1200",
+                        dashed = "0",
+                        allowDrag = "0",
+                        tooltext = ""
+
+                    }, new
+                    {
+                        value = "1500",
+                        dashed = "1",
+                        allowDrag = "0",
+                        tooltext = ""
+
+                    },new
+                    {
+                        value = "1300",
+                        dashed = "0",
+                        allowDrag = "1",
+                        tooltext = ""
+                    },new
+                    {
+                        value = "900",
+                        dashed = "0",
+                        allowDrag = "1",
+                        tooltext = "Predicted sales $value units"
+                    }
+                 }
+            }, new{
+                seriesname = "Samsung",
+                allowDrag = "0",
+                valuePosition = "ABOVE",
+                data = new[]
+                {
+                    new
+                    {
+                        value = "600",
+                        dashed = "0",
+                        allowDrag = "0",
+                        tooltext = ""
+                    }, new
+                    {
+                        value = "850",
+                        dashed = "0",
+                        allowDrag = "0",
+                        tooltext = ""
+                    },new
+                    {
+                        value = "1000",
+                        dashed = "0",
+                        allowDrag = "1",
+                        tooltext = ""
+                    },new
+                    {
+                        value = "1200",
+                        dashed = "0",
+                        allowDrag = "1",
+                        tooltext = "Predicted sales $value units"
+
+                    }
+                 }
+            }
+    };
+
+
+        myDataSource.chart = myChart;
+        myChartConfig.events = myEvent;
+        myChartConfig.dataSource = myDataSource;
+
+        myEvent.dataPlotClick = "function() { console.log('dataPlotClick')}";
+        myEvent.initialized = "function() { console.log('initialized')}";
+        myEvent.beforeRender = "function() { console.log('beforeRender')}";
+        myEvent.rendered = "function() { console.log('rendered')}";
+
+        myEvent.dataplotRollOver = "function() { console.log('dataplotRollOver')}";
+        myEvent.dataplotRollOut = "function() { console.log('dataplotRollOut')}";
+        myEvent.dataLabelClick = "function() { console.log('dataLabelClick')}";
+        myEvent.dataLabelRollOver = "function() { console.log('dataLabelRollOver')}";
+
+        myEvent.dataLabelRollOut = "function() { console.log('dataLabelRollOut')}";
+        myEvent.legendItemClicked = "function() { console.log('legendItemClicked')}";
+        myEvent.legendItemRollOver = "function() { console.log('legendItemRollOver')}";
+        myEvent.legendItemRollOut = "function() { console.log('legendItemRollOut')}";
+
+        myEvent.chartClick = "function() { console.log('chartClick')}";
+        myEvent.chartRollOver = "function() { console.log('chartRollOver')}";
+        myEvent.chartRollOut = "function() { console.log('chartRollOut')}";
+        myEvent.keyPressed = "function() { console.log('keyPressed')}";
+        myEvent.dataplotDragStart = "function() { console.log('dataplotDragStart')}";
+        myEvent.dataplotDragEnd = "function() { console.log('dataplotDragEnd')}";
+
+
+        String chartConfig = System.Text.Json.JsonSerializer.Serialize(myChartConfig);
+        await fusionChartsService.renderChart(chartConfig);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await demo();
+        }
+        else
+        {
+
+        }
+    }
+
+}
