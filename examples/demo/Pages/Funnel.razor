@@ -46,9 +46,7 @@
     [JSInvokable("ChangeFunnelData")]
     public static async Task ChangeFunnelData()
     {
-			if(_instance != null) {
         await _instance.NonStaticMethod();
-			}
     }
     public async Task renderFunnelChart()
     {
