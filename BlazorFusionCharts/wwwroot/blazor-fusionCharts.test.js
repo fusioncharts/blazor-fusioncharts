@@ -1,3 +1,5 @@
+import FusionCharts from 'fusioncharts'
+import 'jest-canvas-mock';
 import './blazor-fusionCharts';
 
 describe('Render Chart', () => {  

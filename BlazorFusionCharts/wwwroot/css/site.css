@@ -15,6 +15,8 @@ a,
 }
 
 #annotationsChartContainer {
+	margin: auto;
+	padding: auto;
   height: 80vh;
   width: 80vw;
 }

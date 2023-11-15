@@ -1,3 +1,4 @@
+import FusionCharts from 'fusioncharts'
 const CALLBACK = "callback";
 
 function extractArguments(functionString) {
