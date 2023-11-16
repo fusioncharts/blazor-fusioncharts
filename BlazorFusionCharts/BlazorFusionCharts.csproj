@@ -9,9 +9,13 @@
 		<Company>FusionCharts by Idera</Company>
 		<Product>FusionCharts</Product>
 		<NeutralLanguage>en</NeutralLanguage>
-		<Description>Description here</Description>
-		<Copyright>Copyright</Copyright>
-		<PackageLicenseUrl>License URL</PackageLicenseUrl>
+		<Description>BlazorFusionCharts library enables developers to seamlessly integrate FusionCharts into Blazor applications. FusionCharts is a comprehensive JavaScript charting library, and this Blazor wrapper facilitates the usage of FusionCharts within the Blazor framework. 
+		
+		With Blazor FusionCharts, developers can leverage the power of FusionCharts to create interactive and visually appealing charts, graphs, and dashboards in their Blazor applications. The library provides a set of components and utilities that make it easy to work with FusionCharts, allowing developers to bind data, customize appearance, and handle events in a Blazor-friendly manner.
+
+		The README file includes instructions on how to install the library, configure FusionCharts in a Blazor project, and use various features provided by the library. Developers can refer to the documentation and examples in the github repo to quickly get started with integrating FusionCharts into their Blazor applications and enhance the data visualization capabilities of their web projects.</Description>
+		<Copyright>Copyright 2023</Copyright>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<PackageProjectUrl>https://www.fusioncharts.com/</PackageProjectUrl>
 		<PackageIconUrl>Icon URL</PackageIconUrl>
 		<RepositoryType>git</RepositoryType>
@@ -45,6 +49,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<None Include="README.md" Pack="true" PackagePath="\"/>
+		<None Include="LICENSE.txt" Pack="true" PackagePath="\"/>
 	</ItemGroup>
 
 </Project>
