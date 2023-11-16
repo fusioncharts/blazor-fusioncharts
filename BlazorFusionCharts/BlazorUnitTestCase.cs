@@ -1,4 +1,3 @@
-
 using Microsoft.JSInterop;
 using Xunit;
 
