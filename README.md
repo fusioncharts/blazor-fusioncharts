@@ -467,3 +467,7 @@ To activate your license follow these steps:
 2. Navigate to /BlazopApp1 directory and open the terminal (or command prompt).
 3. Run `dotnet build` to build the project.
 4. Run `dotnet run` to run the project.
+
+# Troubleshooting
+
+1. 'dotnet nuget locals all --clear' can be useful in case installing a specific version for FusionCharts throws an error such as, "Unable to find the package". The command clears all the packages that were installed locally, including any cache. And as a safety net, please consider backing up packages directory in your system before executing this command.
