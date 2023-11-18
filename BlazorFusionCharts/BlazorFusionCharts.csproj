@@ -14,14 +14,14 @@
 		With Blazor FusionCharts, developers can leverage the power of FusionCharts to create interactive and visually appealing charts, graphs, and dashboards in their Blazor applications. The library provides a set of components and utilities that make it easy to work with FusionCharts, allowing developers to bind data, customize appearance, and handle events in a Blazor-friendly manner.
 
 		The README file includes instructions on how to install the library, configure FusionCharts in a Blazor project, and use various features provided by the library. Developers can refer to the documentation and examples in the github repo to quickly get started with integrating FusionCharts into their Blazor applications and enhance the data visualization capabilities of their web projects.</Description>
-		<Copyright>Copyright 2023</Copyright>
+		<Copyright>Copyright © 2023</Copyright>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<PackageProjectUrl>https://www.fusioncharts.com/</PackageProjectUrl>
 		<PackageIconUrl>Icon URL</PackageIconUrl>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/fusioncharts/blazor-fusioncharts</RepositoryUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageTags>FusionCharts</PackageTags>
+		<PackageTags>FusionCharts Charts Visualization Dashboard Charting Interactive Graphs Analytics Infographics Reporting Diagrams Plotting DataViz Trends TimeSeries DataView Heatmap Plot</PackageTags>
 		<PackageReleaseNotes>Official FusionCharts Integration for Blazor</PackageReleaseNotes>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
