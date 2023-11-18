@@ -86,8 +86,8 @@ The application's operational flow can be described as follows:
 3. Check if there is an existing fusioncharts package in the local at this location "C:\Users\XXX\.nuget\packages" for Windows and for mac and linux the location is "~/.nuget/packages". If so delete the package.
 4. Install the latest package from Nuget.org.
 5. Upon successful installation, we need to manually add the blazor-fusionCharts.js file from
-   "C:\Users\XXX\.nuget\packages\blazorfusioncharts\1.0.0\staticwebassets" or "~/.nuget/packages/blazorfusioncharts\1.0.0\staticwebassets" to your app's wwwroot folder.
-6. In _Hosts.cshtml file the below 2 script tags has to be added. You can even keep fusioncharts.js locally if you have downloaded the zip from the website, in that case you keep update the script tag to point to the location similar to blazor-fusionCharts.js.
+   "C:\Users\XXX\.nuget\packages\blazorfusioncharts\1.0.0\staticwebassets" or "~/.nuget/packages/blazorfusioncharts/1.0.0/staticwebassets/" to your app's wwwroot folder.
+6. In \_Host.cshtml file the below 2 script tags has to be added. You can even keep fusioncharts.js locally if you have downloaded the zip from the website, in that case you keep update the script tag to point to the location similar to blazor-fusionCharts.js.
 
    ```
    <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
@@ -209,7 +209,7 @@ There are two ways to attach event listeners to Fusioncharts:
 To invoke a JavaScript method upon an event trigger, we have to follow the steps below:
 
 1. Generate a JavaScript file within the wwwroot directory that encompasses the implementation of the event handler method.
-2. Include the above created file as script tag in the \_Hosts.cshtml. Here the created file name is custom.js present in wwwroot folder.
+2. Include the above created file as script tag in the \_Host.cshtml. Here the created file name is custom.js present in wwwroot folder.
 
 ```
 <script src="~/custom.js"></script>
