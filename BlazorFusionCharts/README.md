@@ -83,15 +83,15 @@ The application's operational flow can be described as follows:
 2. Verify the existence of the FusionCharts package at the below loctions, if the package exists, remove it.
    - For Windows: C:\Users\XXX\.nuget\packages
    - For macOS and Linux: ~/.nuget/packages
-3. Check if there is an existing fusioncharts package in the local at this location "C:\Users\XXX\.nuget\packages" for Windows and for mac and linux the location is “~/.nuget/packages”. If so delete the package.
+3. Check if there is an existing fusioncharts package in the local at this location "C:\Users\XXX\.nuget\packages" for Windows and for mac and linux the location is "~/.nuget/packages". If so delete the package.
 4. Install the latest package from Nuget.org.
 5. Upon successful installation, we need to manually add the blazor-fusionCharts.js file from
-   “C:\Users\XXX\.nuget\packages\blazorfusioncharts\1.0.0\staticwebassets” to wwwroot folder.
-6. In Hosts.cshtml file the below 2 script tags has to be added:
+   "C:\Users\XXX\.nuget\packages\blazorfusioncharts\1.0.0\staticwebassets" or "~/.nuget/packages/blazorfusioncharts\1.0.0\staticwebassets" to your app's wwwroot folder.
+6. In _Hosts.cshtml file the below 2 script tags has to be added. You can even keep fusioncharts.js locally if you have downloaded the zip from the website, in that case you keep update the script tag to point to the location similar to blazor-fusionCharts.js.
 
    ```
-   <script type=”text/javascript” src=”https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js”></script>
-   <script src=”~/blazor-fusionCharts.js”></script>
+   <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+   <script src="~/blazor-fusionCharts.js"></script>
    ```
 
 7. In \_Imports.razor file, add the FusionChartsInterop:
@@ -104,6 +104,7 @@ The application's operational flow can be described as follows:
 
    ```
    builder.Services.AddScoped<FusionCharts.FusionChartsInterop.FusionChartsService>();
+   builder.Services.AddHttpClient();
    ```
 
 ## Working with APIs

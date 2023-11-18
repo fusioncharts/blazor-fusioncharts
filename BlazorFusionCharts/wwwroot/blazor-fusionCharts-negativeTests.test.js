@@ -1,3 +1,4 @@
+import FusionCharts from 'fusioncharts'
 import './blazor-fusionCharts';
 
 describe('Render Chart', () => {  
