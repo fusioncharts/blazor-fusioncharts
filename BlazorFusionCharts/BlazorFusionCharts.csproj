@@ -29,7 +29,7 @@
 			FusionCharts Version Support: The plugin is designed to seamlessly support FusionCharts versions 3.19, 3.20, 3.21, and 3.22. This ensures compatibility with a wide range of FusionCharts features and enhancements.
 			Flexible Deployment: Users have the freedom to choose between using a locally bundled FusionCharts JavaScript library or opting for the convenience of a CDN-hosted version. This flexibility allows for efficient customization based on project requirements.
 
-    Extended Component Support
+		Extended Component Support
 			FusionTime: Leverage timeseries charts for dynamic and time-bound data representation.
 			FusionWidgets: Explore gauges and real-time charts to display data in a visually engaging manner.
 			PowerCharts: Unlock the potential of statistical and advanced charts for in-depth data analysis.
