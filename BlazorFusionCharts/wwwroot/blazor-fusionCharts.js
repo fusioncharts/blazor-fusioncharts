@@ -76,7 +76,17 @@ window.FusionCharts.setDataStore = (id, args) => {
 
   let fusionTable = fusionDataStore.createDataTable(data, schema);
 
-  currentChart.setChartData({ data: fusionTable });
+  //Get the existing dataSource attached to the chart
+  let currentDataSource = currentChart.getJSONData();
+  if (currentDataSource !== undefined && currentDataSource !== null) {
+      //Update the "data" property only of the existing dataSource.
+      currentDataSource.data = fusionTable;
+      currentChart.setChartData(currentDataSource);
+  }
+  else {
+      //setChartData is considering below as a new dataSource with "data" property only, other dataSource elements are missing in below.
+      currentChart.setChartData({ data: fusionTable });
+  }
 };
 
 // resizeTo will return circular json object which cannot be stringified
