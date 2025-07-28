@@ -68,25 +68,22 @@ window.FusionCharts.renderChart = (chartConfiguration) => {
 
 // Method written for charts like time-series chart
 window.FusionCharts.setDataStore = (id, args) => {
-  let currentChart = FusionCharts(id);
-  let fusionDataStore = new FusionCharts.DataStore();
+    let currentChart = FusionCharts(id);
+    let fusionDataStore = new FusionCharts.DataStore();
 
-  let data = JSON.parse(args[0]);
-  let schema = JSON.parse(args[1]);
+    let data = JSON.parse(args[0]);
+    let schema = JSON.parse(args[1]);
 
-  let fusionTable = fusionDataStore.createDataTable(data, schema);
+    let fusionTable = fusionDataStore.createDataTable(data, schema);
 
-  //Get the existing dataSource attached to the chart
-  let currentDataSource = currentChart.getJSONData();
-  if (currentDataSource !== undefined && currentDataSource !== null) {
-      //Update the "data" property only of the existing dataSource.
-      currentDataSource.data = fusionTable;
-      currentChart.setChartData(currentDataSource);
-  }
-  else {
-      //setChartData is considering below as a new dataSource with "data" property only, other dataSource elements are missing in below.
-      currentChart.setChartData({ data: fusionTable });
-  }
+    // Get the existing dataSource attached to the chart
+    let currentDataSource = currentChart.getJSONData() || {};
+
+    // Assign the fusionTable to the data property of the dataSource
+    currentDataSource.data = fusionTable;
+
+    // Set the updated dataSource back to the chart
+    currentChart.setChartData(currentDataSource);
 };
 
 // resizeTo will return circular json object which cannot be stringified
