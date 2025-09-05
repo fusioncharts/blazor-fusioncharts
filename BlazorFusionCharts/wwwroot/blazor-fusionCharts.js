@@ -1,4 +1,4 @@
-const CALLBACK = "callback";
+const CALLBACK = 'callback';
 
 function extractArguments(functionString) {
   // regex to extract the function arguments
@@ -7,9 +7,9 @@ function extractArguments(functionString) {
 
   if (matches && matches.length > 1) {
     const argsString = matches[1];
-    const args = argsString.split(",").map((arg) => arg.trim());
+    const args = argsString.split(',').map((arg) => arg.trim());
 
-    if (args.length === 1 && args[0] === "") {
+    if (args.length === 1 && args[0] === '') {
       // No arguments
       return [];
     } else {
@@ -37,13 +37,10 @@ function extractFunctionBody(functionString) {
 
 // reviver function, key is passed by the JSON.parse
 function parseFunction(key, value) {
-  if (typeof value === "string" && value.match(/function\s*\(([^)]*)\)\s*\{/)) {
+  if (typeof value === 'string' && value.match(/function\s*\(([^)]*)\)\s*\{/)) {
     let fnArguments = extractArguments(value);
     let fnBody = extractFunctionBody(value);
-    let parsedFn =
-      fnArguments.length > 0
-        ? new Function(fnArguments, fnBody)
-        : new Function(fnBody);
+    let parsedFn = fnArguments.length > 0 ? new Function(fnArguments, fnBody) : new Function(fnBody);
     return parsedFn;
   }
   return value;
@@ -68,22 +65,22 @@ window.FusionCharts.renderChart = (chartConfiguration) => {
 
 // Method written for charts like time-series chart
 window.FusionCharts.setDataStore = (id, args) => {
-    let currentChart = FusionCharts(id);
-    let fusionDataStore = new FusionCharts.DataStore();
+  let currentChart = FusionCharts(id);
+  let fusionDataStore = new FusionCharts.DataStore();
 
-    let data = JSON.parse(args[0]);
-    let schema = JSON.parse(args[1]);
+  let data = JSON.parse(args[0]);
+  let schema = JSON.parse(args[1]);
 
-    let fusionTable = fusionDataStore.createDataTable(data, schema);
+  let fusionTable = fusionDataStore.createDataTable(data, schema);
 
-    // Get the existing dataSource attached to the chart
-    let currentDataSource = currentChart.getJSONData() || {};
+  // Get the existing dataSource attached to the chart
+  let currentDataSource = currentChart.getJSONData() || {};
 
-    // Assign the fusionTable to the data property of the dataSource
-    currentDataSource.data = fusionTable;
+  // Assign the fusionTable to the data property of the dataSource
+  currentDataSource.data = fusionTable;
 
-    // Set the updated dataSource back to the chart
-    currentChart.setChartData(currentDataSource);
+  // Set the updated dataSource back to the chart
+  currentChart.setChartData(currentDataSource);
 };
 
 // resizeTo will return circular json object which cannot be stringified
@@ -114,7 +111,7 @@ window.FusionCharts.invokeChartFunction = (functionName, chartID, ...args) => {
   } else {
     result = currentChart[functionName].apply(currentChart, ...args);
 
-    if (typeof result === "object") {
+    if (typeof result === 'object') {
       // this might fail if object return has circular deps
       // if the user needs this data then it needs to be processes in the JS file only,
       // it cannot be sent to the razor file
