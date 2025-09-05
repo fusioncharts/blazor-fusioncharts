@@ -41,39 +41,17 @@ Every year, new frameworks emerge in the JavaScript ecosystem. FusionCharts, bei
 
 ## Getting Started
 
-### Requirements
+### Prerequisites
 
-- Visual Studio (Used Community Edition 2022 - 17.6.1)
+- Visual Studio (Used Community Edition 2022 - 17.6.1) on Window/Mac
+- Alternatively, for MacOS you can install .NET from [here](https://learn.microsoft.com/en-us/dotnet/core/install/macos). And for Linux you can install .NET from [here](https://learn.microsoft.com/en-us/dotnet/core/install/linux).
 
 ### Installation
-
-#### Setup steps for a new project
-
-1. Start by referring to the Blazor documentation link for a detailed guide on setting up and installing the necessary dependencies.
-2. Clone the code repository from (<https://github.com/fusioncharts/blazor-fusioncharts>) to your local machine.
-3. Windows Installation:
-   If you're on Windows, ensure that the following workloads are selected during the Visual Studio installation:
-
-- ASP.NET and Web development
-- Azure Development
-- .NET Desktop
-- After installation, launch Visual Studio and choose "Open a project or solution." Navigate to the 'BlazorApp1.sln' file in the
-  extracted folder. Run the BlazorApp1 by clicking the run button in the toolbar.
-
-4. MacOS or Linux Installation:
-   For MacOS or Linux users, run the 'dotnet watch' command from your project directory in the terminal.
-5. Open your preferred web browser and navigate to the appropriate address to view and interact with your Blazor app.
 
 #### Setup using NuGet Package
 
 1. Open the Project in Visual Studio.
-2. Click on Setting icon in the top-right and then click on Options.
-3. Navigate to NuGet Package Manager and select Package Sources from the left panel of the Options window opened.
-4. Click on the '+' symbol at the top right of the Package Sources window.
-5. At the Name field add the name of the package source as 'myget.org' and at the Source field paste the myGet package link.
-6. Click on Update and then click on OK.
-7. Under Tools click on NuGet Package Manager and select Manage NuGet Packages for Solution. Now change the project source to myget.org in the top-right.
-8. Move to Browse tab of the same window , enter the credentials when prompted and install the package BlazorApp1.
+2. Go to Manage Nuget Packages and search for 'BlazorFusionCharts' and click on 'Add Package' button to install it.
 
 ## Quick Start
 
@@ -106,6 +84,19 @@ The application's operational flow can be described as follows:
    builder.Services.AddScoped<FusionCharts.FusionChartsInterop.FusionChartsService>();
    builder.Services.AddHttpClient();
    ```
+
+#### Steps to run the examples
+
+1. Start by referring to the Blazor documentation link for a detailed guide on setting up and installing the necessary dependencies.
+2. Clone the code repository from (<https://github.com/fusioncharts/blazor-fusioncharts>) to your local machine.
+3. Windows Installation: If you're on Windows, ensure that the following workloads are selected during the Visual Studio installation:
+   - ASP.NET and Web development
+   - Azure Development
+   - .NET Desktop
+4. After installation, launch Visual Studio and choose "Open a project or solution." Navigate to the 'examples' and open 'demo.sln'. Run the `demo` by clicking the run button in the toolbar.
+5. MacOS or Linux Installation:
+   For MacOS or Linux users, run the 'dotnet watch' command from your `demo` directory in the terminal.
+6. Open your preferred web browser and navigate to the appropriate address to view and interact with your Blazor app.
 
 ## Working with APIs
 

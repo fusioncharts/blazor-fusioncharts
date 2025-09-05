@@ -3,7 +3,7 @@
 		<TargetFramework>net7.0</TargetFramework>
 		<PackageId>BlazorFusionCharts</PackageId>
 		<AssemblyName>BlazorFusionCharts</AssemblyName>
-		<PackageVersion>1.0.0</PackageVersion>
+		<PackageVersion>1.0.1</PackageVersion>
 		<Authors>FusionCharts</Authors>
 		<Company>FusionCharts by Idera</Company>
 		<Product>FusionCharts</Product>
@@ -22,20 +22,16 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageTags>FusionCharts Charts Visualization Dashboard Charting Interactive Graphs Analytics Infographics Reporting Diagrams Plotting DataViz Trends TimeSeries DataView Heatmap Plot</PackageTags>
 		<PackageReleaseNotes>
-			We are excited to announce the release of FusionCharts Blazor Integration version 1.0.0, marking a significant milestone in empowering Blazor developers with seamless charting capabilities. This integration allows for the rendering of a diverse range of charts, aligning with the extensive chart types available on the www.fusioncharts.com website.
+			Fixed: v1.0.1 addressed an issue in the FusionTime Blazor integration that caused improper rendering of the Y-axis visualization. The Y-axis now renders accurately, providing clear and precise data visualization for time-series charts in Blazor applications.
+			
+			We are also proud to highlight that FusionCharts Blazor Integration brings robust charting capabilities to Blazor developers. 
+			
+			Key Features:
+			- Support for all FusionCharts chart types, from simple line charts to advanced statistical visualizations.
+			- Compatibility with latest FusionCharts version.
+			- Flexible deployment options with both locally bundled and CDN-hosted FusionCharts JavaScript libraries.
 
-		Key Features
-			Chart Variety: Enjoy the flexibility of rendering all types of charts offered by FusionCharts. From basic line charts to complex statistical and advanced charts, this integration covers the spectrum.
-			FusionCharts Version Support: The plugin is designed to seamlessly support FusionCharts versions 3.19, 3.20, 3.21, and 3.22. This ensures compatibility with a wide range of FusionCharts features and enhancements.
-			Flexible Deployment: Users have the freedom to choose between using a locally bundled FusionCharts JavaScript library or opting for the convenience of a CDN-hosted version. This flexibility allows for efficient customization based on project requirements.
-
-		Extended Component Support
-			FusionTime: Leverage timeseries charts for dynamic and time-bound data representation.
-			FusionWidgets: Explore gauges and real-time charts to display data in a visually engaging manner.
-			PowerCharts: Unlock the potential of statistical and advanced charts for in-depth data analysis.
-			FusionMaps: Visualize data geographically with choropleth geo maps.
-
-		We are committed to providing an exceptional user experience, and we look forward to your feedback as we continue to enhance and expand FusionCharts Blazor Integration in future releases.
+			We remain committed to enhancing the FusionCharts Blazor experience and welcome your feedback as we continue development.
 		</PackageReleaseNotes>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
